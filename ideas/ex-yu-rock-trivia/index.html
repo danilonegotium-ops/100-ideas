@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ex-Yu Rock Trivia</title>
+  <meta name="description" content="A quiz on the history of Yugoslavian rock music and culture — 20 curated questions on Bijelo Dugme, Azra, EKV, and more." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Ex-Yu Rock Trivia</h1>
+    <p class="tagline">20 curated questions on the bands, songs, and people who defined Yugoslavian rock &mdash; Bijelo Dugme, Azra, EKV, Riblja Čorba and more.</p>
+
+    <div class="card" id="intro-view">
+      <p id="best-score-line" class="muted"></p>
+      <button id="start-btn" type="button">Start quiz</button>
+      <p class="muted disclaimer">Scores are saved only in this browser (localStorage) &mdash; there's no shared global leaderboard in this build.</p>
+    </div>
+
+    <div class="card" id="quiz-view" hidden>
+      <div class="row" style="justify-content: space-between;">
+        <span id="progress-label" class="muted mono"></span>
+        <span id="score-label" class="muted mono"></span>
+      </div>
+      <h2 id="question-text" style="margin-top: 1rem;"></h2>
+      <div id="options-list" class="stack"></div>
+      <p id="fun-fact-box" class="fun-fact" hidden></p>
+      <button id="next-btn" type="button" hidden style="margin-top: 1rem;">Next question</button>
+    </div>
+
+    <div class="card" id="end-view" hidden>
+      <h2>Quiz complete!</h2>
+      <p id="final-score-line"></p>
+      <p id="final-best-line" class="muted"></p>
+      <button id="play-again-btn" type="button">Play again</button>
+    </div>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

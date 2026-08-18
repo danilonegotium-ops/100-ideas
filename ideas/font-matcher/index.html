@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Font Matcher</title>
+  <meta name="description" content="Describe a font you saw and get the closest free Google Font matches, rendered live." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Font Matcher</h1>
+    <p class="tagline">A guided questionnaire, not automatic image recognition: answer a few questions about a font you saw and get the closest free Google Font matches.</p>
+
+    <div class="card">
+      <p class="muted" style="margin-top: 0;">
+        Heads up: this tool doesn't read an uploaded photo. Instead, answer what you
+        remember about how the letters looked, and it matches your description against
+        25 curated Google Fonts tagged with the same characteristics.
+      </p>
+
+      <form class="stack" id="fm-form">
+        <div id="fm-questions" class="stack"></div>
+        <p class="muted" id="fm-error" hidden>Please answer every question first.</p>
+        <button type="submit">Find matching fonts</button>
+      </form>
+    </div>
+
+    <div class="card" id="fm-results-view" hidden>
+      <h2 style="margin-top: 0;">Closest matches</h2>
+      <div id="fm-results-list" class="stack"></div>
+      <button type="button" id="fm-retake">Start over</button>
+    </div>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

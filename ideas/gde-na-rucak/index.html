@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gde Na Ručak</title>
+  <meta name="description" content="Can't decide where to eat? Pick your city and budget, and let the wheel pick your lunch spot." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Gde Na Ručak</h1>
+    <p class="tagline">Can't decide where to eat? Pick your city and budget, and let the wheel pick your lunch spot.</p>
+
+    <div class="card">
+      <div class="row">
+        <div style="flex: 1; min-width: 140px;">
+          <label for="city-select">City</label>
+          <select id="city-select"></select>
+        </div>
+        <div style="flex: 1; min-width: 140px;">
+          <label for="budget-select">Budget</label>
+          <select id="budget-select"></select>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 1rem;">
+        <button id="find-btn" type="button">Find me a place</button>
+        <button id="spin-btn" type="button" class="btn-secondary" disabled>Spin again</button>
+      </div>
+    </div>
+
+    <div class="card result-card" id="result-card" hidden style="margin-top: 1rem;">
+      <p class="muted" style="margin: 0 0 0.25rem;">You should eat at&hellip;</p>
+      <h2 id="r-name" style="margin: 0 0 0.5rem;"></h2>
+      <p style="margin: 0 0 0.25rem;"><span id="r-cuisine"></span></p>
+      <p class="muted" style="margin: 0;">📍 <span id="r-neighborhood"></span> &middot; <span id="r-budget" class="mono"></span></p>
+    </div>
+    <div class="card" id="result-empty" hidden style="margin-top: 1rem;"></div>
+
+    <p class="muted disclaimer">
+      This is a curated starting set (~25 restaurants across 4 cities), not an exhaustive directory —
+      no addresses/phone numbers are shown because those would need live verification this tool can't do.
+      Always double-check a place is still open before you head out.
+    </p>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Balkan Diet Macro Tracker — SPEC
+
+**MVP:** User sets a daily calorie/protein/carb/fat goal (persisted in `localStorage`, applies going forward). To log a meal, they pick a dish from a curated list of 42 common Balkan foods (`data.js`) and a portion multiplier (0.25 steps, default 1), then "Add to log". The app sums the day's scaled macros (`computeTotals` in `app.js`) and shows progress bars + remaining/over-budget amounts against the goal. The log is **per calendar day**, keyed by local date and stored in `localStorage` (`macro-tracker-log-v1-YYYY-MM-DD`) — a date picker (defaulting to today) lets the user view/edit any day's log. Entries can be individually removed or the whole day cleared.
+
+**Out of scope for this pass:** any server-side storage/sync across devices (this is a pure static/client-only build — everything lives in the visitor's own browser localStorage and is lost if they clear it or switch devices), weekly/monthly trend charts, barcode/photo food lookup, a "custom food" entry form (the curated list is fixed for this pass), any claim of medical/dietary accuracy.
+
+**Data:** 42 Balkan foods/dishes in `data.js` with calorie/protein/carb/fat estimates per a stated typical serving (e.g. "2 rolls", "1 slice"). These are the author's own reasonable estimates based on each dish's known general composition, explicitly labeled throughout the UI as **estimates for personal planning purposes, not medical or professional nutritional advice** — not lab-measured values, and real recipes vary by household.

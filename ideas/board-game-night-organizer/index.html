@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Board Game Night Organizer</title>
+  <meta name="description" content="Helps groups decide which game to play based on player count and how much time they have." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Board Game Night Organizer</h1>
+    <p class="tagline">Helps groups decide which game to play based on player count and how much time they have.</p>
+
+    <div class="card stack">
+      <div class="row">
+        <div style="flex:1; min-width:140px;">
+          <label for="playerCount">How many players?</label>
+          <input id="playerCount" type="number" min="1" max="20" value="4" />
+        </div>
+        <div style="flex:1; min-width:140px;">
+          <label for="minutesAvailable">Minutes available</label>
+          <input id="minutesAvailable" type="number" min="5" max="600" step="5" value="45" />
+        </div>
+      </div>
+      <button id="findBtn" type="button">Find games</button>
+    </div>
+
+    <div id="results" class="stack" style="margin-top:1.5rem;"></div>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

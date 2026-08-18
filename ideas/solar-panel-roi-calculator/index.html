@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Solar Panel ROI Calculator</title>
+  <meta name="description" content="For Serbian homeowners to see if solar panels are worth it based on local electricity prices." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Solar Panel ROI Calculator</h1>
+    <p class="tagline">For Serbian homeowners to see if solar panels are worth it based on local electricity prices.</p>
+
+    <div class="card stack">
+      <div>
+        <label for="sizeMode">How do you want to size the system?</label>
+        <select id="sizeMode">
+          <option value="kw">I know the system size I want (kW)</option>
+          <option value="roof">I know my available roof area (m²)</option>
+        </select>
+      </div>
+
+      <div id="kwField">
+        <label for="systemSizeKw">Desired system size (kW)</label>
+        <input id="systemSizeKw" type="number" min="1" max="50" step="0.5" value="5" />
+      </div>
+
+      <div id="roofField" style="display:none;">
+        <label for="roofArea">Available roof area (m²)</label>
+        <input id="roofArea" type="number" min="5" max="500" step="1" value="30" />
+        <p class="muted" style="font-size:0.8rem; margin:0.3rem 0 0;">Roughly 6 m² of usable roof per 1 kW installed, accounting for panel spacing and orientation.</p>
+      </div>
+
+      <div>
+        <label for="monthlyBill">Average monthly electricity bill (EUR)</label>
+        <input id="monthlyBill" type="number" min="5" max="1000" step="1" value="60" />
+        <p class="muted" style="font-size:0.8rem; margin:0.3rem 0 0;">If your bill is in RSD, divide by roughly 117 to get EUR.</p>
+      </div>
+
+      <div>
+        <label for="citySelect">City / region</label>
+        <select id="citySelect"></select>
+      </div>
+
+      <button id="calculateBtn" type="button">Calculate</button>
+    </div>
+
+    <div id="resultsCard" class="card stack" style="margin-top:1.5rem; display:none;"></div>
+
+    <p class="muted" style="font-size:0.8rem; margin-top:1rem;">
+      ⚠ These are rough estimates for planning only, not a formal quote. Real costs depend on your
+      roof, equipment choice, and installer; real savings depend on your actual consumption pattern
+      and EPS's current tiered tariffs.
+    </p>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

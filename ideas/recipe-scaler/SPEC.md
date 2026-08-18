@@ -1,0 +1,7 @@
+# Recipe Scaler — SPEC
+
+**MVP:** User pastes/types a recipe, one ingredient per line, in a "quantity [unit] name" shape (`200g flour`, `1/2 cup sugar`, `1 1/2 cups flour`, `2 eggs`, or unit-less lines like `salt to taste` which pass through unscaled). They enter original servings and target servings; the tool multiplies every parsed quantity by `target/original`, rounds to 1 decimal, and re-renders the full ingredient list. Quantity parsing supports whole numbers, decimals, simple fractions (`1/2`), and mixed numbers (`1 1/2`). Unit detection uses a curated list of common cooking units (weight, volume, and count words like "eggs"/"cloves") — a line without a leading number is left untouched and flagged in a small warning count rather than silently dropped.
+
+**Out of scope for this pass:** true unit conversion (e.g. converting grams to cups) — this only scales the quantity in whatever unit the user already wrote; ingredient-aware rounding (e.g. never splitting "1 egg" into "1.5 eggs" — the tool rounds everything the same way per the brief's "round to 1 decimal" instruction, so half-eggs are a known quirk of proportional scaling); recipe steps/instructions text (ingredients list only).
+
+**Data/content:** `KNOWN_UNITS` in `app.js` is a hand-curated list of common English cooking units used only to decide whether a token after the number is a unit vs. the start of the ingredient name — not sourced from an external dataset.

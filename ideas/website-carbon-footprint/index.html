@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Website Carbon Footprint — estimate your site's CO2 per pageview</title>
+  <meta name="description" content="Enter a URL and get an estimate of how much CO2 your website produces per pageview, using the open-source Sustainable Web Design model." />
+  <link rel="stylesheet" href="theme.css" />
+  <style>
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 480px) {
+      .result-grid { grid-template-columns: 1fr; }
+    }
+    .stat {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+    }
+    .stat .value { font-size: 1.6rem; font-weight: 800; }
+    .stat .label { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.02em; }
+    .rating-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.2rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #062b1c;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+    .comparison {
+      margin-top: 1rem;
+      padding: 0.9rem 1rem;
+      border-radius: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+    .caveat {
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 0.85rem;
+    }
+    #error-box { color: var(--danger); font-size: 0.9rem; margin-top: 0.75rem; display: none; }
+    #loading { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.75rem; display: none; }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Website Carbon Footprint</h1>
+    <p class="tagline">A tool that estimates how much CO2 your website produces per pageview, and how to think about optimizing it.</p>
+
+    <div class="card stack">
+      <form id="carbon-form" class="stack">
+        <div>
+          <label for="url-input">Website URL</label>
+          <input type="text" id="url-input" name="url" placeholder="example.com" autocomplete="off" required />
+        </div>
+        <button type="submit" id="submit-btn">Estimate CO2</button>
+      </form>
+      <p id="loading">Fetching the page and running the numbers&hellip;</p>
+      <p id="error-box"></p>
+    </div>
+
+    <div class="card" id="results" style="display:none; margin-top: 1rem;">
+      <h2 style="margin-top:0;">Results for <span id="result-url" class="mono"></span></h2>
+
+      <div class="result-grid">
+        <div class="stat">
+          <div class="value" id="co2-value">-</div>
+          <div class="label">grams CO2 per pageview</div>
+        </div>
+        <div class="stat">
+          <div class="value"><span class="rating-pill" id="rating-value">-</span></div>
+          <div class="label">sustainability rating</div>
+        </div>
+        <div class="stat">
+          <div class="value" id="weight-value">-</div>
+          <div class="label">page weight measured</div>
+        </div>
+        <div class="stat">
+          <div class="value" id="source-value">-</div>
+          <div class="label">weight source</div>
+        </div>
+      </div>
+
+      <div class="comparison" id="comparison-box"></div>
+
+      <div class="caveat">
+        <strong>Methodology:</strong> CO2 is estimated with the open-source
+        <a href="https://developers.thegreenwebfoundation.org/co2js/methods/" target="_blank" rel="noopener">Sustainable Web Design model v4</a>
+        from The Green Web Foundation (<code class="mono">@tgwf/co2</code> npm package), assuming
+        non-green (grid-average) hosting since we don't verify the hosting provider in this pass.
+        <span id="weight-note"></span>
+      </div>
+    </div>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

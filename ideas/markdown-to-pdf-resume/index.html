@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Markdown to PDF Resume</title>
+  <meta name="description" content="Write your resume in Markdown, see a live styled preview, and export a clean PDF with your browser's print dialog." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site no-print">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1 class="no-print">Markdown to PDF Resume</h1>
+    <p class="tagline no-print">Write your resume in Markdown on the left. The preview on the right is what gets exported &mdash; click "Download PDF" to print/save it.</p>
+
+    <div class="row no-print" style="margin-bottom: 1rem;">
+      <button id="download-btn" type="button">Download PDF</button>
+      <button id="reset-btn" type="button" class="secondary">Reset to template</button>
+    </div>
+
+    <div class="editor-grid">
+      <div class="pane editor-pane no-print">
+        <label for="markdown-input">Markdown</label>
+        <textarea id="markdown-input" rows="28" spellcheck="false"></textarea>
+      </div>
+      <div class="pane preview-pane">
+        <div id="preview" class="resume-preview"></div>
+      </div>
+    </div>
+  </main>
+  <footer class="site no-print">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

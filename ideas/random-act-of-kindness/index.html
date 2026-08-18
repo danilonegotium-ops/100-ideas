@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Random Act of Kindness — one simple task every day</title>
+  <meta name="description" content="A site that gives you one simple task every day to make someone else's life a little better. Track your streak." />
+  <link rel="stylesheet" href="theme.css" />
+  <style>
+    .prompt-box {
+      font-size: 1.35rem;
+      line-height: 1.5;
+      font-weight: 600;
+      padding: 1.5rem 0.25rem;
+      text-align: center;
+    }
+    .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn.secondary:hover { background: var(--bg); }
+    .is-done { background: var(--accent-strong); }
+    #done-status { text-align: center; color: var(--text-muted); font-size: 0.85rem; min-height: 1.2rem; margin: 0.5rem 0 0; }
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat { text-align: center; }
+    .stat .num { font-size: 1.8rem; font-weight: 800; display: block; }
+    .stat .label { color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Random Act of Kindness</h1>
+    <p class="tagline">One simple task every day to make someone else's life a little better.</p>
+
+    <div class="card">
+      <p class="prompt-box" id="prompt-text">Loading today's act of kindness&hellip;</p>
+
+      <div class="actions">
+        <button id="done-btn" class="btn">Mark as done</button>
+        <button id="shuffle-btn" class="btn secondary">Shuffle for a different one</button>
+      </div>
+      <p id="done-status"></p>
+
+      <div class="stats-row">
+        <div class="stat">
+          <span class="num" id="streak-count">0</span>
+          <span class="label">Day streak</span>
+        </div>
+        <div class="stat">
+          <span class="num" id="total-count">0</span>
+          <span class="label">Total completed</span>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

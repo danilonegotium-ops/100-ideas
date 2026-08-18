@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Balkan Recipe API</title>
+  <meta name="description" content="A free JSON API for developers: traditional Balkan recipes (Sarma, Ćevapi, Ajvar, Pljeskavica, Burek...) with ingredients, steps, and estimated nutrition." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Balkan Recipe API</h1>
+    <p class="tagline">A free JSON API for developers: 15 traditional Balkan recipes with ingredients, steps, and estimated nutrition. No auth, no key, just GET.</p>
+
+    <div class="card">
+      <h2 style="margin-top: 0;">Endpoint</h2>
+      <p class="mono endpoint">GET /api/recipes</p>
+      <p class="muted">Returns JSON. CORS is open (<code>Access-Control-Allow-Origin: *</code>) so you can call it directly from a browser.</p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top: 0;">Query parameters</h2>
+      <table class="params-table">
+        <thead>
+          <tr><th>Param</th><th>Type</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="mono">name</td>
+            <td>string</td>
+            <td>Case-insensitive substring match against the recipe's id, name, or alternate names. e.g. <code>?name=sarma</code></td>
+          </tr>
+          <tr>
+            <td class="mono">tag</td>
+            <td>string</td>
+            <td>Case-insensitive exact match against one of the recipe's tags. e.g. <code>?tag=stew</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="muted">Both params can be combined (AND). Omit both to get all 15 recipes.</p>
+      <p class="muted">Available tags: <span class="mono" id="tag-list">stew, grill, meat, condiment, vegetarian, vegan, pastry, breakfast, fried, festive, bake, salad, summer, winter, dessert</span></p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top: 0;">Example request</h2>
+      <pre class="mono code-block">curl "https://balkan-recipe-api.vercel.app/api/recipes?name=sarma"</pre>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top: 0;">Example response</h2>
+      <pre class="mono code-block">{
+  "count": 1,
+  "query": { "name": "sarma", "tag": null },
+  "results": [
+    {
+      "id": "sarma",
+      "name": "Sarma",
+      "altNames": ["Sarma sa Kiselim Kupusom", "Stuffed Cabbage Rolls"],
+      "description": "Fermented (sour) cabbage leaves rolled around a seasoned ground meat and rice filling, slow-simmered until tender.",
+      "tags": ["stew", "meat", "winter", "festive"],
+      "servings": 6,
+      "ingredients": ["1 head sour (pickled) cabbage, leaves separated", "..."],
+      "steps": ["Sauté the diced onion in oil until translucent...", "..."],
+      "nutritionPerServing": {
+        "calories": 340,
+        "proteinG": 18,
+        "carbsG": 24,
+        "fatG": 19,
+        "note": "Estimate only — actual values vary with meat fat content and rolling size."
+      }
+    }
+  ]
+}</pre>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top: 0;">Try it live</h2>
+      <p class="muted">This calls the live endpoint on whatever origin this page is served from &mdash; it will only return data once deployed (a local static file server has no <code>/api</code> route to hit).</p>
+      <div class="row">
+        <div style="flex: 1; min-width: 140px;">
+          <label for="try-name">name</label>
+          <input type="text" id="try-name" placeholder="e.g. burek" />
+        </div>
+        <div style="flex: 1; min-width: 140px;">
+          <label for="try-tag">tag</label>
+          <input type="text" id="try-tag" placeholder="e.g. dessert" />
+        </div>
+      </div>
+      <button id="try-btn" type="button" style="margin-top: 0.75rem;">Send request</button>
+      <pre class="mono code-block" id="try-result" style="margin-top: 1rem; display: none;"></pre>
+    </div>
+
+    <p class="muted disclaimer">
+      All nutrition figures are reasonable estimates for planning purposes, not lab-measured or medical-grade values &mdash;
+      see each recipe's <code>nutritionPerServing.note</code> field. Recipes are traditional/original write-ups by the author, not scraped from any single source.
+    </p>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

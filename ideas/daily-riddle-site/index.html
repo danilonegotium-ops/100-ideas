@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Riddle Site</title>
+  <meta name="description" content="One challenging riddle every day — the same riddle for everyone, picked deterministically from today's date. Browse the archive by date too." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Daily Riddle Site</h1>
+    <p class="tagline">A new riddle every day, the same one for every visitor. Come back tomorrow for another.</p>
+
+    <div class="card">
+      <div class="stack">
+        <span class="muted mono" id="dr-date"></span>
+        <p class="riddle-text" id="dr-riddle-text"></p>
+        <div class="row">
+          <button type="button" id="dr-reveal">Reveal answer</button>
+        </div>
+        <p class="muted riddle-answer" id="dr-answer" hidden></p>
+      </div>
+    </div>
+
+    <h2>Archive</h2>
+    <div class="card">
+      <div class="stack">
+        <div class="row">
+          <div style="flex: 1; min-width: 160px;">
+            <label for="dr-archive-date">Pick a past date</label>
+            <input type="date" id="dr-archive-date" />
+          </div>
+        </div>
+        <div class="row">
+          <button type="button" id="dr-archive-view">View that day's riddle</button>
+        </div>
+        <div class="stack" id="dr-archive-result" hidden>
+          <span class="muted mono" id="dr-archive-date-label"></span>
+          <p class="riddle-text" id="dr-archive-text"></p>
+          <div class="row">
+            <button type="button" id="dr-archive-reveal">Reveal answer</button>
+          </div>
+          <p class="muted riddle-answer" id="dr-archive-answer" hidden></p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

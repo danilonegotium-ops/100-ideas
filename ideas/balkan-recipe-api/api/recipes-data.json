@@ -1,0 +1,469 @@
+[
+  {
+    "id": "sarma",
+    "name": "Sarma",
+    "altNames": ["Sarma sa Kiselim Kupusom", "Stuffed Cabbage Rolls"],
+    "description": "Fermented (sour) cabbage leaves rolled around a seasoned ground meat and rice filling, slow-simmered until tender. A staple of Balkan winter and holiday tables.",
+    "tags": ["stew", "meat", "winter", "festive"],
+    "servings": 6,
+    "ingredients": [
+      "1 head sour (pickled) cabbage, leaves separated",
+      "500g ground beef and pork mix",
+      "150g rice, uncooked",
+      "1 large onion, finely diced",
+      "1 tbsp sweet paprika",
+      "2 tbsp oil or lard",
+      "200g smoked bacon or ribs (optional, for extra flavor)",
+      "1 tbsp tomato paste",
+      "Salt and pepper to taste",
+      "Water or stock to cover"
+    ],
+    "steps": [
+      "Sauté the diced onion in oil until translucent, then mix with the ground meat, rice, paprika, salt, and pepper.",
+      "Place a spoonful of filling on each cabbage leaf, fold in the sides, and roll tightly.",
+      "Layer the rolls in a large pot, tucking smoked meat between layers if using.",
+      "Mix tomato paste with water and pour over the rolls until just covered.",
+      "Simmer covered on low heat for 2-3 hours, until the cabbage is fully tender and the flavors meld."
+    ],
+    "nutritionPerServing": {
+      "calories": 340,
+      "proteinG": 18,
+      "carbsG": 24,
+      "fatG": 19,
+      "note": "Estimate only — actual values vary with meat fat content and rolling size."
+    }
+  },
+  {
+    "id": "cevapi",
+    "name": "Ćevapi",
+    "altNames": ["Cevapcici", "Ćevapčići"],
+    "description": "Small grilled minced-meat rolls, a Balkan grill staple, traditionally served with flatbread (somun/lepinja), raw onion, and ajvar.",
+    "tags": ["grill", "meat"],
+    "servings": 4,
+    "ingredients": [
+      "600g ground beef (or beef/lamb mix)",
+      "1 tsp baking soda",
+      "1 clove garlic, minced",
+      "1 tsp salt",
+      "1/2 tsp black pepper",
+      "1/2 tsp sparkling water (optional, for texture)"
+    ],
+    "steps": [
+      "Knead the ground meat with salt, pepper, garlic, and baking soda until slightly sticky and well combined.",
+      "Rest the mixture in the fridge for at least a few hours, ideally overnight.",
+      "Shape into small finger-sized rolls, about 7-10cm long.",
+      "Grill over high heat, turning frequently, until well-charred outside and cooked through (about 8-10 minutes total).",
+      "Serve hot with flatbread, chopped raw onion, and ajvar."
+    ],
+    "nutritionPerServing": {
+      "calories": 380,
+      "proteinG": 28,
+      "carbsG": 2,
+      "fatG": 28,
+      "note": "Estimate for the meat only (5-6 pieces), not including bread or sides."
+    }
+  },
+  {
+    "id": "ajvar",
+    "name": "Ajvar",
+    "altNames": ["Roasted Pepper Relish"],
+    "description": "A rich relish made from roasted red bell peppers and eggplant, slow-cooked with oil and garlic. Served as a condiment or spread.",
+    "tags": ["condiment", "vegetarian", "vegan"],
+    "servings": 12,
+    "ingredients": [
+      "2kg red bell peppers",
+      "300g eggplant",
+      "2-3 cloves garlic, minced",
+      "150ml sunflower oil",
+      "1 tbsp white wine vinegar",
+      "Salt to taste"
+    ],
+    "steps": [
+      "Roast the peppers and eggplant over an open flame or under a broiler until the skins blister and blacken.",
+      "Let them steam under a covered bowl for 15 minutes, then peel off the skins and seeds.",
+      "Finely chop or grind the roasted flesh.",
+      "Cook the mixture slowly in oil over low heat, stirring often, for 45-60 minutes until thickened and deep red.",
+      "Stir in garlic, vinegar, and salt near the end, then jar while hot."
+    ],
+    "nutritionPerServing": {
+      "calories": 95,
+      "proteinG": 1,
+      "carbsG": 6,
+      "fatG": 8,
+      "note": "Estimate per 2-tbsp (~30g) serving; oil content varies significantly by recipe."
+    }
+  },
+  {
+    "id": "pljeskavica",
+    "name": "Pljeskavica",
+    "altNames": ["Balkan Burger Patty"],
+    "description": "A large, flat grilled patty of seasoned ground meat, often called the 'Balkan burger', served in flatbread with toppings.",
+    "tags": ["grill", "meat"],
+    "servings": 4,
+    "ingredients": [
+      "800g ground beef (or beef/pork mix)",
+      "1 small onion, grated",
+      "1 clove garlic, minced",
+      "1 tsp baking soda",
+      "1 tsp salt",
+      "1/2 tsp black pepper",
+      "1/2 tsp sweet paprika (optional)"
+    ],
+    "steps": [
+      "Combine ground meat with grated onion, garlic, salt, pepper, and baking soda.",
+      "Knead well and rest in the fridge for at least 1 hour.",
+      "Shape into 4 large, flat patties about 1.5cm thick.",
+      "Grill over high heat, about 5-6 minutes per side, until well charred and cooked through.",
+      "Serve in flatbread with kajmak, ajvar, and chopped onion."
+    ],
+    "nutritionPerServing": {
+      "calories": 420,
+      "proteinG": 30,
+      "carbsG": 3,
+      "fatG": 32,
+      "note": "Estimate for the patty only (~200g), not including bread or toppings."
+    }
+  },
+  {
+    "id": "burek",
+    "name": "Burek",
+    "altNames": ["Burek sa Mesom"],
+    "description": "A baked pastry of thin phyllo layers filled with seasoned ground meat, coiled or layered into a round pan.",
+    "tags": ["pastry", "breakfast", "meat"],
+    "servings": 6,
+    "ingredients": [
+      "500g phyllo (yufka) sheets",
+      "400g ground beef",
+      "1 onion, finely diced",
+      "1 tsp salt",
+      "1/2 tsp black pepper",
+      "150ml sunflower oil",
+      "150ml sparkling water"
+    ],
+    "steps": [
+      "Sauté the onion with the ground meat until browned, season with salt and pepper, and let cool.",
+      "Brush each phyllo sheet lightly with oil, spread a thin layer of filling, and roll loosely into a coil.",
+      "Arrange the coils spiral-fashion in a round, oiled baking pan.",
+      "Brush the top with an oil-and-sparkling-water mixture for a crisp finish.",
+      "Bake at 200°C (390°F) for 35-40 minutes until deep golden and crisp."
+    ],
+    "nutritionPerServing": {
+      "calories": 410,
+      "proteinG": 15,
+      "carbsG": 30,
+      "fatG": 25,
+      "note": "Estimate per generous slice (~150g); pastry oil content varies by baker."
+    }
+  },
+  {
+    "id": "gibanica",
+    "name": "Gibanica",
+    "altNames": ["Cheese Pie"],
+    "description": "A layered phyllo pastry with a savory custard of eggs, cheese, and yogurt poured between crumpled sheets, baked until puffed and golden.",
+    "tags": ["pastry", "breakfast", "vegetarian"],
+    "servings": 6,
+    "ingredients": [
+      "400g phyllo (yufka) sheets",
+      "300g feta-style white cheese, crumbled",
+      "4 eggs",
+      "200ml plain yogurt",
+      "100ml sunflower oil",
+      "100ml sparkling water"
+    ],
+    "steps": [
+      "Whisk together eggs, yogurt, oil, and sparkling water.",
+      "Crumple each phyllo sheet loosely and layer into an oiled baking pan, sprinkling crumbled cheese between layers.",
+      "Pour the egg mixture evenly over the layered phyllo, making sure it soaks through.",
+      "Let it rest for 10-15 minutes so the liquid absorbs.",
+      "Bake at 190°C (375°F) for 35-40 minutes until puffed and golden brown."
+    ],
+    "nutritionPerServing": {
+      "calories": 390,
+      "proteinG": 14,
+      "carbsG": 27,
+      "fatG": 24,
+      "note": "Estimate per slice (~150g); cheese saltiness/fat content varies."
+    }
+  },
+  {
+    "id": "karadjordjeva-snicla",
+    "name": "Karađorđeva Šnicla",
+    "altNames": ["Karadjordje's Schnitzel", "Stuffed Veal/Pork Cutlet"],
+    "description": "A rolled and breaded veal or pork cutlet stuffed with kajmak (or cream cheese), fried until golden, named after Serbian revolutionary leader Karađorđe.",
+    "tags": ["fried", "meat", "festive"],
+    "servings": 4,
+    "ingredients": [
+      "4 large veal or pork cutlets, pounded thin",
+      "150g kajmak or cream cheese",
+      "2 eggs, beaten",
+      "150g breadcrumbs",
+      "100g flour",
+      "Salt and pepper to taste",
+      "Oil for frying"
+    ],
+    "steps": [
+      "Season the pounded cutlets with salt and pepper.",
+      "Place a spoonful of kajmak in the center of each cutlet and roll tightly, securing with a toothpick if needed.",
+      "Dredge each roll in flour, then egg, then breadcrumbs.",
+      "Deep-fry at 175°C (350°F) until golden brown and cooked through, about 6-8 minutes.",
+      "Traditionally served with tartar sauce and fries."
+    ],
+    "nutritionPerServing": {
+      "calories": 520,
+      "proteinG": 32,
+      "carbsG": 26,
+      "fatG": 32,
+      "note": "Estimate for one stuffed cutlet, fried; frying oil absorption varies."
+    }
+  },
+  {
+    "id": "prebranac",
+    "name": "Prebranac",
+    "altNames": ["Baked Beans with Onion"],
+    "description": "Slow-baked white beans layered with generous amounts of caramelized onion — a beloved vegetarian winter dish.",
+    "tags": ["stew", "vegetarian", "vegan", "winter"],
+    "servings": 4,
+    "ingredients": [
+      "300g dried white beans, soaked overnight",
+      "3 large onions, sliced",
+      "100ml oil",
+      "1 tbsp sweet paprika",
+      "2 bay leaves",
+      "Salt and pepper to taste"
+    ],
+    "steps": [
+      "Cook the soaked beans in fresh water until just tender, reserving some cooking liquid.",
+      "Sauté the sliced onions in oil until deeply golden and caramelized.",
+      "Layer beans and caramelized onions in a baking dish, seasoning each layer with paprika, salt, and pepper.",
+      "Add a splash of the reserved bean liquid and bay leaves.",
+      "Bake uncovered at 180°C (350°F) for 45-60 minutes until the top is browned."
+    ],
+    "nutritionPerServing": {
+      "calories": 380,
+      "proteinG": 14,
+      "carbsG": 45,
+      "fatG": 16,
+      "note": "Estimate per generous bowl (~300g); oil quantity varies by household."
+    }
+  },
+  {
+    "id": "musaka",
+    "name": "Musaka",
+    "altNames": ["Balkan Moussaka"],
+    "description": "A layered bake of thinly sliced potatoes and seasoned ground meat, topped with an egg-and-yogurt custard and baked until set.",
+    "tags": ["bake", "meat"],
+    "servings": 6,
+    "ingredients": [
+      "1kg potatoes, thinly sliced",
+      "500g ground beef",
+      "1 onion, diced",
+      "3 eggs",
+      "300ml plain yogurt",
+      "Salt, pepper, and paprika to taste",
+      "Oil for frying/greasing"
+    ],
+    "steps": [
+      "Fry the potato slices lightly in oil until just golden at the edges.",
+      "Sauté the onion with the ground meat, season with salt, pepper, and paprika.",
+      "Layer potatoes and meat alternately in a greased baking dish, finishing with a potato layer.",
+      "Whisk eggs with yogurt and pour evenly over the top.",
+      "Bake at 190°C (375°F) for 40-45 minutes until the top is set and golden."
+    ],
+    "nutritionPerServing": {
+      "calories": 430,
+      "proteinG": 19,
+      "carbsG": 32,
+      "fatG": 25,
+      "note": "Estimate per generous portion (~300g)."
+    }
+  },
+  {
+    "id": "punjene-paprike",
+    "name": "Punjene Paprike",
+    "altNames": ["Stuffed Peppers"],
+    "description": "Bell peppers stuffed with a ground meat and rice filling, simmered in a light tomato sauce.",
+    "tags": ["stew", "meat"],
+    "servings": 5,
+    "ingredients": [
+      "8-10 medium bell peppers, tops removed and cored",
+      "500g ground beef and pork mix",
+      "100g rice, uncooked",
+      "1 onion, finely diced",
+      "1 tbsp sweet paprika",
+      "500ml tomato sauce or crushed tomatoes",
+      "Salt and pepper to taste"
+    ],
+    "steps": [
+      "Mix ground meat with rice, diced onion, paprika, salt, and pepper.",
+      "Stuff each pepper about three-quarters full with the mixture.",
+      "Stand the peppers upright in a pot and pour the tomato sauce around and over them.",
+      "Add enough water to nearly cover the peppers.",
+      "Simmer covered on low heat for about 1 hour, until the peppers are tender and rice is cooked through."
+    ],
+    "nutritionPerServing": {
+      "calories": 310,
+      "proteinG": 16,
+      "carbsG": 22,
+      "fatG": 17,
+      "note": "Estimate for 2 stuffed peppers with sauce."
+    }
+  },
+  {
+    "id": "djuvec",
+    "name": "Đuveč",
+    "altNames": ["Djuvec", "Balkan Vegetable & Rice Bake"],
+    "description": "A baked casserole of rice, mixed vegetables, and often chunks of meat, seasoned with paprika — a colorful summer favorite.",
+    "tags": ["bake", "meat", "summer"],
+    "servings": 5,
+    "ingredients": [
+      "400g pork or chicken, cubed",
+      "200g rice",
+      "2 bell peppers, sliced",
+      "2 tomatoes, diced",
+      "1 zucchini, sliced",
+      "1 onion, diced",
+      "1 tbsp sweet paprika",
+      "300ml stock or water",
+      "Salt and pepper to taste"
+    ],
+    "steps": [
+      "Brown the meat cubes in a bit of oil, then set aside.",
+      "In the same pan, sauté onion and peppers until softened.",
+      "Combine meat, sautéed vegetables, rice, tomatoes, zucchini, paprika, salt, and pepper in a baking dish.",
+      "Pour in stock or water until the rice is just covered.",
+      "Cover and bake at 190°C (375°F) for 45-50 minutes, until the rice is tender and liquid absorbed."
+    ],
+    "nutritionPerServing": {
+      "calories": 360,
+      "proteinG": 20,
+      "carbsG": 38,
+      "fatG": 12,
+      "note": "Estimate per generous plate (~350g)."
+    }
+  },
+  {
+    "id": "pasulj",
+    "name": "Pasulj",
+    "altNames": ["Grah", "Serbian Bean Soup"],
+    "description": "A hearty bean stew, often cooked with smoked meat, paprika, and root vegetables — classic Balkan comfort food.",
+    "tags": ["stew", "winter", "meat"],
+    "servings": 5,
+    "ingredients": [
+      "300g dried beans, soaked overnight",
+      "150g smoked pork ribs or bacon (optional, omit for vegetarian)",
+      "1 onion, diced",
+      "1 carrot, diced",
+      "1 tbsp sweet paprika",
+      "1 tbsp flour",
+      "2 tbsp oil",
+      "Salt and pepper to taste"
+    ],
+    "steps": [
+      "Cook the soaked beans with the smoked meat in fresh water until beans are nearly tender.",
+      "In a separate pan, sauté onion and carrot in oil, stir in paprika and flour to make a light roux.",
+      "Stir the roux into the bean pot to thicken the broth.",
+      "Simmer for another 30-40 minutes until the beans are fully tender and the stew has thickened.",
+      "Season with salt and pepper to taste."
+    ],
+    "nutritionPerServing": {
+      "calories": 340,
+      "proteinG": 17,
+      "carbsG": 40,
+      "fatG": 12,
+      "note": "Estimate per bowl (~350g) including smoked meat; vegetarian version is lower in fat/protein."
+    }
+  },
+  {
+    "id": "sopska-salata",
+    "name": "Šopska Salata",
+    "altNames": ["Shopska Salad"],
+    "description": "A fresh salad of chopped tomatoes, cucumbers, onions, and peppers, topped generously with grated white cheese.",
+    "tags": ["salad", "vegetarian", "summer"],
+    "servings": 4,
+    "ingredients": [
+      "4 large tomatoes, diced",
+      "2 cucumbers, diced",
+      "1 green bell pepper, diced",
+      "1 small red onion, thinly sliced",
+      "150g feta-style white cheese, grated",
+      "2 tbsp olive oil",
+      "1 tbsp red wine vinegar",
+      "Salt to taste"
+    ],
+    "steps": [
+      "Combine diced tomatoes, cucumbers, pepper, and onion in a large bowl.",
+      "Dress with olive oil, vinegar, and a pinch of salt, tossing gently.",
+      "Divide onto plates and top generously with grated white cheese.",
+      "Serve immediately as a starter or side."
+    ],
+    "nutritionPerServing": {
+      "calories": 190,
+      "proteinG": 8,
+      "carbsG": 10,
+      "fatG": 13,
+      "note": "Estimate per plate (~250g including cheese topping)."
+    }
+  },
+  {
+    "id": "palacinke",
+    "name": "Palačinke",
+    "altNames": ["Balkan Crepes"],
+    "description": "Thin, delicate crepes, typically filled with jam, Nutella-style spread, walnuts, or cheese, and rolled or folded.",
+    "tags": ["dessert", "breakfast", "vegetarian"],
+    "servings": 6,
+    "ingredients": [
+      "250g flour",
+      "500ml milk",
+      "2 eggs",
+      "1 tbsp sugar",
+      "Pinch of salt",
+      "Butter or oil for the pan",
+      "Jam, chocolate spread, or ground walnuts for filling"
+    ],
+    "steps": [
+      "Whisk flour, milk, eggs, sugar, and salt into a smooth, thin batter.",
+      "Heat a lightly buttered non-stick pan over medium heat.",
+      "Pour a thin layer of batter, swirling to coat the pan, and cook about 1 minute per side.",
+      "Spread the warm crepe with your filling of choice and roll or fold.",
+      "Repeat with remaining batter; serve warm, dusted with powdered sugar if desired."
+    ],
+    "nutritionPerServing": {
+      "calories": 240,
+      "proteinG": 7,
+      "carbsG": 33,
+      "fatG": 8,
+      "note": "Estimate for 2 plain crepes with a light jam filling; chocolate/walnut fillings add calories."
+    }
+  },
+  {
+    "id": "kremsnita",
+    "name": "Kremšnita",
+    "altNames": ["Cremeschnitte", "Vanilla Custard Cream Cake"],
+    "description": "A classic Balkan/Central European dessert of two layers of flaky puff pastry sandwiching a thick vanilla custard, dusted with powdered sugar.",
+    "tags": ["dessert", "vegetarian"],
+    "servings": 9,
+    "ingredients": [
+      "2 sheets puff pastry, baked flat and crisp",
+      "1L milk",
+      "8 egg yolks",
+      "200g sugar",
+      "80g cornstarch",
+      "1 tsp vanilla extract",
+      "200ml heavy cream, whipped (optional, for a lighter custard)"
+    ],
+    "steps": [
+      "Bake the puff pastry sheets flat between trays until golden and crisp; let cool.",
+      "Whisk egg yolks, sugar, and cornstarch, then temper with warmed milk.",
+      "Cook the mixture over medium heat, stirring constantly, until thickened into a custard.",
+      "Fold in vanilla (and whipped cream, if using) once slightly cooled.",
+      "Spread the custard over one pastry sheet, top with the second sheet, chill for several hours, then cut into squares."
+    ],
+    "nutritionPerServing": {
+      "calories": 310,
+      "proteinG": 6,
+      "carbsG": 34,
+      "fatG": 16,
+      "note": "Estimate per square slice (~120g) of a 9-serving batch."
+    }
+  }
+]

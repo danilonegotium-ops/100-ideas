@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digital Detox Timer</title>
+  <meta name="description" content="Set a focus session, list the sites and apps that distract you, and start a full-screen countdown. It's honor-system — a webpage can't actually block other tabs — but your tab title counts down and your history/streak are tracked locally." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Digital Detox Timer</h1>
+    <p class="tagline">List what distracts you, set a session length, and start a full-screen focus countdown. Honor-system — this is a webpage, it can't block other sites — but it keeps you honest with a visible timer and a history of what you actually finished.</p>
+
+    <div id="setup-view">
+      <div class="card">
+        <h2>Distracting sites &amp; apps</h2>
+        <p class="muted" style="margin-top: -0.4rem;">A reminder list for yourself, shown during your focus session. Just text labels — nothing is actually blocked.</p>
+        <div class="row">
+          <input type="text" id="site-input" placeholder="e.g. Instagram, YouTube, Reddit" maxlength="60" />
+          <button type="button" id="add-site-btn">Add</button>
+        </div>
+        <ul class="ddt-site-list" id="site-list"></ul>
+      </div>
+
+      <div class="card">
+        <h2>Start a focus session</h2>
+        <div class="row" style="align-items: center;">
+          <label for="session-length" style="margin: 0;">Length (minutes)</label>
+          <input type="number" id="session-length" min="1" max="180" value="25" style="width: 6rem;" />
+          <button type="button" id="start-session-btn" class="btn">Start focus session</button>
+        </div>
+        <p class="muted mono" id="last-outcome" style="margin: 0.75rem 0 0;"></p>
+      </div>
+
+      <div class="card">
+        <h2>Stats</h2>
+        <div class="row" style="justify-content: space-between;">
+          <div>
+            <div class="muted" style="font-size: 0.85rem;">This week</div>
+            <div class="mono" id="week-total" style="font-size: 1.2rem; font-weight: 700;">0m</div>
+          </div>
+          <div>
+            <div class="muted" style="font-size: 0.85rem;">Current streak</div>
+            <div class="mono" id="streak-count" style="font-size: 1.2rem; font-weight: 700;">0 days</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content: space-between; align-items: center;">
+          <h2 style="margin: 0;">Session history</h2>
+          <button type="button" id="clear-history-btn" class="muted" style="background: none; padding: 0; font-weight: 400; font-size: 0.8rem; text-decoration: underline;">Clear history</button>
+        </div>
+        <ul class="ddt-history-list" id="history-list"></ul>
+      </div>
+    </div>
+
+    <div class="focus-overlay" id="focus-overlay">
+      <div class="focus-clock mono" id="focus-clock">00:00</div>
+      <p class="muted" id="focus-subtitle">Focusing for 25 minutes.</p>
+      <div class="focus-blocklist" id="focus-blocklist"></div>
+      <button type="button" id="end-early-btn" class="btn focus-end-btn">End session early</button>
+    </div>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Small Space Workouts</title>
+  <meta name="description" content="Bodyweight workouts built for small apartments — no jumping, no equipment, quiet enough for downstairs neighbors." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Small Space Workouts</h1>
+    <p class="tagline">Bodyweight routines built for small apartments &mdash; no jumping, no equipment, quiet enough for downstairs neighbors.</p>
+
+    <div class="card" id="setup-view">
+      <div class="row">
+        <div style="flex: 1; min-width: 160px;">
+          <label for="difficulty-select">Difficulty</label>
+          <select id="difficulty-select">
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+        <div style="flex: 1; min-width: 160px;">
+          <label for="duration-select">Duration</label>
+          <select id="duration-select">
+            <option value="quick">Quick (~5 min)</option>
+            <option value="standard" selected>Standard (~8 min)</option>
+            <option value="extended">Extended (~12 min)</option>
+          </select>
+        </div>
+      </div>
+      <button id="generate-btn" type="button" style="margin-top: 1rem;">Generate workout</button>
+      <p class="muted disclaimer">
+        Advanced routines currently mix in some intermediate moves for variety &mdash; the advanced-only
+        library is still small (3 exercises), so a full 5-move routine backfills from the next closest difficulty.
+      </p>
+    </div>
+
+    <div class="card" id="preview-view" hidden>
+      <h2 style="margin-top: 0;">Your routine</h2>
+      <div id="preview-list" class="stack"></div>
+      <div class="row" style="margin-top: 1rem;">
+        <button id="start-btn" type="button">Start workout</button>
+        <button id="regenerate-btn" type="button" class="btn-secondary">Shuffle again</button>
+      </div>
+    </div>
+
+    <div class="card" id="timer-view" hidden>
+      <div class="row" style="justify-content: space-between;">
+        <span id="timer-progress-label" class="muted mono"></span>
+        <span id="phase-label" class="phase-label"></span>
+      </div>
+      <div class="timer-countdown" id="phase-countdown">0:00</div>
+      <h2 id="phase-exercise-name" style="margin-bottom: 0.25rem;"></h2>
+      <p id="phase-exercise-meta" class="muted" style="margin-top: 0;"></p>
+      <p id="phase-instructions"></p>
+      <div class="row" style="margin-top: 1rem;">
+        <button id="pause-btn" type="button">Pause</button>
+        <button id="skip-btn" type="button" class="btn-secondary">Skip</button>
+      </div>
+    </div>
+
+    <div class="card" id="done-view" hidden>
+      <h2 style="margin-top: 0;">Workout complete!</h2>
+      <p class="muted">You just finished:</p>
+      <ul id="done-summary"></ul>
+      <button id="new-workout-btn" type="button">New workout</button>
+    </div>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

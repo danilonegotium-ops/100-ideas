@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ergonomics Reminder</title>
+  <meta name="description" content="Set an interval and get real browser notifications with posture and stretch tips while this tab stays open." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Ergonomics Reminder</h1>
+    <p class="tagline">Ships as a web app: keep this tab open and it reminds you to fix your posture and stretch, on a timer you set.</p>
+
+    <div class="card">
+      <div class="stack">
+        <div class="row">
+          <div style="flex: 1; min-width: 160px;">
+            <label for="erg-interval">Remind me every</label>
+            <select id="erg-interval">
+              <option value="15">15 minutes</option>
+              <option value="30" selected>30 minutes</option>
+              <option value="45">45 minutes</option>
+              <option value="60">60 minutes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <button id="erg-start">Start</button>
+          <button id="erg-stop" disabled>Stop</button>
+        </div>
+
+        <div class="countdown-box">
+          <span class="muted mono" id="erg-countdown-label">Next reminder in</span>
+          <div class="mono" id="erg-countdown">--:--</div>
+        </div>
+
+        <p class="muted mono" id="erg-permission-status"></p>
+
+        <div class="flash-banner" id="erg-flash" hidden>
+          <p class="flash-tip" id="erg-flash-tip"></p>
+          <button type="button" id="erg-flash-dismiss">Got it</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

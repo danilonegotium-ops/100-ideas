@@ -1,0 +1,61 @@
+// Random Act of Kindness — curated prompts.
+// ~50 genuinely doable prompts, ranging from tiny (a text message) to
+// slightly bigger (a review, a volunteered hour of skill). All original
+// writing for this tool, not sourced from any external list.
+
+const KINDNESS_PROMPTS = [
+  { id: 1, text: "Text an old friend something you genuinely appreciate about them." },
+  { id: 2, text: "Leave a specific, honest 5-star review for a small local business you like." },
+  { id: 3, text: "Compliment a stranger on something specific — their outfit, their work, their laugh." },
+  { id: 4, text: "Pay for the coffee or order of the person behind you in line." },
+  { id: 5, text: "Send a \"thinking of you\" message to someone going through a hard time." },
+  { id: 6, text: "Let someone merge in front of you in traffic with a wave, not a huff." },
+  { id: 7, text: "Write a short thank-you note to a teacher, mentor, or coach who shaped you." },
+  { id: 8, text: "Hold the door for someone and actually make eye contact and smile." },
+  { id: 9, text: "Give up your seat on public transit without being asked." },
+  { id: 10, text: "Donate a book you loved to a Little Free Library or pass it to a friend." },
+  { id: 11, text: "Call — don't text — a family member just to say hi." },
+  { id: 12, text: "Leave a thoughtful, encouraging comment on someone's creative work online." },
+  { id: 13, text: "Tip a little extra today. No reason needed." },
+  { id: 14, text: "Pick up a piece of litter you see on your next walk." },
+  { id: 15, text: "Introduce two people in your network who could genuinely help each other." },
+  { id: 16, text: "Send a voice memo instead of a text to someone you miss." },
+  { id: 17, text: "Compliment a coworker's work directly to their manager." },
+  { id: 18, text: "Leave a kind, anonymous sticky note somewhere a stranger will find it." },
+  { id: 19, text: "Offer to carry something heavy for someone struggling with it." },
+  { id: 20, text: "Share a useful article or resource with someone who'd actually benefit — no strings attached." },
+  { id: 21, text: "Let the person with fewer items go ahead of you in line." },
+  { id: 22, text: "Give a genuine compliment to someone who seems like they're having a rough day." },
+  { id: 23, text: "Water a neighbor's plants or bring in their trash bin without being asked." },
+  { id: 24, text: "Write a short, honest recommendation for a colleague on LinkedIn." },
+  { id: 25, text: "Ask someone eating alone if they'd like company." },
+  { id: 26, text: "Forgive a small debt or IOU you've been quietly holding onto." },
+  { id: 27, text: "Send a childhood friend a specific memory you still think about." },
+  { id: 28, text: "Bring a snack to share with coworkers or roommates, no occasion needed." },
+  { id: 29, text: "Leave your parking spot for someone who's clearly circling for one." },
+  { id: 30, text: "Message an old teacher and tell them what you're up to now." },
+  { id: 31, text: "Give someone a specific compliment about their character, not just their appearance." },
+  { id: 32, text: "Offer your umbrella to someone caught in the rain." },
+  { id: 33, text: "Book a blood donation appointment, or go donate today if you can." },
+  { id: 34, text: "Cook a little extra tonight and share a plate with a neighbor." },
+  { id: 35, text: "Send someone flowers or a small gift \"just because.\"" },
+  { id: 36, text: "Volunteer 30 minutes of a specific skill you have to someone who needs it — design a flyer, fix a laptop, proofread a resume." },
+  { id: 37, text: "Let a small mistake someone made today go without comment." },
+  { id: 38, text: "Check in on the friend who always checks in on everyone else." },
+  { id: 39, text: "Buy a meal for someone who's clearly having a hard week." },
+  { id: 40, text: "Leave a genuinely kind reply on a stranger's post instead of scrolling past." },
+  { id: 41, text: "Reach out to someone you had a falling out with and leave the door open to reconnect." },
+  { id: 42, text: "Compliment a stranger's pet, and mean it." },
+  { id: 43, text: "Give real, specific positive feedback to someone learning something new." },
+  { id: 44, text: "Quietly cover a small cost for a friend without making it a whole thing." },
+  { id: 45, text: "Invite a new coworker or neighbor to lunch or coffee." },
+  { id: 46, text: "Return a stray shopping cart for someone who left it behind — no judgment." },
+  { id: 47, text: "Send a good morning or good night text to someone who could use it today." },
+  { id: 48, text: "Recommend a small local business by name next time someone asks for suggestions." },
+  { id: 49, text: "Write down three things you appreciate about a family member and actually tell them." },
+  { id: 50, text: "Let someone finish their story today without interrupting — really listen." },
+];
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { KINDNESS_PROMPTS };
+}

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Programerski izazovi na srpskom</title>
+  <meta name="description" content="15 zadataka za početnike u programiranju — o promenljivima, uslovima, petljama i funkcijama — sa objašnjenjima na srpskom jeziku i trenutnom povratnom informacijom." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap">
+    <h1>Programerski izazovi na srpskom</h1>
+    <p class="tagline">15 zadataka za početnike — promenljive, uslovi, petlje i funkcije — sa objašnjenjima na srpskom jeziku i trenutnom povratnom informacijom.</p>
+
+    <div class="card">
+      <div class="row ccs-topbar">
+        <span class="muted mono" id="progress-label">Pitanje 1 od 15</span>
+        <span class="muted mono" id="score-label">Rezultat: 0</span>
+      </div>
+
+      <div id="quiz-view">
+        <div class="ccs-category muted" id="category-label"></div>
+        <p class="ccs-prompt" id="prompt-label"></p>
+        <pre class="mono ccs-code" id="code-block" hidden></pre>
+
+        <div id="mcq-options" class="stack"></div>
+
+        <div id="fill-input-wrap" class="row" hidden>
+          <input type="text" id="fill-input" placeholder="Upiši odgovor..." />
+          <button type="button" id="fill-check-btn">Proveri</button>
+        </div>
+
+        <div id="feedback-box" class="ccs-feedback" hidden>
+          <p id="feedback-verdict" class="ccs-verdict"></p>
+          <p id="feedback-explanation" class="muted"></p>
+          <button type="button" id="next-btn" class="btn">Sledeće pitanje</button>
+        </div>
+      </div>
+
+      <div id="summary-view" class="ccs-summary" hidden>
+        <h2 id="summary-heading"></h2>
+        <p id="summary-detail" class="muted"></p>
+        <button type="button" id="restart-btn" class="btn">Pokušaj ponovo</button>
+      </div>
+    </div>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

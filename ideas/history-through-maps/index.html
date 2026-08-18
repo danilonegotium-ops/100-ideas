@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>History Through Maps</title>
+  <meta name="description" content="A simplified, illustrative schematic of who held power across Europe at six moments in history — 500 CE to 2000. Drag the slider to jump between eras." />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="site">
+    <a class="home" href="/">&larr; more tools</a>
+  </header>
+  <main class="wrap history-wrap">
+    <h1>History Through Maps</h1>
+    <p class="tagline">Who held power across Europe at six points in history. Drag the slider to jump between eras.</p>
+    <p class="muted htm-disclaimer">Simplified, illustrative schematic — each region always sits in the same grid cell for readability. Not accurate cartography or real border shapes.</p>
+
+    <div class="card">
+      <div class="htm-slider-row">
+        <input type="range" id="era-slider" min="0" max="5" step="1" value="0" />
+        <div class="htm-ticks" id="era-ticks"></div>
+      </div>
+
+      <h2 id="era-title"></h2>
+      <p class="muted" id="era-blurb"></p>
+
+      <div class="htm-map-wrap">
+        <svg id="era-map" viewBox="0 0 1020 630" role="img" aria-labelledby="era-map-desc"></svg>
+      </div>
+
+      <dl class="htm-legend" id="era-legend"></dl>
+
+      <div class="row htm-controls">
+        <button type="button" id="play-btn">Play through eras</button>
+      </div>
+    </div>
+  </main>
+  <footer class="site">
+    <span>Built solo. No tracking, no signup required.</span>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

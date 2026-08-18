@@ -1,0 +1,7 @@
+# Ex-Yu Rock Trivia — SPEC
+
+**MVP:** A 20-question multiple-choice quiz on Yugoslav rock/pop history (Bijelo Dugme, Riblja Čorba, Azra, Idoli, Ekatarina Velika, Bajaga i Instruktori, Divlje Jagode, YU Grupa, Leb i Sol, Zabranjeno Pušenje, Pankrti, Galija, and more). Each run shuffles both question order and each question's answer options (Fisher-Yates, `shuffleArray`/`shuffleQuestionOptions` in `app.js`). Picking an answer immediately shows correct/incorrect styling plus a one-line fun fact, then advances via "Next question". At the end, the score is shown alongside a personal best.
+
+**Out of scope for this pass:** the original one-liner says "global leaderboards" — that needs a shared backend/DB (Wave 3, the shared Supabase project), which this static-template pass doesn't have. Scope adaptation: score-keeping is a **personal best stored in `localStorage`** on the visitor's own browser only, clearly labeled as such in the UI ("no shared global leaderboard in this build"). Revisit with a real leaderboard once the idea is ported to `_shared/nextjs-template` + Supabase. Also out of scope: question categories/difficulty levels, timed answers, audio clips of the songs (licensing).
+
+**Data:** 20 original trivia questions in `data.js`, hand-written by the author from real, well-documented Yugoslav rock history (band formations, members, notable songs) — not sourced from any single external quiz bank. Confidence is high on all entries; these are widely known facts about major acts (Bijelo Dugme, EKV, Azra, etc.), not obscure trivia.
