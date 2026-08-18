@@ -90,16 +90,16 @@ create policy "interests_delete_own"
 insert into roommate_matcher_profiles
   (user_id, display_name, city, area, university, budget_min, budget_max, sleep_schedule, cleanliness, social_style, smoker, pets_ok, bio)
 values
-  ('00000000-0000-0000-0000-0000000000r1', 'Mila', 'Belgrade', 'Vracar', 'University of Belgrade', 250, 350, 'early_bird', 'very_clean', 'quiet', false, true, 'Med student, studying odd hours but tidy and quiet. Have a cat, hoping for a pet-friendly place.'),
-  ('00000000-0000-0000-0000-0000000000r2', 'Stefan', 'Belgrade', 'Novi Beograd', 'Singidunum University', 200, 280, 'night_owl', 'messy', 'social', true, false, 'Design student, up late working, don''t mind a lived-in apartment. Enjoy having people over.'),
-  ('00000000-0000-0000-0000-0000000000r3', 'Jovana', 'Belgrade', 'Zvezdara', 'University of Belgrade', 300, 400, 'flexible', 'average', 'mixed', false, false, 'Grad student, schedule varies with my thesis work. Easygoing about most things.'),
-  ('00000000-0000-0000-0000-0000000000r4', 'Aleksa', 'Belgrade', 'Vozdovac', 'University of Belgrade', 220, 300, 'early_bird', 'very_clean', 'quiet', false, false, 'Engineering student, early classes most days. Like a clean, quiet place to actually study.'),
-  ('00000000-0000-0000-0000-0000000000r5', 'Teodora', 'Belgrade', 'Stari Grad', 'Faculty of Philology', 280, 380, 'night_owl', 'average', 'social', false, true, 'Language student, love hosting friends on weekends. Have a small dog.'),
-  ('00000000-0000-0000-0000-0000000000r6', 'Nikola', 'Novi Sad', 'Liman', 'University of Novi Sad', 200, 300, 'flexible', 'very_clean', 'quiet', false, false, 'CS student, mostly online classes so schedule is flexible. Keep things tidy.'),
-  ('00000000-0000-0000-0000-0000000000r7', 'Ivana', 'Novi Sad', 'Grbavica', 'University of Novi Sad', 250, 350, 'early_bird', 'average', 'mixed', false, true, 'Vet student, early mornings at the clinic. Fine with pets around, have my own.'),
-  ('00000000-0000-0000-0000-0000000000r8', 'Marko', 'Novi Sad', 'Detelinara', 'Faculty of Technical Sciences', 180, 260, 'night_owl', 'messy', 'social', true, false, 'Mechanical engineering, work on projects late into the night. Looking for someone laid-back.'),
-  ('00000000-0000-0000-0000-0000000000r9', 'Katarina', 'Novi Sad', 'Liman', 'University of Novi Sad', 300, 400, 'flexible', 'very_clean', 'quiet', false, true, 'PhD student, need a calm place to write. Have a cat, very house-trained.'),
-  ('00000000-0000-0000-0000-0000000000ra', 'Filip', 'Novi Sad', 'Centar', 'University of Novi Sad', 220, 320, 'early_bird', 'average', 'social', false, false, 'Economics student, active mornings, enjoy a social apartment on weekends.');
+  ('00000000-0000-0000-0000-0000000000e1', 'Mila', 'Belgrade', 'Vracar', 'University of Belgrade', 250, 350, 'early_bird', 'very_clean', 'quiet', false, true, 'Med student, studying odd hours but tidy and quiet. Have a cat, hoping for a pet-friendly place.'),
+  ('00000000-0000-0000-0000-0000000000e2', 'Stefan', 'Belgrade', 'Novi Beograd', 'Singidunum University', 200, 280, 'night_owl', 'messy', 'social', true, false, 'Design student, up late working, don''t mind a lived-in apartment. Enjoy having people over.'),
+  ('00000000-0000-0000-0000-0000000000e3', 'Jovana', 'Belgrade', 'Zvezdara', 'University of Belgrade', 300, 400, 'flexible', 'average', 'mixed', false, false, 'Grad student, schedule varies with my thesis work. Easygoing about most things.'),
+  ('00000000-0000-0000-0000-0000000000e4', 'Aleksa', 'Belgrade', 'Vozdovac', 'University of Belgrade', 220, 300, 'early_bird', 'very_clean', 'quiet', false, false, 'Engineering student, early classes most days. Like a clean, quiet place to actually study.'),
+  ('00000000-0000-0000-0000-0000000000e5', 'Teodora', 'Belgrade', 'Stari Grad', 'Faculty of Philology', 280, 380, 'night_owl', 'average', 'social', false, true, 'Language student, love hosting friends on weekends. Have a small dog.'),
+  ('00000000-0000-0000-0000-0000000000e6', 'Nikola', 'Novi Sad', 'Liman', 'University of Novi Sad', 200, 300, 'flexible', 'very_clean', 'quiet', false, false, 'CS student, mostly online classes so schedule is flexible. Keep things tidy.'),
+  ('00000000-0000-0000-0000-0000000000e7', 'Ivana', 'Novi Sad', 'Grbavica', 'University of Novi Sad', 250, 350, 'early_bird', 'average', 'mixed', false, true, 'Vet student, early mornings at the clinic. Fine with pets around, have my own.'),
+  ('00000000-0000-0000-0000-0000000000e8', 'Marko', 'Novi Sad', 'Detelinara', 'Faculty of Technical Sciences', 180, 260, 'night_owl', 'messy', 'social', true, false, 'Mechanical engineering, work on projects late into the night. Looking for someone laid-back.'),
+  ('00000000-0000-0000-0000-0000000000e9', 'Katarina', 'Novi Sad', 'Liman', 'University of Novi Sad', 300, 400, 'flexible', 'very_clean', 'quiet', false, true, 'PhD student, need a calm place to write. Have a cat, very house-trained.'),
+  ('00000000-0000-0000-0000-0000000000ea', 'Filip', 'Novi Sad', 'Centar', 'University of Novi Sad', 220, 320, 'early_bird', 'average', 'social', false, false, 'Economics student, active mornings, enjoy a social apartment on weekends.');
 
 -- A couple of demo interests, including one mutual pair (Mila <-> Aleksa,
 -- both early_bird/very_clean/quiet Belgrade students — should also score
@@ -107,6 +107,6 @@ values
 -- something to show.
 insert into roommate_matcher_interests (from_user_id, to_user_id)
 values
-  ('00000000-0000-0000-0000-0000000000r1', '00000000-0000-0000-0000-0000000000r4'),
-  ('00000000-0000-0000-0000-0000000000r4', '00000000-0000-0000-0000-0000000000r1'),
-  ('00000000-0000-0000-0000-0000000000r2', '00000000-0000-0000-0000-0000000000r5');
+  ('00000000-0000-0000-0000-0000000000e1', '00000000-0000-0000-0000-0000000000e4'),
+  ('00000000-0000-0000-0000-0000000000e4', '00000000-0000-0000-0000-0000000000e1'),
+  ('00000000-0000-0000-0000-0000000000e2', '00000000-0000-0000-0000-0000000000e5');
