@@ -3,6 +3,8 @@ import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { Dashboard } from "@/components/Dashboard";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { StatTile } from "@/components/motion/StatTile";
 import { createClient, getUser } from "@/lib/supabase/server";
 import type { Monitor, CheckLogRow } from "@/lib/types";
 
@@ -22,14 +24,14 @@ export default async function Home() {
             check it every few minutes, and alert you only on an actual
             up→down or down→up change — not on every check.
           </p>
-          <Card>
+          <GlassPanel glow>
             <p className="mb-4 text-sm text-muted">
               Log in with a magic link to add and manage your monitors.
             </p>
             <Link href="/login">
               <Button>Log in</Button>
             </Link>
-          </Card>
+          </GlassPanel>
         </main>
       </>
     );
@@ -42,6 +44,8 @@ export default async function Home() {
     .order("created_at", { ascending: false });
 
   const monitors: Monitor[] = monitorsError ? [] : (monitorsData ?? []);
+  const upCount = monitors.filter((m) => m.last_status === "up").length;
+  const downCount = monitors.filter((m) => m.last_status === "down").length;
 
   let checks: CheckLogRow[] = [];
   if (monitors.length > 0) {
@@ -73,6 +77,18 @@ export default async function Home() {
               Couldn&apos;t load monitors: {monitorsError.message}
             </p>
           </Card>
+        )}
+        {monitors.length > 0 && (
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <StatTile label="Monitors" value={monitors.length} />
+            <StatTile
+              label="Up"
+              value={upCount}
+              trend={downCount > 0 ? `${downCount} down` : "All healthy"}
+              trendTone={downCount > 0 ? "negative" : "positive"}
+            />
+            <StatTile label="Down" value={downCount} trendTone="negative" />
+          </div>
         )}
         <Dashboard initialMonitors={monitors} initialChecks={checks} />
       </main>

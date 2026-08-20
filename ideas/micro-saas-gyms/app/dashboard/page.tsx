@@ -7,6 +7,9 @@ import { AddMemberForm } from "@/components/AddMemberForm";
 import { CheckInPanel } from "@/components/CheckInPanel";
 import { MemberTable } from "@/components/MemberTable";
 import { SignOutButton } from "@/components/SignOutButton";
+import { StatTile } from "@/components/motion/StatTile";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 
 export default async function DashboardPage() {
   const user = await getUser();
@@ -56,19 +59,16 @@ export default async function DashboardPage() {
         )}
 
         <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <Card>
-            <p className="text-xs uppercase tracking-wide text-muted">Active members</p>
-            <p className="mt-1 text-xl font-semibold">{activeCount}</p>
-          </Card>
-          <Card>
-            <p className="text-xs uppercase tracking-wide text-muted">Checked in today</p>
-            <p className="mt-1 text-xl font-semibold">{checkedInTodayIds.length}</p>
-          </Card>
-          <Card className={expiringCount > 0 ? "border-danger" : undefined}>
-            <p className="text-xs uppercase tracking-wide text-muted">Expiring soon</p>
-            <p className="mt-1 text-xl font-semibold">{expiringCount}</p>
-            <p className="text-xs text-muted">within 7 days</p>
-          </Card>
+          <StatTile label="Active members" value={activeCount} />
+          <StatTile label="Checked in today" value={checkedInTodayIds.length} />
+          <StatTile
+            label="Expiring soon"
+            value={expiringCount}
+            suffix=""
+            trend="within 7 days"
+            trendTone={expiringCount > 0 ? "negative" : "neutral"}
+            className={expiringCount > 0 ? "border-danger" : undefined}
+          />
         </div>
 
         <Card className="mb-6">
@@ -76,21 +76,24 @@ export default async function DashboardPage() {
           <CheckInPanel members={members} checkedInTodayIds={checkedInTodayIds} />
         </Card>
 
-        <Card className="mb-6">
+        <div className="mb-6">
           <h2 className="mb-3 text-lg font-semibold">Recent check-ins</h2>
           {checkins.length === 0 ? (
-            <p className="text-sm text-muted">No check-ins yet.</p>
+            <EmptyState
+              title="No check-ins yet"
+              description="Check in a member above and they'll show up here."
+            />
           ) : (
-            <ul className="flex flex-col gap-1 text-sm">
-              {checkins.slice(0, 10).map((checkin) => (
-                <li key={checkin.id} className="flex justify-between gap-3">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {checkins.slice(0, 10).map((checkin, i) => (
+                <AnimatedCard key={checkin.id} index={i} hoverLift={false} className="flex items-center justify-between gap-3 p-3 text-sm">
                   <span>{memberById.get(checkin.member_id)?.full_name ?? "Unknown member"}</span>
                   <span className="text-muted">{formatDateTime(checkin.checked_in_at)}</span>
-                </li>
+                </AnimatedCard>
               ))}
-            </ul>
+            </div>
           )}
-        </Card>
+        </div>
 
         <Card className="mb-6">
           <h2 className="mb-3 text-lg font-semibold">Add member</h2>
@@ -99,9 +102,10 @@ export default async function DashboardPage() {
 
         <h2 className="mb-3 text-lg font-semibold">All members</h2>
         {members.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">No members yet — add your first one above.</p>
-          </Card>
+          <EmptyState
+            title="No members yet"
+            description="Add your first member above to start tracking check-ins and expirations."
+          />
         ) : (
           <MemberTable members={members} />
         )}

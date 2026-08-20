@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { Waveform } from "@/components/Waveform";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
 
 const MAX_TRANSCRIPT_LENGTH = 20000;
 
@@ -165,6 +167,8 @@ export default function Home() {
             </div>
           )}
 
+          {supported !== false && <Waveform active={recording} />}
+
           {micError && <p className="text-sm text-danger">{micError}</p>}
 
           <div>
@@ -212,7 +216,7 @@ export default function Home() {
         )}
 
         {result && (
-          <Card className="flex flex-col gap-4">
+          <AnimatedCard className="flex flex-col gap-4" hoverLift={false}>
             <div>
               <p className="mb-1 text-sm font-medium text-fg">Summary</p>
               <p className="text-sm text-muted">{result.summary}</p>
@@ -241,7 +245,7 @@ export default function Home() {
                 </ul>
               )}
             </div>
-          </Card>
+          </AnimatedCard>
         )}
       </main>
     </>

@@ -4,6 +4,9 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
 import type { Supplement } from "@/lib/supplements/types";
 
 export function DashboardClient() {
@@ -154,21 +157,45 @@ export function DashboardClient() {
 
   if (loading) return <p className="text-sm text-muted">Loading…</p>;
 
+  const takenCount = takenToday.size;
+  const lowStockCount = supplements.filter((supplement) => {
+    const dosesRemaining = Math.floor(
+      supplement.pills_remaining / supplement.pills_per_dose,
+    );
+    return dosesRemaining < supplement.low_stock_threshold_doses;
+  }).length;
+
   return (
     <div className="flex flex-col gap-8">
       {error && <p className="text-sm text-danger">{error}</p>}
 
+      {supplements.length > 0 && (
+        <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <StatTile label="Supplements tracked" value={supplements.length} />
+          <StatTile
+            label="Taken today"
+            value={takenCount}
+            suffix={` / ${supplements.length}`}
+          />
+          <StatTile
+            label="Low stock"
+            value={lowStockCount}
+            trend={lowStockCount > 0 ? "Reorder soon" : "All stocked up"}
+            trendTone={lowStockCount > 0 ? "negative" : "positive"}
+          />
+        </section>
+      )}
+
       <section>
         <h2 className="mb-3 text-lg font-semibold">Today</h2>
         {supplements.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">
-              No supplements yet — add one below.
-            </p>
-          </Card>
+          <EmptyState
+            title="No supplements yet"
+            description="Add one below to start tracking doses and stock."
+          />
         ) : (
           <div className="flex flex-col gap-3">
-            {supplements.map((supplement) => {
+            {supplements.map((supplement, index) => {
               const dosesRemaining = Math.floor(
                 supplement.pills_remaining / supplement.pills_per_dose,
               );
@@ -177,8 +204,9 @@ export function DashboardClient() {
               const taken = takenToday.has(supplement.id);
 
               return (
-                <Card
+                <AnimatedCard
                   key={supplement.id}
+                  index={index}
                   className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div>
@@ -225,7 +253,7 @@ export function DashboardClient() {
                             : "Taken"}
                     </Button>
                   </div>
-                </Card>
+                </AnimatedCard>
               );
             })}
           </div>

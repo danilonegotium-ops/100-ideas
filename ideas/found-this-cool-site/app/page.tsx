@@ -1,6 +1,7 @@
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Stumble } from "@/components/Stumble";
+import { StatTile } from "@/components/motion/StatTile";
 import { createClient, getUser } from "@/lib/supabase/server";
 import type { Site } from "@/lib/types";
 
@@ -19,6 +20,7 @@ export default async function Home() {
     .order("created_at", { ascending: false });
 
   const sites: Site[] = error ? [] : (data ?? []);
+  const categoryCount = new Set(sites.map((s) => s.category)).size;
 
   return (
     <>
@@ -35,6 +37,12 @@ export default async function Home() {
               Couldn&apos;t load the site pool: {error.message}
             </p>
           </Card>
+        )}
+        {sites.length > 0 && (
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <StatTile label="Sites in the pool" value={sites.length} />
+            <StatTile label="Categories" value={categoryCount} />
+          </div>
         )}
         <Stumble initialSites={sites} userId={user?.id ?? null} />
       </main>

@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import {
   MAX_INGREDIENTS_INPUT_LENGTH,
   MIN_INGREDIENTS,
@@ -100,7 +102,7 @@ export function RecipeForm() {
       )}
 
       {recipe && (
-        <Card className="mt-6">
+        <AnimatedCard className="mt-6" hoverLift={false}>
           <h2 className="mb-3 text-xl font-semibold">{recipe.title}</h2>
 
           <h3 className="mb-1 text-sm font-semibold text-muted">
@@ -118,7 +120,7 @@ export function RecipeForm() {
               <li key={i}>{step}</li>
             ))}
           </ol>
-        </Card>
+        </AnimatedCard>
       )}
 
       {raw && (
@@ -129,6 +131,15 @@ export function RecipeForm() {
           </p>
           <pre className="whitespace-pre-wrap font-mono text-sm">{raw}</pre>
         </Card>
+      )}
+
+      {!loading && !error && !recipe && !raw && (
+        <div className="mt-6">
+          <EmptyState
+            title="No recipe yet"
+            description="List a few ingredients above and generate a recipe to see it appear here."
+          />
+        </div>
       )}
     </>
   );

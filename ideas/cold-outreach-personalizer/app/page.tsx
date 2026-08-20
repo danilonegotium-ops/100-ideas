@@ -2,8 +2,10 @@
 
 import { FormEvent, useState } from "react";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { EmptyState } from "@/components/motion/EmptyState";
 import {
   MAX_BIO_LENGTH,
   MAX_CONTEXT_LENGTH,
@@ -81,7 +83,7 @@ export default function Home() {
           most platforms&apos; terms of service.
         </p>
 
-        <Card>
+        <GlassPanel glow>
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div>
               <label htmlFor="bio">Their bio / profile summary</label>
@@ -143,12 +145,12 @@ export default function Home() {
               {status === "loading" ? "Writing opening lines…" : "Generate opening lines"}
             </Button>
           </form>
-        </Card>
+        </GlassPanel>
 
         {result && (
           <div className="mt-6 flex flex-col gap-3">
             {result.openingLines.map((line, i) => (
-              <Card key={i}>
+              <AnimatedCard key={i} index={i}>
                 {line.angle && (
                   <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted">
                     {line.angle}
@@ -158,9 +160,33 @@ export default function Home() {
                 <Button variant="secondary" onClick={() => copyLine(i, line.text)}>
                   {copiedIndex === i ? "Copied" : "Copy"}
                 </Button>
-              </Card>
+              </AnimatedCard>
             ))}
           </div>
+        )}
+
+        {status === "idle" && !result && (
+          <EmptyState
+            className="mt-6"
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.75}
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-6l-4 4v-4z"
+                />
+              </svg>
+            }
+            title="Your opening lines will appear here"
+            description="Paste a prospect's bio above and submit it — specific, non-generic opening lines show up right in this spot."
+          />
         )}
       </main>
     </>

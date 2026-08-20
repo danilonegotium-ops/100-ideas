@@ -5,6 +5,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import type { Widget } from "@/lib/feedback/types";
 
 export function WidgetsClient() {
@@ -98,32 +100,37 @@ export function WidgetsClient() {
         </form>
       </Card>
 
-      <div className="flex flex-col gap-3">
-        {widgets.map((widget) => (
-          <Card
-            key={widget.id}
-            className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
-          >
-            <div>
-              <p className="text-sm font-medium text-fg">{widget.question}</p>
-              <p className="text-xs text-muted">
-                created {new Date(widget.created_at).toLocaleDateString()}
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Link href={`/dashboard/${widget.id}`}>
-                <Button variant="secondary">View / embed</Button>
-              </Link>
-              <Button variant="danger" onClick={() => handleDelete(widget)}>
-                Delete
-              </Button>
-            </div>
-          </Card>
-        ))}
-        {widgets.length === 0 && (
-          <p className="text-sm text-muted">No widgets yet — create one above.</p>
-        )}
-      </div>
+      {widgets.length === 0 ? (
+        <EmptyState
+          title="No widgets yet"
+          description="Create your first feedback widget above, then embed it on any site."
+        />
+      ) : (
+        <div className="flex flex-col gap-3">
+          {widgets.map((widget, i) => (
+            <AnimatedCard
+              key={widget.id}
+              index={i}
+              className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div>
+                <p className="text-sm font-medium text-fg">{widget.question}</p>
+                <p className="text-xs text-muted">
+                  created {new Date(widget.created_at).toLocaleDateString()}
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <Link href={`/dashboard/${widget.id}`}>
+                  <Button variant="secondary">View / embed</Button>
+                </Link>
+                <Button variant="danger" onClick={() => handleDelete(widget)}>
+                  Delete
+                </Button>
+              </div>
+            </AnimatedCard>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

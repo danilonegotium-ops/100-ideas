@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
+import { GradientMesh } from "@/components/motion/GradientMesh";
 import { createClient, getUser } from "@/lib/supabase/server";
 
 type Lesson = {
@@ -41,11 +44,15 @@ export default async function Home() {
     myProgress = data ?? [];
   }
   const myTotalPoints = myProgress.reduce((sum, p) => sum + p.points_earned, 0);
+  const totalLessons = lessons?.length ?? 6;
+  const progressPct =
+    totalLessons > 0 ? Math.round((myProgress.length / totalLessons) * 100) : 0;
 
   return (
     <>
       <Nav />
-      <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
+      <main className="relative mx-auto w-full max-w-site flex-1 px-5 py-8">
+        <GradientMesh animate />
         <h1 className="mb-2 text-2xl font-semibold">
           Financial Literacy for Teens
         </h1>
@@ -56,20 +63,26 @@ export default async function Home() {
         </p>
 
         {user && myProgress.length > 0 && (
-          <Card className="mb-6">
-            <p className="text-sm text-fg">
-              Your progress: {myProgress.length} / {lessons?.length ?? 6}{" "}
-              lessons completed · {myTotalPoints} points
-            </p>
-          </Card>
+          <div className="mb-6">
+            <div className="mb-3 grid grid-cols-2 gap-3">
+              <StatTile label="Lessons completed" value={myProgress.length} suffix={` / ${totalLessons}`} />
+              <StatTile label="Points earned" value={myTotalPoints} />
+            </div>
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-border">
+              <div
+                className="h-full rounded-full bg-accent transition-[width] duration-500 ease-out"
+                style={{ width: `${progressPct}%` }}
+              />
+            </div>
+          </div>
         )}
 
         <div className="mb-8 flex flex-col gap-3">
-          {(lessons as Lesson[] | null)?.map((lesson) => {
+          {(lessons as Lesson[] | null)?.map((lesson, i) => {
             const done = myProgress.find((p) => p.lesson_id === lesson.id);
             return (
               <Link key={lesson.id} href={`/lessons/${lesson.id}`} className="no-underline">
-                <Card className="transition-colors hover:border-accent">
+                <AnimatedCard index={i} className="transition-colors hover:border-accent">
                   <div className="mb-1 flex items-center justify-between gap-2">
                     <h2 className="text-base font-semibold text-fg">
                       {lesson.title}
@@ -81,7 +94,7 @@ export default async function Home() {
                     )}
                   </div>
                   <p className="text-sm text-muted">{lesson.summary}</p>
-                </Card>
+                </AnimatedCard>
               </Link>
             );
           })}
@@ -96,20 +109,19 @@ export default async function Home() {
         {leaderboard && leaderboard.length > 0 ? (
           <div className="flex flex-col gap-2">
             {(leaderboard as LeaderboardRow[]).map((row, i) => (
-              <Card key={row.user_id} className="flex items-center justify-between">
+              <AnimatedCard key={row.user_id} index={i} hoverLift={false} className="flex items-center justify-between">
                 <span className="text-sm text-fg">
                   {i + 1}. {row.display_name}
                 </span>
                 <span className="text-sm text-muted">{row.total_points} pts</span>
-              </Card>
+              </AnimatedCard>
             ))}
           </div>
         ) : (
-          <Card>
-            <p className="text-sm text-muted">
-              No learners yet — be the first to complete a lesson.
-            </p>
-          </Card>
+          <EmptyState
+            title="No learners yet"
+            description="Be the first to complete a lesson and claim the top spot."
+          />
         )}
       </main>
     </>

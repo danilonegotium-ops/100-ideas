@@ -7,6 +7,7 @@ import type { Onboarding, OnboardingTask } from "@/lib/types";
 import { OnboardingChecklist } from "@/components/OnboardingChecklist";
 import { SignOutButton } from "@/components/SignOutButton";
 import { signOut } from "@/app/my-onboarding/actions";
+import { EmptyState } from "@/components/motion/EmptyState";
 
 export default async function MyOnboardingPage() {
   const user = await getUser();
@@ -57,18 +58,23 @@ export default async function MyOnboardingPage() {
         )}
 
         {onboardings.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">
-              No onboarding checklist found for {user.email}. Ask your HR team to assign one — once
-              they do, it&apos;ll show up here automatically.{" "}
+          <EmptyState
+            title="No onboarding checklist found"
+            description={`Ask your HR team to assign one for ${user.email} — once they do, it'll show up here automatically.`}
+            action={
               <Link href="/dashboard" className="text-accent">
                 Are you HR? Go to the HR dashboard.
               </Link>
-            </p>
-          </Card>
+            }
+          />
         ) : (
-          onboardings.map((onboarding) => (
-            <OnboardingChecklist key={onboarding.id} onboarding={onboarding} tasks={tasksByOnboarding[onboarding.id] ?? []} />
+          onboardings.map((onboarding, i) => (
+            <OnboardingChecklist
+              key={onboarding.id}
+              onboarding={onboarding}
+              tasks={tasksByOnboarding[onboarding.id] ?? []}
+              index={i}
+            />
           ))
         )}
       </main>

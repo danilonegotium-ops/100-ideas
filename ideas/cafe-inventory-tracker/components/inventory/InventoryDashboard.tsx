@@ -3,6 +3,9 @@
 import { FormEvent, useMemo, useState } from "react";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/client";
 import {
   daysOfStockLeft,
@@ -124,14 +127,16 @@ export function InventoryDashboard({ initialItems }: { initialItems: InventoryIt
   return (
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <Card className={reorderCount > 0 ? "border-danger" : undefined}>
-          <p className="text-xs text-muted">Needs reorder soon</p>
-          <p className="text-xl font-semibold">{reorderCount}</p>
-        </Card>
-        <Card className={outOfStockCount > 0 ? "border-danger" : undefined}>
-          <p className="text-xs text-muted">Out of stock</p>
-          <p className="text-xl font-semibold">{outOfStockCount}</p>
-        </Card>
+        <StatTile
+          label="Needs reorder soon"
+          value={reorderCount}
+          className={reorderCount > 0 ? "border-danger" : undefined}
+        />
+        <StatTile
+          label="Out of stock"
+          value={outOfStockCount}
+          className={outOfStockCount > 0 ? "border-danger" : undefined}
+        />
       </div>
 
       <Card>
@@ -232,44 +237,55 @@ export function InventoryDashboard({ initialItems }: { initialItems: InventoryIt
         </label>
       </div>
 
-      <div className="flex flex-col gap-2">
-        {sorted.map((item) => {
-          const days = daysOfStockLeft(item);
-          const flagged = needsReorderSoon(item);
-          const belowThreshold = isBelowReorderThreshold(item);
-          return (
-            <Card key={item.id} className={flagged ? "border-danger" : undefined}>
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="font-medium">
-                    {item.name}{" "}
-                    {belowThreshold && <span className="text-xs text-danger">below threshold</span>}
-                  </p>
-                  <p className="text-xs text-muted">
-                    {item.category ? `${item.category} · ` : ""}
-                    {item.current_stock} {item.unit} on hand · reorder at {item.reorder_threshold}{" "}
-                    {item.unit} · {item.daily_usage_rate}/day
+      {sorted.length === 0 ? (
+        <EmptyState
+          title={restockOnly ? "Nothing needs reordering" : "No inventory items yet"}
+          description={
+            restockOnly
+              ? "Everything is above its reorder threshold."
+              : "Add your first ingredient above to start tracking stock."
+          }
+        />
+      ) : (
+        <div className="flex flex-col gap-2">
+          {sorted.map((item, i) => {
+            const days = daysOfStockLeft(item);
+            const flagged = needsReorderSoon(item);
+            const belowThreshold = isBelowReorderThreshold(item);
+            return (
+              <AnimatedCard key={item.id} index={i} className={flagged ? "border-danger" : undefined}>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-medium">
+                      {item.name}{" "}
+                      {belowThreshold && <span className="text-xs text-danger">below threshold</span>}
+                    </p>
+                    <p className="text-xs text-muted">
+                      {item.category ? `${item.category} · ` : ""}
+                      {item.current_stock} {item.unit} on hand · reorder at {item.reorder_threshold}{" "}
+                      {item.unit} · {item.daily_usage_rate}/day
+                    </p>
+                  </div>
+                  <p className={`whitespace-nowrap text-sm ${flagged ? "text-danger" : "text-muted"}`}>
+                    {formatDays(days)}
                   </p>
                 </div>
-                <p className={`whitespace-nowrap text-sm ${flagged ? "text-danger" : "text-muted"}`}>
-                  {formatDays(days)}
-                </p>
-              </div>
-              <div className="mt-3 flex items-center gap-3 border-t border-border pt-3 text-xs">
-                <button type="button" onClick={() => adjustStock(item, -1)} className="text-fg">
-                  −1 {item.unit}
-                </button>
-                <button type="button" onClick={() => adjustStock(item, 1)} className="text-fg">
-                  +1 {item.unit}
-                </button>
-                <button type="button" onClick={() => handleDelete(item.id)} className="ml-auto text-danger">
-                  Delete
-                </button>
-              </div>
-            </Card>
-          );
-        })}
-      </div>
+                <div className="mt-3 flex items-center gap-3 border-t border-border pt-3 text-xs">
+                  <button type="button" onClick={() => adjustStock(item, -1)} className="text-fg">
+                    −1 {item.unit}
+                  </button>
+                  <button type="button" onClick={() => adjustStock(item, 1)} className="text-fg">
+                    +1 {item.unit}
+                  </button>
+                  <button type="button" onClick={() => handleDelete(item.id)} className="ml-auto text-danger">
+                    Delete
+                  </button>
+                </div>
+              </AnimatedCard>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

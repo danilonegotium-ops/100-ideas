@@ -2,10 +2,12 @@ import { redirect } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { createClient, getUser } from "@/lib/supabase/server";
-import { formatCurrency, isOverdue, type Invoice, type Reminder } from "@/lib/types";
+import { isOverdue, type Invoice, type Reminder } from "@/lib/types";
 import { AddInvoiceForm } from "@/components/AddInvoiceForm";
 import { InvoiceTable } from "@/components/InvoiceTable";
 import { SignOutButton } from "@/components/SignOutButton";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
 
 export default async function InvoicesPage() {
   const user = await getUser();
@@ -71,21 +73,30 @@ export default async function InvoicesPage() {
         )}
 
         <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <Card>
-            <p className="text-xs uppercase tracking-wide text-muted">Outstanding</p>
-            <p className="mt-1 text-xl font-semibold">{formatCurrency(outstandingTotal, "USD")}</p>
-            <p className="text-xs text-muted">{pending.length} unpaid invoice{pending.length === 1 ? "" : "s"}</p>
-          </Card>
-          <Card className={overdue.length > 0 ? "border-danger" : undefined}>
-            <p className="text-xs uppercase tracking-wide text-muted">Overdue</p>
-            <p className="mt-1 text-xl font-semibold text-danger">{formatCurrency(overdueTotal, "USD")}</p>
-            <p className="text-xs text-muted">{overdue.length} invoice{overdue.length === 1 ? "" : "s"} past due</p>
-          </Card>
-          <Card>
-            <p className="text-xs uppercase tracking-wide text-muted">Paid to date</p>
-            <p className="mt-1 text-xl font-semibold">{formatCurrency(paidTotal, "USD")}</p>
-            <p className="text-xs text-muted">{paid.length} invoice{paid.length === 1 ? "" : "s"}</p>
-          </Card>
+          <StatTile
+            label="Outstanding"
+            value={outstandingTotal}
+            prefix="$"
+            decimals={2}
+            trend={`${pending.length} unpaid invoice${pending.length === 1 ? "" : "s"}`}
+          />
+          <StatTile
+            label="Overdue"
+            value={overdueTotal}
+            prefix="$"
+            decimals={2}
+            trend={`${overdue.length} invoice${overdue.length === 1 ? "" : "s"} past due`}
+            trendTone={overdue.length > 0 ? "negative" : "neutral"}
+            className={overdue.length > 0 ? "border-danger" : undefined}
+          />
+          <StatTile
+            label="Paid to date"
+            value={paidTotal}
+            prefix="$"
+            decimals={2}
+            trend={`${paid.length} invoice${paid.length === 1 ? "" : "s"}`}
+            trendTone="positive"
+          />
         </div>
 
         <Card className="mb-6">
@@ -95,9 +106,10 @@ export default async function InvoicesPage() {
 
         <h2 className="mb-3 text-lg font-semibold">All invoices</h2>
         {sortedInvoices.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">No invoices yet — add your first one above.</p>
-          </Card>
+          <EmptyState
+            title="No invoices yet"
+            description="Add your first invoice above — overdue ones are flagged automatically once they pass their due date."
+          />
         ) : (
           <InvoiceTable invoices={sortedInvoices} lastReminderByInvoice={Object.fromEntries(lastReminderByInvoice)} />
         )}

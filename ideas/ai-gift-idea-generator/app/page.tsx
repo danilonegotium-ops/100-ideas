@@ -1,5 +1,6 @@
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { GiftForm } from "@/components/GiftForm";
 import { isConfigured } from "@/lib/gemini";
 
@@ -10,11 +11,13 @@ export default function Home() {
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <h1 className="mb-2 text-2xl font-semibold">AI Gift Idea Generator</h1>
-        <p className="mb-6 text-muted">
-          Tell us about your friend&apos;s interests and your budget, and
-          we&apos;ll suggest 5 unique gift ideas with a reason each.
-        </p>
+        <GlassPanel glow className="mb-6">
+          <h1 className="mb-2 text-headline text-fg">AI Gift Idea Generator</h1>
+          <p className="text-muted">
+            Tell us about your friend&apos;s interests and your budget, and
+            we&apos;ll suggest 5 unique gift ideas with a reason each.
+          </p>
+        </GlassPanel>
 
         {!configured && (
           <Card className="mb-6 border-danger">

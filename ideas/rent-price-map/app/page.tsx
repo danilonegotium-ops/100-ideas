@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { RentMapView } from "@/components/RentMapView";
+import { EmptyState } from "@/components/motion/EmptyState";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { GradientMesh } from "@/components/motion/GradientMesh";
 import { createClient } from "@/lib/supabase/server";
 import type { RentReport } from "@/lib/types";
 
@@ -26,21 +29,24 @@ export default async function Home({
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <h1 className="mb-2 text-2xl font-semibold">Rent Price Map</h1>
-            <p className="max-w-xl text-muted">
-              Crowdsourced, completely anonymous rent reports — see what
-              people are actually paying around Serbia, and add your own to
-              help others find a fair deal.
-            </p>
-          </div>
-          <Link
-            href="/submit"
-            className="inline-block shrink-0 rounded-brand bg-accent px-4 py-2 text-sm font-semibold text-[#062b1c] transition-colors hover:bg-accent-strong"
-          >
-            Report your rent
-          </Link>
+        <div className="relative mb-8 overflow-hidden rounded-brand border border-border">
+          <GradientMesh animate />
+          <GlassPanel glow className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h1 className="text-display text-fg">Rent Price Map</h1>
+              <p className="mt-2 max-w-xl text-muted">
+                Crowdsourced, completely anonymous rent reports — see what
+                people are actually paying around Serbia, and add your own to
+                help others find a fair deal.
+              </p>
+            </div>
+            <Link
+              href="/submit"
+              className="inline-block shrink-0 rounded-brand bg-accent px-4 py-2 text-sm font-semibold text-[#062b1c] transition-colors hover:bg-accent-strong"
+            >
+              Report your rent
+            </Link>
+          </GlassPanel>
         </div>
 
         {searchParams.submitted === "1" && (
@@ -50,12 +56,18 @@ export default async function Home({
         )}
 
         {reports.length === 0 ? (
-          <p className="text-sm text-muted">
-            No reports yet.{" "}
-            <Link href="/submit" className="text-accent-strong">
-              Be the first to add one.
-            </Link>
-          </p>
+          <EmptyState
+            title="No reports yet"
+            description="Be the first to add an anonymous rent report and help others find a fair deal."
+            action={
+              <Link
+                href="/submit"
+                className="inline-block rounded-brand bg-accent px-4 py-2 text-sm font-semibold text-[#062b1c] transition-colors hover:bg-accent-strong"
+              >
+                Report your rent
+              </Link>
+            }
+          />
         ) : (
           <RentMapView reports={reports} />
         )}

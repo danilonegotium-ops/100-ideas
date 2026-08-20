@@ -4,6 +4,8 @@ import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { StatusBadge } from "@/components/StatusBadge";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import { addServiceEvent, deleteServiceEvent, deleteSystem } from "../../../actions";
 import { getSystemStatus } from "@/lib/status";
@@ -100,15 +102,14 @@ export default async function SystemDetailPage({
         <h2 className="mb-3 text-sm font-semibold">Service history</h2>
         <div className="mb-6 flex flex-col gap-3">
           {events.length === 0 && (
-            <Card>
-              <p className="text-sm text-muted">
-                No service events logged yet — add the first one below.
-              </p>
-            </Card>
+            <EmptyState
+              title="No service events logged yet"
+              description="Add the first one below."
+            />
           )}
 
-          {events.map((event) => (
-            <Card key={event.id}>
+          {events.map((event, i) => (
+            <AnimatedCard key={event.id} index={i}>
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
                   <p className="text-sm text-fg">
@@ -131,7 +132,7 @@ export default async function SystemDetailPage({
                   </Button>
                 </form>
               </div>
-            </Card>
+            </AnimatedCard>
           ))}
         </div>
 

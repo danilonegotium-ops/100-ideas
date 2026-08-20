@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { DreamInterpretation, MAX_DREAM_LENGTH } from "@/lib/prompt";
 
 interface ApiResponse {
@@ -84,7 +86,7 @@ export function DreamForm() {
       )}
 
       {interpretation && (
-        <Card className="mt-6">
+        <AnimatedCard className="mt-6" hoverLift={false}>
           <p className="mb-4 whitespace-pre-wrap text-sm leading-relaxed">
             {interpretation.interpretation}
           </p>
@@ -100,7 +102,7 @@ export function DreamForm() {
               ))}
             </div>
           )}
-        </Card>
+        </AnimatedCard>
       )}
 
       {raw && (
@@ -111,6 +113,15 @@ export function DreamForm() {
           </p>
           <pre className="whitespace-pre-wrap font-mono text-sm">{raw}</pre>
         </Card>
+      )}
+
+      {!loading && !error && !interpretation && !raw && (
+        <div className="mt-6">
+          <EmptyState
+            title="No interpretation yet"
+            description="Describe a dream above and interpret it to see the reading appear here."
+          />
+        </div>
       )}
     </>
   );

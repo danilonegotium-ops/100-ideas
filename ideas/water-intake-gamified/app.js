@@ -197,7 +197,12 @@ if (typeof document !== 'undefined') {
     function render() {
       var stageIndex = getStageIndex(state);
       var meta = STAGE_META[stageIndex];
-      treeStage.innerHTML = buildTreeSVG(stageIndex);
+      // Wrap each freshly-rendered tree in a tier2 [data-reveal] leaf so it
+      // fades + lifts into view on every render (initial load AND every
+      // drink/undo/reset) — a lightweight "growth" pop reusing the shared
+      // reveal primitive instead of a bespoke animation.
+      treeStage.innerHTML = '<div data-reveal>' + buildTreeSVG(stageIndex) + '</div>';
+      if (typeof window !== 'undefined' && window.Tier2) window.Tier2.initReveal(treeStage);
       var percent = Math.min(100, Math.round(getPercent(state)));
       progressText.textContent = state.countToday + ' of ' + state.goal + ' glasses today (' + percent + '%) — ' + meta.label;
       streakText.textContent = state.streak > 0

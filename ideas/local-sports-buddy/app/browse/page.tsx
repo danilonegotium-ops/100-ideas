@@ -4,8 +4,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { SPORTS } from "@/lib/sports/constants";
 import type { Interest, Listing, Profile } from "@/lib/sports/types";
 
@@ -203,14 +204,13 @@ export default function BrowsePage() {
         {loading ? (
           <p className="text-sm text-muted">Loading…</p>
         ) : filteredListings.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">
-              No open games match those filters yet.
-            </p>
-          </Card>
+          <EmptyState
+            title="No open games match those filters yet"
+            description="Try a different sport or city, or post your own game."
+          />
         ) : (
           <div className="flex flex-col gap-3">
-            {filteredListings.map((listing) => {
+            {filteredListings.map((listing, index) => {
               const poster = profileById.get(listing.profile_id);
               const interested = interestsByListing.get(listing.id) ?? [];
               const isInterested = interested.some(
@@ -219,7 +219,7 @@ export default function BrowsePage() {
               const isOwnListing = listing.owner_id === userId;
 
               return (
-                <Card key={listing.id}>
+                <AnimatedCard key={listing.id} index={index}>
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                       <p className="text-sm font-medium text-fg">
@@ -264,7 +264,7 @@ export default function BrowsePage() {
                       )}
                     </div>
                   </div>
-                </Card>
+                </AnimatedCard>
               );
             })}
           </div>

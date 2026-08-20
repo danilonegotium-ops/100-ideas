@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { GradientMesh } from "@/components/motion/GradientMesh";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 
 export default function Home() {
   return (
     <>
       <Nav />
-      <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
+      <main className="relative mx-auto w-full max-w-site flex-1 px-5 py-8">
+        <GradientMesh animate />
         <h1 className="mb-2 text-2xl font-semibold">Flashcard Exchange</h1>
         <p className="mb-6 text-muted">
           Create and share flashcard decks for the exams you&apos;re
@@ -26,7 +28,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <Card>
+        <GlassPanel>
           <p className="text-sm text-muted">
             This pass is browse/create/study only — there&apos;s no
             marketplace or payments here, just free public decks. Creating a
@@ -34,7 +36,7 @@ export default function Home() {
             can come back and edit it later; browsing and studying decks is
             open to everyone.
           </p>
-        </Card>
+        </GlassPanel>
       </main>
     </>
   );

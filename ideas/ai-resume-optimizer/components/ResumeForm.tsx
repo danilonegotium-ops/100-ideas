@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import {
   MAX_JOB_DESCRIPTION_LENGTH,
   MAX_RESUME_LENGTH,
@@ -108,10 +110,10 @@ export function ResumeForm() {
       {keywords && (
         <div className="mt-6 space-y-3">
           {keywords.map((k, i) => (
-            <Card key={i}>
+            <AnimatedCard key={i} index={i}>
               <h2 className="mb-1 font-semibold">{k.keyword}</h2>
               <p className="text-sm text-muted">{k.suggestion}</p>
-            </Card>
+            </AnimatedCard>
           ))}
         </div>
       )}
@@ -124,6 +126,15 @@ export function ResumeForm() {
           </p>
           <pre className="whitespace-pre-wrap font-mono text-sm">{raw}</pre>
         </Card>
+      )}
+
+      {!loading && !error && !keywords && !raw && (
+        <div className="mt-6">
+          <EmptyState
+            title="No analysis yet"
+            description="Paste a job description and your resume above, then run the analysis to see missing keywords here."
+          />
+        </div>
       )}
     </>
   );

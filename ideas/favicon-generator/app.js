@@ -56,9 +56,12 @@ function renderResults(favicons) {
   const downloadAllBtn = document.getElementById("download-all-btn");
   container.innerHTML = "";
 
-  favicons.forEach((fav) => {
+  favicons.forEach((fav, index) => {
     const item = document.createElement("div");
     item.className = "fg-item";
+    // Tier 2: a subtle 3D tilt on the first few result cards only
+    // (surgical per design system guidance, not on every generated card).
+    if (index < 3) item.setAttribute("data-tilt", "");
 
     const img = document.createElement("img");
     img.src = fav.dataUrl;
@@ -81,6 +84,12 @@ function renderResults(favicons) {
     item.appendChild(link);
     container.appendChild(item);
   });
+  // Results render after page load, so re-run Tier 2's tilt wiring for
+  // these newly-added [data-tilt] elements (autoInit only scans once on
+  // DOMContentLoaded, before the user has uploaded anything).
+  if (typeof window !== "undefined" && window.Tier2 && typeof window.Tier2.initTilt === "function") {
+    window.Tier2.initTilt(container);
+  }
 
   downloadAllBtn.hidden = favicons.length === 0;
   downloadAllBtn.onclick = () => {

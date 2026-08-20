@@ -2,6 +2,9 @@ import { redirect } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { PlaceholderIllustration } from "@/components/PlaceholderIllustration";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import {
   getAttendanceForChild,
@@ -41,13 +44,10 @@ export default async function ParentPage() {
         </p>
 
         {links.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">
-              Nijedno dete nije povezano sa ovim emailom. Ako mislite da je
-              ovo greška, proverite sa vaspitačem da li je vaš email tačno
-              unet kao kontakt.
-            </p>
-          </Card>
+          <EmptyState
+            title="Nijedno dete nije povezano sa ovim emailom."
+            description="Ako mislite da je ovo greška, proverite sa vaspitačem da li je vaš email tačno unet kao kontakt."
+          />
         ) : (
           <div className="flex flex-col gap-8">
             {await Promise.all(
@@ -60,16 +60,18 @@ export default async function ParentPage() {
 
                 return (
                   <section key={child.id}>
-                    <h2 className="mb-3 text-lg font-semibold">
-                      {child.full_name} — {group.name}
-                    </h2>
+                    <GlassPanel glow className="mb-3">
+                      <h2 className="text-lg font-semibold">
+                        {child.full_name} — {group.name}
+                      </h2>
+                    </GlassPanel>
 
                     <h3 className="mb-2 text-sm font-semibold text-muted">
                       Prisustvo (poslednje)
                     </h3>
                     <Card className="mb-4">
                       {attendance.length === 0 ? (
-                        <p className="text-sm text-muted">Još nema evidentiranog prisustva.</p>
+                        <EmptyState title="Još nema evidentiranog prisustva." />
                       ) : (
                         <div className="flex flex-col gap-1 text-sm">
                           {attendance.map((record) => (
@@ -87,18 +89,16 @@ export default async function ParentPage() {
                     <h3 className="mb-2 text-sm font-semibold text-muted">Jelovnik</h3>
                     <div className="mb-4 flex flex-col gap-2">
                       {menus.length === 0 ? (
-                        <Card>
-                          <p className="text-sm text-muted">Još nema unetog jelovnika.</p>
-                        </Card>
+                        <EmptyState title="Još nema unetog jelovnika." />
                       ) : (
-                        menus.map((menu) => (
-                          <Card key={menu.id}>
+                        menus.map((menu, i) => (
+                          <AnimatedCard key={menu.id} index={i}>
                             <p className="mb-1 text-sm font-medium">{menu.menu_date}</p>
                             <p className="text-sm text-muted">
                               Doručak: {menu.breakfast || "—"} · Ručak: {menu.lunch || "—"} ·
                               Užina: {menu.snack || "—"}
                             </p>
-                          </Card>
+                          </AnimatedCard>
                         ))
                       )}
                     </div>
@@ -106,15 +106,13 @@ export default async function ParentPage() {
                     <h3 className="mb-2 text-sm font-semibold text-muted">Iz vrtića</h3>
                     <div className="grid gap-3 sm:grid-cols-2">
                       {photos.length === 0 ? (
-                        <Card>
-                          <p className="text-sm text-muted">Još nema objava.</p>
-                        </Card>
+                        <EmptyState title="Još nema objava." />
                       ) : (
-                        photos.map((photo) => (
-                          <Card key={photo.id}>
+                        photos.map((photo, i) => (
+                          <AnimatedCard key={photo.id} index={i}>
                             <PlaceholderIllustration placeholderKey={photo.placeholder_key} />
                             <p className="mt-2 text-sm">{photo.caption}</p>
-                          </Card>
+                          </AnimatedCard>
                         ))
                       )}
                     </div>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { getUser } from "@/lib/supabase/server";
 
 export default async function Home() {
@@ -17,7 +18,7 @@ export default async function Home() {
           and embed the approved ones on any website.
         </p>
 
-        <Card className="mb-6">
+        <GlassPanel glow className="mb-6">
           <p className="mb-4 text-sm text-fg">
             Create a collection to get a public link like <code className="font-mono">/c/your-business</code>.
             Share it anywhere — no login required for customers to submit. Review submissions in
@@ -27,7 +28,7 @@ export default async function Home() {
           <Link href={user ? "/dashboard" : "/login"}>
             <Button>{user ? "Go to your dashboard" : "Log in to get started"}</Button>
           </Link>
-        </Card>
+        </GlassPanel>
 
         <Card>
           <p className="text-sm text-muted">

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
 import { deleteOnboarding } from "@/app/dashboard/actions";
 import { formatDate, type Onboarding, type OnboardingTask } from "@/lib/types";
 
@@ -15,14 +15,14 @@ function ProgressBar({ completed, total }: { completed: number; total: number })
   );
 }
 
-function OnboardingRow({ onboarding, tasks }: { onboarding: Onboarding; tasks: OnboardingTask[] }) {
+function OnboardingRow({ onboarding, tasks, index }: { onboarding: Onboarding; tasks: OnboardingTask[]; index: number }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(false);
   const completed = tasks.filter((task) => task.completed).length;
 
   return (
-    <Card>
+    <AnimatedCard index={index}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex-1">
           <p className="font-medium">{onboarding.hire_name}</p>
@@ -70,7 +70,7 @@ function OnboardingRow({ onboarding, tasks }: { onboarding: Onboarding; tasks: O
         </ul>
       )}
       {error && <p className="mt-2 text-xs text-danger">{error}</p>}
-    </Card>
+    </AnimatedCard>
   );
 }
 
@@ -83,8 +83,8 @@ export function OnboardingProgressList({
 }) {
   return (
     <div className="flex flex-col gap-3">
-      {onboardings.map((onboarding) => (
-        <OnboardingRow key={onboarding.id} onboarding={onboarding} tasks={tasksByOnboarding[onboarding.id] ?? []} />
+      {onboardings.map((onboarding, i) => (
+        <OnboardingRow key={onboarding.id} onboarding={onboarding} tasks={tasksByOnboarding[onboarding.id] ?? []} index={i} />
       ))}
     </div>
   );

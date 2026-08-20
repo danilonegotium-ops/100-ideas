@@ -4,6 +4,9 @@ import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { StatusBadge } from "@/components/StatusBadge";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import { addHome } from "./actions";
 import {
@@ -91,6 +94,17 @@ export default async function DashboardPage({
           <p className="mb-4 text-sm text-danger">{searchParams.error}</p>
         )}
 
+        <div className="mb-6 grid gap-4 sm:grid-cols-3">
+          <StatTile label="Homes" value={homes.length} />
+          <StatTile label="Systems tracked" value={systems.length} />
+          <StatTile
+            label="Needs attention"
+            value={needsAttention.length}
+            trend={needsAttention.length > 0 ? "Check the list below" : "All caught up"}
+            trendTone={needsAttention.length > 0 ? "negative" : "positive"}
+          />
+        </div>
+
         {needsAttention.length > 0 && (
           // Inline style (not a Tailwind class) so this reliably overrides
           // Card's default border color regardless of Tailwind's generated
@@ -130,33 +144,42 @@ export default async function DashboardPage({
           </Card>
         )}
 
-        <div className="mb-6 grid gap-4 sm:grid-cols-2">
-          {homes.map((home) => {
-            const homeSystems = systemsByHome.get(home.id) ?? [];
-            const statuses = homeSystems.map(
-              (s) => getSystemStatus(latestBySystem.get(s.id)?.next_service_due ?? null),
-            );
-            const overall = worstStatus(statuses);
+        {homes.length === 0 ? (
+          <div className="mb-6">
+            <EmptyState
+              title="No homes yet"
+              description="Add your first home below to start tracking systems and service history."
+            />
+          </div>
+        ) : (
+          <div className="mb-6 grid gap-4 sm:grid-cols-2">
+            {homes.map((home, i) => {
+              const homeSystems = systemsByHome.get(home.id) ?? [];
+              const statuses = homeSystems.map(
+                (s) => getSystemStatus(latestBySystem.get(s.id)?.next_service_due ?? null),
+              );
+              const overall = worstStatus(statuses);
 
-            return (
-              <Link key={home.id} href={`/dashboard/${home.id}`} className="no-underline">
-                <Card className="h-full transition-colors hover:border-accent">
-                  <div className="mb-1 flex items-start justify-between gap-2">
-                    <h2 className="text-base font-semibold text-fg">{home.name}</h2>
-                    {statuses.length > 0 && <StatusBadge status={overall} />}
-                  </div>
-                  {home.address && (
-                    <p className="mb-2 text-sm text-muted">{home.address}</p>
-                  )}
-                  <p className="text-xs text-muted">
-                    {homeSystems.length}{" "}
-                    {homeSystems.length === 1 ? "system" : "systems"} tracked
-                  </p>
-                </Card>
-              </Link>
-            );
-          })}
-        </div>
+              return (
+                <Link key={home.id} href={`/dashboard/${home.id}`} className="no-underline">
+                  <AnimatedCard index={i} className="h-full transition-colors hover:border-accent">
+                    <div className="mb-1 flex items-start justify-between gap-2">
+                      <h2 className="text-base font-semibold text-fg">{home.name}</h2>
+                      {statuses.length > 0 && <StatusBadge status={overall} />}
+                    </div>
+                    {home.address && (
+                      <p className="mb-2 text-sm text-muted">{home.address}</p>
+                    )}
+                    <p className="text-xs text-muted">
+                      {homeSystems.length}{" "}
+                      {homeSystems.length === 1 ? "system" : "systems"} tracked
+                    </p>
+                  </AnimatedCard>
+                </Link>
+              );
+            })}
+          </div>
+        )}
 
         <Card>
           <h2 className="mb-3 text-sm font-semibold">Add a home</h2>

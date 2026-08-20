@@ -1,12 +1,20 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Card } from "@/components/Card";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
+import { StatTile } from "@/components/motion/StatTile";
 import { RentMapLoader } from "@/components/RentMapLoader";
 import { roomLabel, isRoomOption } from "@/lib/rooms";
 import type { RentReport } from "@/lib/types";
 
 const ALL_CITIES = "__all__";
+
+function median(values: number[]): number {
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
+}
 
 /**
  * Client-side filtering, deliberately: the whole dataset is small (seed +
@@ -30,6 +38,28 @@ export function RentMapView({ reports }: { reports: RentReport[] }) {
     return reports.filter((r) => r.city === selectedCity);
   }, [reports, selectedCity]);
 
+  // Area-level stats are scoped to whatever's actually visible in the map's
+  // current viewport, not just the city filter — narrowed further by
+  // `RentMap` (via `onVisibleReportsChange`) whenever the user pans/zooms.
+  // Seeded with the city-filtered set so stats don't flash to zero the
+  // moment the filter changes, before the map reports back its bounds.
+  const [visibleReports, setVisibleReports] = useState<RentReport[]>(filtered);
+
+  useEffect(() => {
+    setVisibleReports(filtered);
+  }, [filtered]);
+
+  const handleVisibleReportsChange = useCallback((visible: RentReport[]) => {
+    setVisibleReports(visible);
+  }, []);
+
+  const stats = useMemo(() => {
+    if (visibleReports.length === 0) return null;
+    const prices = visibleReports.map((r) => r.rent_eur);
+    const avg = prices.reduce((sum, p) => sum + p, 0) / prices.length;
+    return { count: prices.length, avg, median: median(prices) };
+  }, [visibleReports]);
+
   return (
     <div>
       <div className="mb-4 flex items-center gap-2">
@@ -51,14 +81,26 @@ export function RentMapView({ reports }: { reports: RentReport[] }) {
         </select>
       </div>
 
-      <RentMapLoader reports={filtered} />
+      {stats ? (
+        <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <StatTile label="In view" value={stats.count} />
+          <StatTile label="Avg rent" value={stats.avg} prefix="€" suffix="/mo" />
+          <StatTile label="Median rent" value={stats.median} prefix="€" suffix="/mo" />
+        </div>
+      ) : null}
+
+      <RentMapLoader reports={filtered} onVisibleReportsChange={handleVisibleReportsChange} />
 
       {filtered.length === 0 ? (
-        <p className="mt-4 text-sm text-muted">No reports for this city yet.</p>
+        <EmptyState
+          className="mt-4"
+          title="No reports for this city yet"
+          description="Try a different city, or be the first to add one here."
+        />
       ) : (
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          {filtered.map((report) => (
-            <Card key={report.id}>
+          {filtered.map((report, index) => (
+            <AnimatedCard key={report.id} index={index}>
               <p className="text-sm font-semibold text-fg">
                 {report.neighborhood}, {report.city}
               </p>
@@ -68,7 +110,7 @@ export function RentMapView({ reports }: { reports: RentReport[] }) {
                 {report.size_m2 ? `, ${report.size_m2} m²` : ""}
               </p>
               {report.note && <p className="mt-1 text-xs text-muted">{report.note}</p>}
-            </Card>
+            </AnimatedCard>
           ))}
         </div>
       )}

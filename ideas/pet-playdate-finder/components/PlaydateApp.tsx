@@ -1,8 +1,12 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { SwipeCard } from "@/components/SwipeCard";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/client";
 import type { Dog, EnergyLevel, Size, Swipe } from "@/lib/types";
 
@@ -147,69 +151,42 @@ export function PlaydateApp({
             </label>
           </div>
 
-          {currentCandidate ? (
-            <Card>
-              <p className="text-xs text-muted">
-                {currentCandidate.neighborhood}
-              </p>
-              <h3 className="mb-1 text-xl font-semibold">
-                {currentCandidate.name}
-              </h3>
-              <p className="mb-2 text-sm text-muted">
-                {[
-                  currentCandidate.breed,
-                  currentCandidate.size,
-                  currentCandidate.energy_level &&
-                    `${currentCandidate.energy_level} energy`,
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
-              </p>
-              {currentCandidate.bio && (
-                <p className="mb-4 text-sm">{currentCandidate.bio}</p>
+          <div className="relative mx-auto w-full max-w-sm">
+            <AnimatePresence mode="wait">
+              {currentCandidate ? (
+                <SwipeCard
+                  key={currentCandidate.id}
+                  dog={currentCandidate}
+                  onSwipe={handleSwipe}
+                  disabled={swiping}
+                />
+              ) : (
+                <EmptyState
+                  key="empty"
+                  title="No more dogs to show right now"
+                  description={
+                    sameAreaOnly
+                      ? "Nobody new in this area yet — check back later, or turn off the same-area filter above."
+                      : "Check back later for more playdate candidates."
+                  }
+                />
               )}
-              <div className="flex gap-2">
-                <Button
-                  onClick={() => handleSwipe("yes")}
-                  disabled={swiping}
-                >
-                  Interested
-                </Button>
-                <Button
-                  variant="secondary"
-                  onClick={() => handleSwipe("no")}
-                  disabled={swiping}
-                >
-                  Pass
-                </Button>
-              </div>
-            </Card>
-          ) : (
-            <Card>
-              <p className="text-sm text-muted">
-                No more dogs to show right now
-                {sameAreaOnly ? " in this area" : ""} — check back later, or
-                turn off the same-area filter above.
-              </p>
-            </Card>
-          )}
+            </AnimatePresence>
+          </div>
         </>
       )}
 
       <div>
         <h2 className="mb-2 text-lg font-semibold">Your matches</h2>
         {matches.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">
-              No matches yet. When you and another owner both say
-              &quot;interested,&quot; it&apos;ll show up here — coordinate
-              the playdate outside the app.
-            </p>
-          </Card>
+          <EmptyState
+            title="No matches yet"
+            description={'When you and another owner both say "interested," it\'ll show up here — coordinate the playdate outside the app.'}
+          />
         ) : (
           <div className="flex flex-col gap-3">
-            {matches.map(({ mine, other }) => (
-              <Card key={`${mine.id}-${other.id}`}>
+            {matches.map(({ mine, other }, i) => (
+              <AnimatedCard key={`${mine.id}-${other.id}`} index={i}>
                 <p className="font-semibold">
                   {mine.name} &amp; {other.name} matched!
                 </p>
@@ -217,7 +194,7 @@ export function PlaydateApp({
                   {other.name} ({other.breed || "mixed breed"}) is in{" "}
                   {other.neighborhood}.
                 </p>
-              </Card>
+              </AnimatedCard>
             ))}
           </div>
         )}

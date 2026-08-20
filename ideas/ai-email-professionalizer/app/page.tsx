@@ -1,6 +1,7 @@
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { EmailForm } from "@/components/EmailForm";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { isConfigured } from "@/lib/gemini";
 
 export default function Home() {
@@ -29,9 +30,9 @@ export default function Home() {
           </Card>
         )}
 
-        <Card>
+        <GlassPanel glow>
           <EmailForm />
-        </Card>
+        </GlassPanel>
       </main>
     </>
   );

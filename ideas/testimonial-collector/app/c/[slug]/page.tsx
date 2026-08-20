@@ -4,6 +4,8 @@ import { Card } from "@/components/Card";
 import { createClient } from "@/lib/supabase/server";
 import { formatDate, type Collection, type Testimonial } from "@/lib/types";
 import { SubmitTestimonialForm } from "@/components/SubmitTestimonialForm";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
 
 export default async function PublicCollectionPage({ params }: { params: { slug: string } }) {
   const supabase = createClient();
@@ -50,16 +52,16 @@ export default async function PublicCollectionPage({ params }: { params: { slug:
         <h1 className="mb-2 text-2xl font-semibold">{collection.business_name}</h1>
         <p className="mb-6 text-muted">{collection.prompt_text}</p>
 
-        <Card className="mb-8">
+        <GlassPanel glow className="mb-8">
           <SubmitTestimonialForm slug={collection.slug} collectionId={collection.id} />
-        </Card>
+        </GlassPanel>
 
         {approved.length > 0 && (
           <>
             <h2 className="mb-3 text-lg font-semibold">What people are saying</h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {approved.map((testimonial) => (
-                <Card key={testimonial.id}>
+              {approved.map((testimonial, i) => (
+                <AnimatedCard key={testimonial.id} index={i}>
                   {testimonial.rating && (
                     <p className="mb-1 text-sm text-accent-strong">{"★".repeat(testimonial.rating)}</p>
                   )}
@@ -71,7 +73,7 @@ export default async function PublicCollectionPage({ params }: { params: { slug:
                   <p className="text-xs text-muted">
                     {testimonial.author_name} &middot; {formatDate(testimonial.submitted_at)}
                   </p>
-                </Card>
+                </AnimatedCard>
               ))}
             </div>
           </>

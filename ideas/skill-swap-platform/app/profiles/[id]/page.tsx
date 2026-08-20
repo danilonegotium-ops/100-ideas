@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { ProposeSwapForm } from "@/components/ProposeSwapForm";
 import { createClient, getUser } from "@/lib/supabase/server";
 
@@ -46,25 +47,25 @@ export default async function ProfileDetailPage({
         {profile.bio && <p className="mb-4 text-muted">{profile.bio}</p>}
 
         <div className="mb-6 grid gap-3 sm:grid-cols-2">
-          <Card>
+          <AnimatedCard index={0}>
             <p className="mb-1 text-xs uppercase tracking-wide text-muted">
               Teaches
             </p>
             <p className="text-sm text-fg">
               {profile.skills_teach.join(", ") || "—"}
             </p>
-          </Card>
-          <Card>
+          </AnimatedCard>
+          <AnimatedCard index={1}>
             <p className="mb-1 text-xs uppercase tracking-wide text-muted">
               Wants to learn
             </p>
             <p className="text-sm text-fg">
               {profile.skills_learn.join(", ") || "—"}
             </p>
-          </Card>
+          </AnimatedCard>
         </div>
 
-        <Card>
+        <GlassPanel glow>
           <h2 className="mb-3 text-sm font-semibold text-fg">
             Propose a swap
           </h2>
@@ -100,7 +101,7 @@ export default async function ProfileDetailPage({
               targetTeachSkills={profile.skills_teach}
             />
           )}
-        </Card>
+        </GlassPanel>
       </main>
     </>
   );

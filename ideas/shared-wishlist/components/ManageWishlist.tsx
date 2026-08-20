@@ -3,6 +3,9 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import type { OwnerItemView } from "@/lib/types";
@@ -90,7 +93,7 @@ export function ManageWishlist({
 
   return (
     <div className="flex flex-col gap-6">
-      <Card>
+      <GlassPanel glow>
         <label htmlFor="share-url">Share this link with friends</label>
         <div className="flex gap-2">
           <input id="share-url" readOnly value={shareUrl} />
@@ -102,7 +105,7 @@ export function ManageWishlist({
           Anyone with this link can view the list and claim items — no
           account needed on their end.
         </p>
-      </Card>
+      </GlassPanel>
 
       <Card>
         <form onSubmit={handleAdd} className="flex flex-col gap-3">
@@ -159,13 +162,11 @@ export function ManageWishlist({
       </Card>
 
       {items.length === 0 ? (
-        <Card>
-          <p className="text-sm text-muted">No items yet — add one above.</p>
-        </Card>
+        <EmptyState title="No items yet" description="Add one above." />
       ) : (
         <div className="flex flex-col gap-3">
-          {items.map((item) => (
-            <Card key={item.id}>
+          {items.map((item, i) => (
+            <AnimatedCard key={item.id} index={i}>
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-semibold">{item.name}</p>
@@ -209,7 +210,7 @@ export function ManageWishlist({
                   </Button>
                 </div>
               </div>
-            </Card>
+            </AnimatedCard>
           ))}
         </div>
       )}

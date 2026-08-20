@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import { getOwnerShops } from "@/lib/data";
 import { createShop } from "@/lib/actions";
@@ -32,17 +34,15 @@ export default async function DashboardPage({
         )}
 
         {shops.length === 0 ? (
-          <Card className="mb-6">
-            <p className="text-sm text-muted">Još uvek nemate nijedan salon.</p>
-          </Card>
+          <EmptyState className="mb-6" title="Još uvek nemate nijedan salon." />
         ) : (
           <div className="mb-6 grid gap-3">
-            {shops.map((shop) => (
+            {shops.map((shop, i) => (
               <Link key={shop.id} href={`/dashboard/${shop.id}`}>
-                <Card className="transition-colors hover:border-accent">
+                <AnimatedCard index={i} className="transition-colors hover:border-accent">
                   <h2 className="font-semibold">{shop.name}</h2>
                   <p className="text-sm text-muted">{shop.address}</p>
-                </Card>
+                </AnimatedCard>
               </Link>
             ))}
           </div>

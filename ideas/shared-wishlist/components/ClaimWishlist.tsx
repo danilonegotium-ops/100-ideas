@@ -1,8 +1,9 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/client";
 import type { PublicItemView } from "@/lib/types";
 
@@ -78,12 +79,10 @@ export function ClaimWishlist({
   return (
     <div className="flex flex-col gap-3">
       {items.length === 0 ? (
-        <Card>
-          <p className="text-sm text-muted">This wishlist has no items yet.</p>
-        </Card>
+        <EmptyState title="Nothing here yet" description="This wishlist has no items yet." />
       ) : (
-        items.map((item) => (
-          <Card key={item.id}>
+        items.map((item, i) => (
+          <AnimatedCard key={item.id} index={i}>
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="font-semibold">{item.name}</p>
@@ -180,7 +179,7 @@ export function ClaimWishlist({
                 </div>
               </form>
             )}
-          </Card>
+          </AnimatedCard>
         ))
       )}
     </div>

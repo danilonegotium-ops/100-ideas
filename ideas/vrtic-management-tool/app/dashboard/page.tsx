@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import { getTeacherGroups } from "@/lib/data";
 import { createGroup } from "@/lib/actions";
@@ -32,16 +34,14 @@ export default async function DashboardPage({
         )}
 
         {groups.length === 0 ? (
-          <Card className="mb-6">
-            <p className="text-sm text-muted">Još uvek nemate nijednu grupu.</p>
-          </Card>
+          <EmptyState className="mb-6" title="Još uvek nemate nijednu grupu." />
         ) : (
           <div className="mb-6 grid gap-3">
-            {groups.map((group) => (
+            {groups.map((group, i) => (
               <Link key={group.id} href={`/dashboard/${group.id}`}>
-                <Card className="transition-colors hover:border-accent">
+                <AnimatedCard index={i} className="transition-colors hover:border-accent">
                   <h2 className="font-semibold">{group.name}</h2>
-                </Card>
+                </AnimatedCard>
               </Link>
             ))}
           </div>

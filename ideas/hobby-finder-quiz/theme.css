@@ -1,52 +1,160 @@
-/* Shared design tokens for all Wave 1/2 static tools. Copy this file into each idea folder and adjust the accent color per-idea if it helps differentiate, but keep structure/spacing/type scale consistent. */
+/* ============================================================
+   TIER 1 — "Refined Minimal"
+   Shared design tokens + base styles for all Wave 1/2 static tools.
+
+   This file is the DEFAULT for every static idea. It is copied into each
+   idea folder and the accent/radius tokens may be nudged per-idea, but the
+   scale (spacing/type/motion) should stay consistent across all 39 tools so
+   the whole "100 ideas" project reads as one family.
+
+   Existing selectors (.card, .btn, .stack, .row, input/textarea/select,
+   label, header.site, footer.site) are preserved byte-for-byte in meaning —
+   only their styling is upgraded — so dropping this file into an idea
+   folder that already uses those classes never breaks markup.
+
+   Want more visual ambition (glass panels, animated gradient borders,
+   spotlight-follows-cursor, canvas mesh backgrounds, 3D tilt, bento grids)?
+   See tier2.css + tier2.js and _shared/static-template/DESIGN_SYSTEM.md.
+   ============================================================ */
 
 :root {
-  --bg: #0b0d10;
-  --bg-elevated: #14171b;
-  --border: #24282e;
-  --text: #eef1f4;
-  --text-muted: #9aa3ad;
-  --accent: #6ee7b7;
-  --accent-strong: #34d399;
+  /* ---- Color: surfaces ---- */
+  --bg: #0a0b0d;
+  --bg-elevated: #131519;
+  --bg-elevated-2: #1a1d22;
+  --border: #23262c;
+  --border-hover: #343841;
+
+  /* ---- Color: text ---- */
+  --text: #f2f4f7;
+  --text-muted: #9aa1ab;
+  --text-faint: #6b7280;
+
+  /* ---- Color: accent (override per-idea if it helps differentiate) ---- */
+  --accent: #34d399;
+  --accent-strong: #10b981;
+  --accent-rgb: 52, 211, 153; /* keep in sync with --accent, used for glows */
   --danger: #f87171;
-  --radius: 12px;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  --danger-rgb: 248, 113, 113;
+
+  /* ---- Radius scale ---- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 999px;
+  --radius: var(--radius-md); /* legacy alias, kept for older idea CSS */
+
+  /* ---- Spacing scale ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* ---- Type scale (fluid, clamps between mobile and desktop) ---- */
+  --text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8rem);
+  --text-sm: clamp(0.85rem, 0.82rem + 0.15vw, 0.9rem);
+  --text-base: clamp(0.95rem, 0.92rem + 0.2vw, 1rem);
+  --text-lg: clamp(1.05rem, 1rem + 0.3vw, 1.15rem);
+  --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --text-2xl: clamp(1.6rem, 1.4rem + 1vw, 2.1rem);
+  --text-3xl: clamp(2rem, 1.7rem + 1.6vw, 2.75rem);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", "Cascadia Code",
+    Menlo, Consolas, monospace;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* expo-out, snappy+smooth */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* slight overshoot */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 450ms;
+
+  /* ---- Elevation ---- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 8px 24px -8px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 24px 48px -16px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 0 1px rgba(var(--accent-rgb), 0.4),
+    0 8px 32px -8px rgba(var(--accent-rgb), 0.35);
+
   --max-width: 720px;
+  --max-width-wide: 960px;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     --bg: #fafafa;
     --bg-elevated: #ffffff;
+    --bg-elevated-2: #f2f3f5;
     --border: #e5e7eb;
+    --border-hover: #d1d5db;
     --text: #14171b;
-    --text-muted: #6b7280;
+    --text-muted: #5b6472;
+    --text-faint: #8a94a3;
     --accent: #059669;
     --accent-strong: #047857;
+    --accent-rgb: 5, 150, 105;
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 8px 24px -8px rgba(15, 23, 42, 0.14);
+    --shadow-lg: 0 24px 48px -16px rgba(15, 23, 42, 0.18);
+    --shadow-glow: 0 0 0 1px rgba(var(--accent-rgb), 0.25),
+      0 8px 32px -8px rgba(var(--accent-rgb), 0.25);
   }
 }
 
 * { box-sizing: border-box; }
 
+html { color-scheme: dark light; }
+
 body {
   margin: 0;
   font-family: var(--font-sans);
+  font-size: var(--text-base);
   background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 15% -10%, rgba(var(--accent-rgb), 0.14), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 100% 0%, rgba(var(--accent-rgb), 0.08), transparent 55%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: var(--text);
-  line-height: 1.5;
+  line-height: 1.55;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  position: relative;
+}
+
+/* Faint film-grain noise overlay for texture — pure CSS, no image asset. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  z-index: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
 .wrap {
   max-width: var(--max-width);
   width: 100%;
   margin: 0 auto;
-  padding: 2rem 1.25rem;
+  padding: var(--space-6) var(--space-5) var(--space-7);
   flex: 1;
+  position: relative;
+  z-index: 1;
 }
+
+.wrap-wide { max-width: var(--max-width-wide); }
 
 header.site {
   display: flex;
@@ -55,69 +163,209 @@ header.site {
   max-width: var(--max-width);
   margin: 0 auto;
   width: 100%;
-  padding: 1.25rem 1.25rem 0;
+  padding: var(--space-5) var(--space-5) 0;
+  position: relative;
+  z-index: 1;
 }
 
 header.site a.home {
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
+  transition: color var(--dur-fast) var(--ease-out);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
 }
 header.site a.home:hover { color: var(--text); }
 
-h1 { font-size: 1.6rem; margin: 0 0 0.5rem; }
-h2 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
-p.tagline { color: var(--text-muted); margin: 0 0 1.5rem; }
+h1 {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 0 var(--space-2);
+}
+h2 {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: var(--space-6) 0 var(--space-3);
+}
+h3 {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+p.tagline {
+  color: var(--text-muted);
+  font-size: var(--text-lg);
+  margin: 0 0 var(--space-6);
+}
+
+/* Gradient text utility — use sparingly, e.g. one word in a heading. */
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 .card {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
 }
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
+}
+/* Opt-in: add .card--lift for a subtle hover lift on clickable/result cards */
+.card--lift:hover { transform: translateY(-3px); }
 
 button, .btn {
-  background: var(--accent);
-  color: #062b1c;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #04150e;
   border: none;
-  border-radius: 8px;
-  padding: 0.6rem 1.1rem;
-  font-size: 0.95rem;
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 1.2rem;
+  font-size: var(--text-base);
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-fast) var(--ease-spring),
+    box-shadow var(--dur-base) var(--ease-out),
+    filter var(--dur-fast) var(--ease-out);
 }
-button:hover, .btn:hover { background: var(--accent-strong); }
-button:disabled { opacity: 0.5; cursor: not-allowed; }
+button:hover, .btn:hover {
+  filter: brightness(1.06);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+}
+button:active, .btn:active { transform: translateY(0) scale(0.98); }
+button:disabled, .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  filter: none;
+}
+
+/* Secondary/ghost button — for a page's less-important action */
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+.btn-ghost:hover {
+  background: var(--bg-elevated-2);
+  border-color: var(--border-hover);
+  box-shadow: none;
+  filter: none;
+}
+
+button:focus-visible, .btn:focus-visible,
+a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
 input, textarea, select {
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   color: var(--text);
-  padding: 0.55rem 0.7rem;
+  padding: 0.6rem 0.75rem;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   width: 100%;
+  transition: border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
 }
+input:hover, textarea:hover, select:hover { border-color: var(--border-hover); }
 input:focus, textarea:focus, select:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.18);
 }
 
-label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem; }
+label {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 500;
+}
 
 footer.site {
   text-align: center;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  padding: 1.5rem 1.25rem 2rem;
+  color: var(--text-faint);
+  font-size: var(--text-xs);
+  padding: var(--space-6) var(--space-5) var(--space-7);
+  position: relative;
+  z-index: 1;
 }
-footer.site a { color: var(--text-muted); }
+footer.site a { color: var(--text-faint); transition: color var(--dur-fast) var(--ease-out); }
+footer.site a:hover { color: var(--text-muted); }
 
-.stack { display: flex; flex-direction: column; gap: 0.9rem; }
-.row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.stack { display: flex; flex-direction: column; gap: var(--space-4); }
+.row { display: flex; gap: var(--space-3); flex-wrap: wrap; }
 .muted { color: var(--text-muted); }
-.mono { font-family: var(--font-mono); }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--space-5) 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 0.25em 0.65em;
+  border-radius: var(--radius-full);
+  background: rgba(var(--accent-rgb), 0.14);
+  color: var(--accent);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
+}
+
+/* ---- Entrance animation (CSS-only, no JS required) ----
+   Add .fade-in to any element; it plays once on page load.
+   Stagger a group by adding .fade-in to each child of a .stack/.row —
+   the nth-child delays below create a natural cascade. */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  animation: fadeInUp var(--dur-slow) var(--ease-out) both;
+}
+.stack > .fade-in:nth-child(1), .row > .fade-in:nth-child(1) { animation-delay: 0ms; }
+.stack > .fade-in:nth-child(2), .row > .fade-in:nth-child(2) { animation-delay: 60ms; }
+.stack > .fade-in:nth-child(3), .row > .fade-in:nth-child(3) { animation-delay: 120ms; }
+.stack > .fade-in:nth-child(4), .row > .fade-in:nth-child(4) { animation-delay: 180ms; }
+.stack > .fade-in:nth-child(5), .row > .fade-in:nth-child(5) { animation-delay: 240ms; }
+.stack > .fade-in:nth-child(n+6), .row > .fade-in:nth-child(n+6) { animation-delay: 300ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 
 /* Hobby Finder Quiz — idea-specific */
 .hobby-result {

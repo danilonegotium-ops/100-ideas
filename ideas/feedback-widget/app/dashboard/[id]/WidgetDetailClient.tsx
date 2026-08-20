@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Card } from "@/components/Card";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
 import type { WidgetResponse } from "@/lib/feedback/types";
 
 interface DayCount {
@@ -83,15 +85,16 @@ export function WidgetDetailClient({ widgetId }: { widgetId: string }) {
           <p className="text-sm text-muted">Loading…</p>
         ) : (
           <>
-            <Card className="mb-4">
-              <p className="text-sm text-fg">
-                <strong>{yesCount}</strong> yes &middot;{" "}
-                <strong>{noCount}</strong> no &middot; {responses.length}{" "}
-                total
-              </p>
-            </Card>
+            <div className="mb-4 grid grid-cols-3 gap-3">
+              <StatTile label="Yes" value={yesCount} />
+              <StatTile label="No" value={noCount} />
+              <StatTile label="Total" value={responses.length} />
+            </div>
             {days.length === 0 ? (
-              <p className="text-sm text-muted">No responses yet.</p>
+              <EmptyState
+                title="No responses yet"
+                description="Responses will show up here once visitors answer your embedded widget."
+              />
             ) : (
               <Card>
                 <table className="w-full text-left text-sm">

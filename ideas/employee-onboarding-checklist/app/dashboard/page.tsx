@@ -10,6 +10,8 @@ import { AssignOnboardingForm } from "@/components/AssignOnboardingForm";
 import { OnboardingProgressList } from "@/components/OnboardingProgressList";
 import { SignOutButton } from "@/components/SignOutButton";
 import { signOut } from "@/app/dashboard/actions";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
 
 export default async function DashboardPage() {
   const user = await getUser();
@@ -59,6 +61,9 @@ export default async function DashboardPage() {
     }, {});
   }
 
+  const allOnboardingTasks = Object.values(tasksByOnboarding).flat();
+  const completedTaskCount = allOnboardingTasks.filter((task) => task.completed).length;
+
   return (
     <>
       <Nav />
@@ -84,6 +89,17 @@ export default async function DashboardPage() {
           </Card>
         )}
 
+        <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <StatTile label="Templates" value={templates.length} />
+          <StatTile label="Active onboardings" value={onboardings.length} />
+          <StatTile
+            label="Tasks completed"
+            value={completedTaskCount}
+            suffix={allOnboardingTasks.length > 0 ? ` / ${allOnboardingTasks.length}` : ""}
+            trendTone="positive"
+          />
+        </div>
+
         <Card className="mb-6">
           <h2 className="mb-3 text-lg font-semibold">Create onboarding template</h2>
           <CreateTemplateForm />
@@ -91,9 +107,9 @@ export default async function DashboardPage() {
 
         <h2 className="mb-3 text-lg font-semibold">Templates</h2>
         {templates.length === 0 ? (
-          <Card className="mb-8">
-            <p className="text-sm text-muted">No templates yet — create one above.</p>
-          </Card>
+          <div className="mb-8">
+            <EmptyState title="No templates yet" description="Create one above to start assigning onboardings." />
+          </div>
         ) : (
           <div className="mb-8">
             <TemplateList templates={templates} taskCountByTemplate={taskCountByTemplate} />
@@ -107,9 +123,10 @@ export default async function DashboardPage() {
 
         <h2 className="mb-3 text-lg font-semibold">Active onboardings</h2>
         {onboardings.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">No onboardings assigned yet.</p>
-          </Card>
+          <EmptyState
+            title="No onboardings assigned yet"
+            description="Assign a template to a new hire above to start tracking their progress."
+          />
         ) : (
           <OnboardingProgressList onboardings={onboardings} tasksByOnboarding={tasksByOnboarding} />
         )}

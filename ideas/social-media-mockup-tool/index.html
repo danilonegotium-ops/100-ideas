@@ -1,13 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-accent="coral">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Social Media Mockup Tool</title>
   <meta name="description" content="See how your post will look on Instagram, TikTok, or LinkedIn before you actually post it." />
   <link rel="stylesheet" href="theme.css" />
+  <link rel="stylesheet" href="tier2.css" />
 </head>
 <body>
+  <canvas class="mesh-bg-canvas" data-mesh-bg="rgba(255,138,101,0.5),rgba(251,113,133,0.3),rgba(96,165,250,0.25)"></canvas>
   <header class="site">
     <a class="home" href="/">&larr; more tools</a>
   </header>
@@ -15,19 +17,21 @@
     <h1>Social Media Mockup Tool</h1>
     <p class="tagline">Type a caption and upload an image to see how your post will look on Instagram, TikTok, or LinkedIn &mdash; before you actually post it.</p>
 
-    <div class="card">
-      <div class="stack">
-        <div>
-          <label for="display-name">Display name</label>
-          <input type="text" id="display-name" maxlength="30" />
-        </div>
-        <div>
-          <label for="caption">Caption</label>
-          <textarea id="caption" rows="3" maxlength="400"></textarea>
-        </div>
-        <div>
-          <label for="image-input">Image</label>
-          <input type="file" id="image-input" accept="image/*" />
+    <div class="gradient-border">
+      <div class="card" data-spotlight>
+        <div class="stack">
+          <div>
+            <label for="display-name">Display name</label>
+            <input type="text" id="display-name" maxlength="30" />
+          </div>
+          <div>
+            <label for="caption">Caption</label>
+            <textarea id="caption" rows="3" maxlength="400"></textarea>
+          </div>
+          <div>
+            <label for="image-input">Image</label>
+            <input type="file" id="image-input" accept="image/*" />
+          </div>
         </div>
       </div>
     </div>
@@ -40,7 +44,7 @@
 
     <div class="mockup-stage">
       <!-- Instagram frame -->
-      <section class="mockup-frame ig-frame active" data-frame="instagram">
+      <section class="mockup-frame ig-frame active" data-frame="instagram" data-tilt>
         <div class="ig-header">
           <div class="avatar avatar-sm gradient-avatar"><span class="icon-slot" data-icon="person"></span></div>
           <span class="ig-username" data-field="name"></span>
@@ -71,7 +75,7 @@
       </section>
 
       <!-- TikTok frame -->
-      <section class="mockup-frame tt-frame" data-frame="tiktok">
+      <section class="mockup-frame tt-frame" data-frame="tiktok" data-tilt>
         <div class="mockup-photo-wrap tt-photo">
           <img class="mockup-photo" data-role="image" alt="" hidden />
           <div class="mockup-photo-placeholder dark" data-role="placeholder">
@@ -97,7 +101,7 @@
       </section>
 
       <!-- LinkedIn frame -->
-      <section class="mockup-frame li-frame" data-frame="linkedin">
+      <section class="mockup-frame li-frame" data-frame="linkedin" data-tilt>
         <div class="li-header">
           <div class="avatar avatar-md gradient-avatar"><span class="icon-slot" data-icon="person"></span></div>
           <div class="li-header-text">
@@ -135,6 +139,7 @@
     <span>Built solo. No tracking, no signup required.</span>
   </footer>
   <script src="data.js"></script>
+  <script src="tier2.js" defer></script>
   <script src="app.js"></script>
 </body>
 </html>

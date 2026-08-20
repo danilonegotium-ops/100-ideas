@@ -367,8 +367,12 @@ if (typeof document !== "undefined") {
     const timerCancelBtn = document.getElementById("timer-cancel");
     const timerRemainingEl = document.getElementById("timer-remaining");
 
-    grid.innerHTML = SOUNDS.map((sound) => `
-      <div class="sound-card" data-id="${escapeHtml(sound.id)}">
+    // Tier 2 visual polish: the first card gets the cursor-follow spotlight
+    // glow (it's the default/featured soundscape), and the first three get a
+    // subtle 3D tilt — purely presentational data-* attributes that tier2.js
+    // picks up automatically, no effect on playback logic below.
+    grid.innerHTML = SOUNDS.map((sound, i) => `
+      <div class="sound-card" data-id="${escapeHtml(sound.id)}"${i === 0 ? " data-spotlight" : ""}${i < 3 ? " data-tilt" : ""}>
         <h3>${escapeHtml(sound.name)}</h3>
         <p>${escapeHtml(sound.description)}</p>
         <button type="button" data-play="${escapeHtml(sound.id)}">Play</button>

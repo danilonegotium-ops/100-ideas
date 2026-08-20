@@ -130,7 +130,13 @@ function initApp() {
     resultsList.innerHTML = "";
     ranked.forEach(function (entry, i) {
       var card = document.createElement("div");
-      card.className = "hobby-result";
+      // Bento layout: the #1 match is the featured full-width card, the
+      // next two share a row — reflects that these are 3 genuinely ranked
+      // results, not a flat list.
+      card.className = "hobby-result " + (i === 0 ? "span-4" : "span-2");
+      card.setAttribute("data-reveal", "");
+      if (i === 0) card.setAttribute("data-spotlight", "");
+      card.setAttribute("data-tilt", "");
 
       var title = document.createElement("h3");
       title.textContent = (i + 1) + ". " + entry.hobby.name;
@@ -148,6 +154,15 @@ function initApp() {
 
     quizView.hidden = true;
     resultsView.hidden = false;
+
+    // Results are created after tier2.js's own DOMContentLoaded autoInit()
+    // pass, so wire up spotlight/tilt/reveal on these specific cards
+    // manually. Degrades silently if tier2.js didn't load for any reason.
+    if (typeof Tier2 !== "undefined") {
+      Tier2.initSpotlight(resultsList);
+      Tier2.initTilt(resultsList);
+      Tier2.initReveal(resultsList);
+    }
   }
 
   form.addEventListener("submit", function (e) {

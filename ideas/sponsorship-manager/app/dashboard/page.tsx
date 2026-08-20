@@ -6,6 +6,8 @@ import type { Deal } from "@/lib/types";
 import { AddDealForm } from "@/components/AddDealForm";
 import { KanbanBoard } from "@/components/KanbanBoard";
 import { SignOutButton } from "@/components/SignOutButton";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
 
 export default async function DashboardPage() {
   const user = await getUser();
@@ -42,23 +44,15 @@ export default async function DashboardPage() {
         )}
 
         <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <Card>
-            <p className="text-xs uppercase tracking-wide text-muted">Total deals</p>
-            <p className="mt-1 text-xl font-semibold">{deals.length}</p>
-          </Card>
-          <Card>
-            <p className="text-xs uppercase tracking-wide text-muted">In progress value</p>
-            <p className="mt-1 text-xl font-semibold">
-              {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(activeValue)}
-            </p>
-            <p className="text-xs text-muted">negotiating + signed</p>
-          </Card>
-          <Card>
-            <p className="text-xs uppercase tracking-wide text-muted">Paid to date</p>
-            <p className="mt-1 text-xl font-semibold">
-              {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(paidValue)}
-            </p>
-          </Card>
+          <StatTile label="Total deals" value={deals.length} />
+          <StatTile
+            label="In progress value"
+            value={activeValue}
+            prefix="$"
+            decimals={2}
+            trend="negotiating + signed"
+          />
+          <StatTile label="Paid to date" value={paidValue} prefix="$" decimals={2} trendTone="positive" />
         </div>
 
         <Card className="mb-8">
@@ -68,9 +62,10 @@ export default async function DashboardPage() {
 
         <h2 className="mb-3 text-lg font-semibold">Pipeline</h2>
         {deals.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">No deals yet — add your first one above.</p>
-          </Card>
+          <EmptyState
+            title="No deals yet"
+            description="Add your first sponsor deal above to start tracking it through the pipeline."
+          />
         ) : (
           <KanbanBoard deals={deals} />
         )}

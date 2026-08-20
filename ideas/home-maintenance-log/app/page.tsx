@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 
 const FEATURES = [
   {
@@ -27,34 +28,36 @@ export default function Home() {
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <h1 className="mb-2 text-2xl font-semibold">Home Maintenance Log</h1>
-        <p className="mb-6 text-muted">
-          A digital service book for your house. Track when the boiler, AC,
-          water heater, and everything else was last serviced — and know
-          exactly what&apos;s due next.
-        </p>
+        <GlassPanel glow className="mb-6">
+          <h1 className="mb-2 text-headline text-fg">Home Maintenance Log</h1>
+          <p className="mb-6 text-muted">
+            A digital service book for your house. Track when the boiler, AC,
+            water heater, and everything else was last serviced — and know
+            exactly what&apos;s due next.
+          </p>
 
-        <div className="mb-6 flex flex-wrap gap-3">
-          <Link
-            href="/login?next=/dashboard"
-            className="inline-block rounded-brand bg-accent px-4 py-2 text-sm font-semibold text-[#062b1c] transition-colors hover:bg-accent-strong"
-          >
-            Get started — it&apos;s free
-          </Link>
-          <Link
-            href="/login?next=/dashboard"
-            className="inline-flex items-center rounded-brand border border-border px-4 py-2 text-sm font-semibold text-fg transition-colors hover:border-accent"
-          >
-            Log in
-          </Link>
-        </div>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/login?next=/dashboard"
+              className="inline-block rounded-brand bg-accent px-4 py-2 text-sm font-semibold text-[#062b1c] transition-colors hover:bg-accent-strong"
+            >
+              Get started — it&apos;s free
+            </Link>
+            <Link
+              href="/login?next=/dashboard"
+              className="inline-flex items-center rounded-brand border border-border px-4 py-2 text-sm font-semibold text-fg transition-colors hover:border-accent"
+            >
+              Log in
+            </Link>
+          </div>
+        </GlassPanel>
 
         <div className="grid gap-4 sm:grid-cols-3">
-          {FEATURES.map((feature) => (
-            <Card key={feature.title}>
+          {FEATURES.map((feature, i) => (
+            <AnimatedCard key={feature.title} index={i}>
               <h2 className="mb-1 text-sm font-semibold">{feature.title}</h2>
               <p className="text-sm text-muted">{feature.body}</p>
-            </Card>
+            </AnimatedCard>
           ))}
         </div>
 

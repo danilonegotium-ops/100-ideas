@@ -1,5 +1,6 @@
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { ResumeForm } from "@/components/ResumeForm";
 import { isConfigured } from "@/lib/gemini";
 
@@ -10,12 +11,14 @@ export default function Home() {
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <h1 className="mb-2 text-2xl font-semibold">AI Resume Optimizer</h1>
-        <p className="mb-6 text-muted">
-          Paste a job description and your resume text. We&apos;ll identify
-          important keywords from the job description that are missing from
-          your resume, with suggestions on where to naturally add them.
-        </p>
+        <GlassPanel glow className="mb-6">
+          <h1 className="mb-2 text-headline text-fg">AI Resume Optimizer</h1>
+          <p className="text-muted">
+            Paste a job description and your resume text. We&apos;ll identify
+            important keywords from the job description that are missing from
+            your resume, with suggestions on where to naturally add them.
+          </p>
+        </GlassPanel>
 
         {!configured && (
           <Card className="mb-6 border-danger">

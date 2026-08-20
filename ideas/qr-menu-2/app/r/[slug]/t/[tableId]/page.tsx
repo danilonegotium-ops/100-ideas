@@ -2,6 +2,9 @@ import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { createClient } from "@/lib/supabase/server";
 import { OrderingClient } from "@/components/order/OrderingClient";
+import { MenuHero } from "@/components/order/MenuHero";
+import { CategoryNav } from "@/components/order/CategoryNav";
+import { EmptyState } from "@/components/motion/EmptyState";
 
 /**
  * The URL encoded into each table's QR code (see
@@ -47,12 +50,25 @@ export default async function TableOrderPage({
       .order("sort_order", { ascending: true }),
   ]);
 
+  const categoryRows = categories ?? [];
+  const itemRows = items ?? [];
+  const categoryNavItems = categoryRows.map((category) => ({
+    id: category.id,
+    name: category.name,
+    count: itemRows.filter((item) => item.category_id === category.id).length,
+  }));
+
   return (
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <h1 className="mb-1 text-2xl font-semibold">{restaurant.name}</h1>
-        <p className="mb-6 text-sm text-muted">{table.label}</p>
+        <MenuHero
+          restaurantName={restaurant.name}
+          tableLabel={table.label}
+          dishCount={itemRows.length}
+          categoryCount={categoryRows.length}
+          availableCount={itemRows.filter((item) => item.is_available).length}
+        />
 
         {searchParams.cancelled && (
           <p className="mb-4 rounded-brand border border-border bg-surface px-4 py-2 text-sm text-muted">
@@ -61,13 +77,23 @@ export default async function TableOrderPage({
           </p>
         )}
 
-        <OrderingClient
-          restaurantSlug={restaurant.slug}
-          tableId={table.id}
-          tableLabel={table.label}
-          categories={categories ?? []}
-          items={items ?? []}
-        />
+        {itemRows.length === 0 ? (
+          <EmptyState
+            title="This menu is still being set up"
+            description="Check back in a moment, or ask your server what's on today."
+          />
+        ) : (
+          <>
+            <CategoryNav categories={categoryNavItems} />
+            <OrderingClient
+              restaurantSlug={restaurant.slug}
+              tableId={table.id}
+              tableLabel={table.label}
+              categories={categoryRows}
+              items={itemRows}
+            />
+          </>
+        )}
       </main>
     </>
   );

@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { ChooseNameForm } from "@/components/ChooseNameForm";
 import { QuizClient } from "@/components/QuizClient";
 import { createClient, getUser } from "@/lib/supabase/server";
@@ -61,9 +62,9 @@ export default async function LessonPage({
           <ChooseNameForm />
         ) : (
           <>
-            <Card className="mb-6 whitespace-pre-line text-sm text-fg">
+            <GlassPanel className="mb-6 whitespace-pre-line text-sm text-fg">
               {lesson.content}
-            </Card>
+            </GlassPanel>
 
             {existingProgress && (
               <Card className="mb-6">

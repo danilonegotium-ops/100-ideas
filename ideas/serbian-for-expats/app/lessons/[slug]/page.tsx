@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Quiz } from "@/components/Quiz";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { getUser } from "@/lib/supabase/server";
 import { getLessonBySlug, LESSONS } from "@/lib/lessons";
 import { saveProgress } from "@/lib/actions";
@@ -19,11 +20,13 @@ export default async function LessonPage({ params }: { params: { slug: string } 
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <p className="mb-1 text-sm text-muted">
-          Lekcija {index + 1} od {LESSONS.length} · {lesson.titleEn}
-        </p>
-        <h1 className="mb-2 text-2xl font-semibold">{lesson.title}</h1>
-        <p className="mb-6 text-muted">{lesson.description}</p>
+        <GlassPanel glow className="mb-6">
+          <p className="mb-1 text-sm text-muted">
+            Lekcija {index + 1} od {LESSONS.length} · {lesson.titleEn}
+          </p>
+          <h1 className="mb-2 text-2xl font-semibold">{lesson.title}</h1>
+          <p className="text-muted">{lesson.description}</p>
+        </GlassPanel>
 
         <section className="mb-6">
           <h2 className="mb-3 text-lg font-semibold">Rečnik</h2>

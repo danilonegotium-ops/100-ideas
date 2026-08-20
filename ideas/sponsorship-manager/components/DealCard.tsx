@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
 import { deleteDeal, setDealStage, updateDealDetails } from "@/app/dashboard/actions";
 import { formatCurrency, formatDate, nextStage, previousStage, type Deal } from "@/lib/types";
 
-export function DealCard({ deal }: { deal: Deal }) {
+export function DealCard({ deal, index = 0 }: { deal: Deal; index?: number }) {
   const [isPending, startTransition] = useTransition();
   const [busyAction, setBusyAction] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +31,7 @@ export function DealCard({ deal }: { deal: Deal }) {
   }
 
   return (
-    <Card className="mb-3">
+    <AnimatedCard index={index} className="mb-3">
       <p className="font-medium">{deal.sponsor_name}</p>
       {(deal.contact_name || deal.contact_email) && (
         <p className="text-xs text-muted">
@@ -164,6 +164,6 @@ export function DealCard({ deal }: { deal: Deal }) {
           {busyAction === "delete" ? "Deleting…" : "Delete"}
         </Button>
       </div>
-    </Card>
+    </AnimatedCard>
   );
 }

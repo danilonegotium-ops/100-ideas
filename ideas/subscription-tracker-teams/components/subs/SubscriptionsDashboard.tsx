@@ -3,6 +3,9 @@
 import { FormEvent, useMemo, useState } from "react";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/client";
 import { formatCents } from "@/lib/money";
 import {
@@ -112,25 +115,15 @@ export function SubscriptionsDashboard({
   return (
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <Card>
-          <p className="text-xs text-muted">Monthly spend</p>
-          <p className="text-xl font-semibold">{formatCents(totals.monthly)}</p>
-        </Card>
-        <Card>
-          <p className="text-xs text-muted">Annual spend</p>
-          <p className="text-xl font-semibold">{formatCents(totals.annual)}</p>
-        </Card>
-        <Card className={totals.zombieCount > 0 ? "border-danger" : undefined}>
-          <p className="text-xs text-muted">Zombie subscriptions</p>
-          <p className="text-xl font-semibold">
-            {totals.zombieCount}{" "}
-            {totals.zombieCount > 0 && (
-              <span className="text-sm font-normal text-danger">
-                ({formatCents(totals.zombieMonthly)}/mo wasted)
-              </span>
-            )}
-          </p>
-        </Card>
+        <StatTile label="Monthly spend" value={totals.monthly / 100} prefix="$" decimals={2} />
+        <StatTile label="Annual spend" value={totals.annual / 100} prefix="$" decimals={2} />
+        <StatTile
+          label="Zombie subscriptions"
+          value={totals.zombieCount}
+          className={totals.zombieCount > 0 ? "border-danger" : undefined}
+          trend={totals.zombieCount > 0 ? `${formatCents(totals.zombieMonthly)}/mo wasted` : undefined}
+          trendTone="negative"
+        />
       </div>
 
       <Card>
@@ -233,49 +226,60 @@ export function SubscriptionsDashboard({
         </label>
       </div>
 
-      <div className="flex flex-col gap-2">
-        {sorted.map((sub) => {
-          const zombie = isZombie(sub);
-          const days = daysSinceLastUsed(sub.last_used_date);
-          return (
-            <Card key={sub.id} className={zombie ? "border-danger" : undefined}>
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="font-medium">
-                    {sub.url ? (
-                      <a href={sub.url} target="_blank" rel="noreferrer" className="text-fg">
-                        {sub.tool_name}
-                      </a>
-                    ) : (
-                      sub.tool_name
-                    )}{" "}
-                    {zombie && <span className="text-xs text-danger">zombie</span>}
-                  </p>
-                  <p className="text-xs text-muted">
-                    {sub.owner_name}
-                    {sub.category ? ` · ${sub.category}` : ""} ·{" "}
-                    {days === null ? "never used" : `used ${days}d ago`}
-                  </p>
+      {sorted.length === 0 ? (
+        <EmptyState
+          title={showZombiesOnly ? "No zombie subscriptions" : "No subscriptions yet"}
+          description={
+            showZombiesOnly
+              ? "Nothing unused right now — nice."
+              : "Add your team's first SaaS subscription above to start tracking spend."
+          }
+        />
+      ) : (
+        <div className="flex flex-col gap-2">
+          {sorted.map((sub, i) => {
+            const zombie = isZombie(sub);
+            const days = daysSinceLastUsed(sub.last_used_date);
+            return (
+              <AnimatedCard key={sub.id} index={i} className={zombie ? "border-danger" : undefined}>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-medium">
+                      {sub.url ? (
+                        <a href={sub.url} target="_blank" rel="noreferrer" className="text-fg">
+                          {sub.tool_name}
+                        </a>
+                      ) : (
+                        sub.tool_name
+                      )}{" "}
+                      {zombie && <span className="text-xs text-danger">zombie</span>}
+                    </p>
+                    <p className="text-xs text-muted">
+                      {sub.owner_name}
+                      {sub.category ? ` · ${sub.category}` : ""} ·{" "}
+                      {days === null ? "never used" : `used ${days}d ago`}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <p className="font-mono text-sm">
+                      {formatCents(sub.cost_cents)}/{sub.billing_cycle === "monthly" ? "mo" : "yr"}
+                    </p>
+                    <p className="text-xs text-muted">{formatCents(monthlyEquivalentCents(sub))}/mo</p>
+                  </div>
                 </div>
-                <div className="flex flex-col items-end gap-1">
-                  <p className="font-mono text-sm">
-                    {formatCents(sub.cost_cents)}/{sub.billing_cycle === "monthly" ? "mo" : "yr"}
-                  </p>
-                  <p className="text-xs text-muted">{formatCents(monthlyEquivalentCents(sub))}/mo</p>
+                <div className="mt-3 flex gap-3 border-t border-border pt-3 text-xs">
+                  <button type="button" onClick={() => markUsedToday(sub.id)} className="text-accent">
+                    Mark used today
+                  </button>
+                  <button type="button" onClick={() => handleDelete(sub.id)} className="text-danger">
+                    Delete
+                  </button>
                 </div>
-              </div>
-              <div className="mt-3 flex gap-3 border-t border-border pt-3 text-xs">
-                <button type="button" onClick={() => markUsedToday(sub.id)} className="text-accent">
-                  Mark used today
-                </button>
-                <button type="button" onClick={() => handleDelete(sub.id)} className="text-danger">
-                  Delete
-                </button>
-              </div>
-            </Card>
-          );
-        })}
-      </div>
+              </AnimatedCard>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

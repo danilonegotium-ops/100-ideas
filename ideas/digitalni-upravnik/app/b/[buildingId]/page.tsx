@@ -2,6 +2,10 @@ import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/server";
 import {
   calculateFundBalance,
@@ -49,8 +53,10 @@ export default async function PublicBoardPage({
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <h1 className="mb-1 text-2xl font-semibold">{building.name}</h1>
-        <p className="mb-6 text-muted">{building.address} · digitalna oglasna tabla</p>
+        <GlassPanel glow className="mb-6">
+          <h1 className="mb-1 text-2xl font-semibold">{building.name}</h1>
+          <p className="text-muted">{building.address} · digitalna oglasna tabla</p>
+        </GlassPanel>
 
         {searchParams.voted && (
           <p className="mb-4 text-sm text-accent">Vaš glas je zabeležen. Hvala!</p>
@@ -62,28 +68,31 @@ export default async function PublicBoardPage({
         <section className="mb-8">
           <h2 className="mb-3 text-lg font-semibold">Obaveštenja</h2>
           {notices.length === 0 ? (
-            <Card>
-              <p className="text-sm text-muted">Trenutno nema obaveštenja.</p>
-            </Card>
+            <EmptyState title="Trenutno nema obaveštenja." />
           ) : (
             <div className="flex flex-col gap-3">
-              {notices.map((notice) => (
-                <Card key={notice.id}>
+              {notices.map((notice, i) => (
+                <AnimatedCard key={notice.id} index={i}>
                   <div className="mb-1 flex items-center gap-2">
                     {notice.pinned && <span className="text-xs text-accent">Zakačeno</span>}
                     <h3 className="font-medium">{notice.title}</h3>
                   </div>
                   <p className="text-sm text-muted">{notice.body}</p>
-                </Card>
+                </AnimatedCard>
               ))}
             </div>
           )}
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-3 text-lg font-semibold">
-            Fond održavanja — stanje: {currency.format(balance)}
-          </h2>
+          <h2 className="mb-3 text-lg font-semibold">Fond održavanja</h2>
+          <StatTile
+            label="Trenutno stanje"
+            value={balance}
+            suffix=" RSD"
+            locale="sr-RS"
+            className="mb-3"
+          />
           <Card>
             {transactions.length === 0 ? (
               <p className="text-sm text-muted">Još nema transakcija.</p>
@@ -111,13 +120,11 @@ export default async function PublicBoardPage({
         <section>
           <h2 className="mb-3 text-lg font-semibold">Glasanja</h2>
           {votes.length === 0 ? (
-            <Card>
-              <p className="text-sm text-muted">Trenutno nema glasanja.</p>
-            </Card>
+            <EmptyState title="Trenutno nema glasanja." />
           ) : (
             <div className="flex flex-col gap-4">
-              {votes.map(({ vote, options, totalResponses, isOpen }) => (
-                <Card key={vote.id}>
+              {votes.map(({ vote, options, totalResponses, isOpen }, i) => (
+                <AnimatedCard key={vote.id} index={i}>
                   <div className="mb-1 flex items-center justify-between gap-2">
                     <h3 className="font-medium">{vote.question}</h3>
                     <span className={`text-xs ${isOpen ? "text-accent" : "text-muted"}`}>
@@ -187,7 +194,7 @@ export default async function PublicBoardPage({
                       </div>
                     </form>
                   )}
-                </Card>
+                </AnimatedCard>
               ))}
             </div>
           )}

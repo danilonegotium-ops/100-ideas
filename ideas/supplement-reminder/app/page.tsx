@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 
 export default function Home() {
   return (
@@ -14,7 +14,7 @@ export default function Home() {
           get warned before you run out.
         </p>
 
-        <Card className="mb-6">
+        <GlassPanel className="mb-6">
           <ol className="list-inside list-decimal space-y-2 text-sm text-fg">
             <li>Add your supplements — dose, time of day, pills on hand.</li>
             <li>
@@ -26,7 +26,7 @@ export default function Home() {
               few doses.
             </li>
           </ol>
-        </Card>
+        </GlassPanel>
 
         <Link href="/login">
           <Button>Log in / sign up</Button>

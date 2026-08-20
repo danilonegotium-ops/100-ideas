@@ -74,11 +74,14 @@ function pixelsFromImageData(imageData) {
 function renderSwatches(palette) {
   const container = document.getElementById("swatches");
   container.innerHTML = "";
-  palette.forEach((color) => {
+  palette.forEach((color, index) => {
     const btn = document.createElement("button");
     btn.className = "cpi-swatch";
     btn.type = "button";
     btn.title = "Click to copy hex code";
+    // Tier 2: a subtle 3D tilt on the first few result swatches only
+    // (surgical per design system guidance, not on every generated card).
+    if (index < 3) btn.setAttribute("data-tilt", "");
 
     const colorBlock = document.createElement("span");
     colorBlock.className = "cpi-swatch-color";
@@ -114,6 +117,12 @@ function renderSwatches(palette) {
 
     container.appendChild(btn);
   });
+  // Swatches are created after page load, so re-run Tier 2's tilt wiring
+  // for these newly-added [data-tilt] elements (autoInit only scans once
+  // on DOMContentLoaded, before the user has uploaded anything).
+  if (typeof window !== "undefined" && window.Tier2 && typeof window.Tier2.initTilt === "function") {
+    window.Tier2.initTilt(container);
+  }
 }
 
 if (typeof document !== "undefined") {

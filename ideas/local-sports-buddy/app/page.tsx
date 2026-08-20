@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 
 export default function Home() {
   return (
@@ -15,7 +15,7 @@ export default function Home() {
           you&apos;re in.
         </p>
 
-        <Card className="mb-6">
+        <GlassPanel className="mb-6">
           <ol className="list-inside list-decimal space-y-2 text-sm text-fg">
             <li>Browse open games by sport and city — no account needed.</li>
             <li>Create a profile to post your own game.</li>
@@ -24,7 +24,7 @@ export default function Home() {
               coordination happens however you two connect from there.
             </li>
           </ol>
-        </Card>
+        </GlassPanel>
 
         <div className="flex gap-3">
           <Link href="/browse">

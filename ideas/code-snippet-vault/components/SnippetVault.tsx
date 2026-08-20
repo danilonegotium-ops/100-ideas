@@ -4,6 +4,8 @@ import { FormEvent, useMemo, useState } from "react";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { CodeBlock } from "@/components/CodeBlock";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/client";
 import { LANGUAGES, languageLabel } from "@/lib/languages";
 import type { Snippet } from "@/lib/types";
@@ -211,17 +213,22 @@ export function SnippetVault({
       )}
 
       {filtered.length === 0 ? (
-        <Card>
-          <p className="text-sm text-muted">
-            {snippets.length === 0
-              ? "No snippets yet — save your first one above."
-              : "No snippets match your search/filter."}
-          </p>
-        </Card>
+        <EmptyState
+          title={
+            snippets.length === 0
+              ? "No snippets yet"
+              : "No snippets match your search/filter"
+          }
+          description={
+            snippets.length === 0
+              ? "Save your first one above."
+              : "Try a different search term, language, or tag."
+          }
+        />
       ) : (
         <div className="flex flex-col gap-4">
-          {filtered.map((s) => (
-            <Card key={s.id}>
+          {filtered.map((s, i) => (
+            <AnimatedCard key={s.id} index={i}>
               <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
                 <div>
                   <h2 className="text-base font-semibold">{s.title}</h2>
@@ -251,7 +258,7 @@ export function SnippetVault({
                 </Button>
               </div>
               <CodeBlock code={s.code} language={s.language} />
-            </Card>
+            </AnimatedCard>
           ))}
         </div>
       )}

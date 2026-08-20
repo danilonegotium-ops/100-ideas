@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { getUser } from "@/lib/supabase/server";
 
 export default async function Home() {
@@ -17,7 +18,7 @@ export default async function Home() {
           no bloated all-in-one gym software required.
         </p>
 
-        <Card className="mb-6">
+        <GlassPanel glow className="mb-6">
           <p className="mb-4 text-sm text-fg">
             Keep a member list with subscription status and expiry, check members in with a
             quick name search, and see at a glance how many members are active, checked in
@@ -26,7 +27,7 @@ export default async function Home() {
           <Link href={user ? "/dashboard" : "/login"}>
             <Button>{user ? "Go to your dashboard" : "Log in to get started"}</Button>
           </Link>
-        </Card>
+        </GlassPanel>
 
         <Card>
           <p className="text-sm text-muted">

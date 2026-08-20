@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { getUser } from "@/lib/supabase/server";
 
 export default async function Home() {
@@ -17,7 +18,7 @@ export default async function Home() {
           track sponsors through a simple pipeline instead of a spreadsheet.
         </p>
 
-        <Card className="mb-6">
+        <GlassPanel glow className="mb-6">
           <p className="mb-4 text-sm text-fg">
             Add a sponsor contact, track the deal through prospecting → negotiating → signed →
             paid (or declined), jot notes and next actions, and see your whole pipeline as a
@@ -26,7 +27,7 @@ export default async function Home() {
           <Link href={user ? "/dashboard" : "/login"}>
             <Button>{user ? "Go to your pipeline" : "Log in to get started"}</Button>
           </Link>
-        </Card>
+        </GlassPanel>
 
         <Card>
           <p className="text-sm text-muted">

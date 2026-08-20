@@ -2,8 +2,10 @@
 
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
 import type { Member, Pairing, PairingWeek } from "@/lib/watercooler/types";
 
 export function DashboardClient() {
@@ -161,21 +163,24 @@ export function DashboardClient() {
     <div className="flex flex-col gap-8">
       {error && <p className="text-sm text-danger">{error}</p>}
 
+      <div className="grid grid-cols-2 gap-3 sm:max-w-sm">
+        <StatTile label="Active members" value={activeCount} />
+        <StatTile label="Pairings this week" value={pairings.length} />
+      </div>
+
       <section>
         <h2 className="mb-3 text-lg font-semibold">
           This week&apos;s pairing
         </h2>
         {!week || pairings.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">
-              No pairing has been run yet. Add at least 2 active members
-              below, then run pairing.
-            </p>
-          </Card>
+          <EmptyState
+            title="No pairing has been run yet"
+            description="Add at least 2 active members below, then run pairing."
+          />
         ) : (
           <div className="flex flex-col gap-3">
-            {pairings.map((pairing) => (
-              <Card key={pairing.id}>
+            {pairings.map((pairing, i) => (
+              <AnimatedCard key={pairing.id} index={i}>
                 <p className="mb-2 text-sm font-medium text-fg">
                   {pairing.member_ids.map(memberName).join(" + ")}
                 </p>
@@ -198,7 +203,7 @@ export function DashboardClient() {
                     Save link
                   </Button>
                 </div>
-              </Card>
+              </AnimatedCard>
             ))}
           </div>
         )}
@@ -240,39 +245,44 @@ export function DashboardClient() {
           </Button>
         </form>
 
-        <div className="flex flex-col gap-2">
-          {members.map((member) => (
-            <Card
-              key={member.id}
-              className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
-            >
-              <div>
-                <p className="text-sm font-medium text-fg">
-                  {member.name}{" "}
-                  {!member.active && (
-                    <span className="text-xs text-muted">(inactive)</span>
-                  )}
-                </p>
-                <p className="text-xs text-muted">{member.email}</p>
-                <p className="mt-1 text-xs text-muted">
-                  Personal link:{" "}
-                  <code className="font-mono">/m/{member.share_token}</code>
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <Button variant="secondary" onClick={() => toggleActive(member)}>
-                  {member.active ? "Deactivate" : "Activate"}
-                </Button>
-                <Button variant="danger" onClick={() => removeMember(member)}>
-                  Remove
-                </Button>
-              </div>
-            </Card>
-          ))}
-          {members.length === 0 && (
-            <p className="text-sm text-muted">No members yet.</p>
-          )}
-        </div>
+        {members.length === 0 ? (
+          <EmptyState
+            title="No members yet"
+            description="Add your team's first member above to include them in weekly pairing."
+          />
+        ) : (
+          <div className="flex flex-col gap-2">
+            {members.map((member, i) => (
+              <AnimatedCard
+                key={member.id}
+                index={i}
+                className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <p className="text-sm font-medium text-fg">
+                    {member.name}{" "}
+                    {!member.active && (
+                      <span className="text-xs text-muted">(inactive)</span>
+                    )}
+                  </p>
+                  <p className="text-xs text-muted">{member.email}</p>
+                  <p className="mt-1 text-xs text-muted">
+                    Personal link:{" "}
+                    <code className="font-mono">/m/{member.share_token}</code>
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="secondary" onClick={() => toggleActive(member)}>
+                    {member.active ? "Deactivate" : "Activate"}
+                  </Button>
+                  <Button variant="danger" onClick={() => removeMember(member)}>
+                    Remove
+                  </Button>
+                </div>
+              </AnimatedCard>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

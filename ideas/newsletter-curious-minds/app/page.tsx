@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { SignupForm } from "@/components/SignupForm";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
 import { issues } from "@/content/issues";
 
 export default function Home() {
@@ -20,15 +21,15 @@ export default function Home() {
           thing you&apos;d want to tell someone at dinner.
         </p>
 
-        <Card className="mb-6">
+        <GlassPanel glow className="mb-6">
           <h2 className="mb-3 text-sm font-semibold text-fg">
             Get the next issue
           </h2>
           <SignupForm />
-        </Card>
+        </GlassPanel>
 
         {latest && (
-          <Card className="mb-6">
+          <AnimatedCard className="mb-6">
             <p className="mb-1 text-xs uppercase tracking-wide text-muted">
               Latest issue
             </p>
@@ -38,7 +39,7 @@ export default function Home() {
               </h2>
             </Link>
             <p className="mt-1 text-sm text-muted">{latest.intro}</p>
-          </Card>
+          </AnimatedCard>
         )}
 
         <Link href="/archive" className="text-sm text-accent underline">

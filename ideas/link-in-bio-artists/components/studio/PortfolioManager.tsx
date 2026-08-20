@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/client";
 
 export interface PortfolioItemRow {
@@ -103,7 +104,10 @@ export function PortfolioManager({
       </Card>
 
       {items.length === 0 ? (
-        <p className="text-sm text-muted">No portfolio images yet.</p>
+        <EmptyState
+          title="No portfolio images yet"
+          description="Paste a hosted image URL above to start building your portfolio grid."
+        />
       ) : (
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {items.map((item) => (

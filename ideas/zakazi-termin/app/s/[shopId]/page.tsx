@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/server";
 import { getShopById, getUpcomingOpenSlots, groupSlotsByDay } from "@/lib/data";
 import { bookSlot } from "@/lib/actions";
@@ -29,9 +31,11 @@ export default async function ShopPublicPage({
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <h1 className="mb-1 text-2xl font-semibold">{shop.name}</h1>
-        <p className="mb-1 text-muted">{shop.address}</p>
-        {shop.description && <p className="mb-6 text-sm text-muted">{shop.description}</p>}
+        <GlassPanel glow className="mb-6">
+          <h1 className="mb-1 text-2xl font-semibold">{shop.name}</h1>
+          <p className="text-muted">{shop.address}</p>
+          {shop.description && <p className="mt-2 text-sm text-muted">{shop.description}</p>}
+        </GlassPanel>
 
         {searchParams.booked && (
           <p className="mb-4 text-sm text-accent">
@@ -44,13 +48,11 @@ export default async function ShopPublicPage({
 
         <h2 className="mb-3 text-lg font-semibold">Dostupni termini</h2>
         {byDay.size === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">Trenutno nema slobodnih termina.</p>
-          </Card>
+          <EmptyState title="Trenutno nema slobodnih termina." />
         ) : (
           <div className="flex flex-col gap-4">
-            {Array.from(byDay.entries()).map(([day, daySlots]) => (
-              <Card key={day}>
+            {Array.from(byDay.entries()).map(([day, daySlots], i) => (
+              <AnimatedCard key={day} index={i}>
                 <h3 className="mb-3 font-medium">{day}</h3>
                 <div className="grid gap-3 sm:grid-cols-2">
                   {daySlots.map((slot) => {
@@ -87,7 +89,7 @@ export default async function ShopPublicPage({
                     );
                   })}
                 </div>
-              </Card>
+              </AnimatedCard>
             ))}
           </div>
         )}

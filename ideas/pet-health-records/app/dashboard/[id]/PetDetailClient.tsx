@@ -4,6 +4,8 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { dueStatus } from "@/lib/pets/types";
 import type { EntryType, PetEntry } from "@/lib/pets/types";
 
@@ -97,18 +99,20 @@ export function PetDetailClient({ petId }: { petId: string }) {
       <section>
         <h2 className="mb-3 text-lg font-semibold">History</h2>
         {entries.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">No records yet — add one below.</p>
-          </Card>
+          <EmptyState
+            title="No records yet"
+            description="Add a vaccination or vet visit below."
+          />
         ) : (
           <div className="flex flex-col gap-3">
-            {entries.map((entry) => {
+            {entries.map((entry, index) => {
               const status = entry.next_due_date
                 ? dueStatus(entry.next_due_date)
                 : null;
               return (
-                <Card
+                <AnimatedCard
                   key={entry.id}
+                  index={index}
                   className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div>
@@ -139,7 +143,7 @@ export function PetDetailClient({ petId }: { petId: string }) {
                   <Button variant="secondary" onClick={() => removeEntry(entry)}>
                     Remove
                   </Button>
-                </Card>
+                </AnimatedCard>
               );
             })}
           </div>

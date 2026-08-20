@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { createClient } from "@/lib/supabase/client";
@@ -205,8 +206,29 @@ export function QueueJoinClient({ shopId, shopName }: { shopId: string; shopName
         </div>
       ) : (
         <div>
-          <p className="mb-1 text-lg font-semibold">
-            {position && position > 0 ? `You're #${position} in line` : "You're in the queue"}
+          <p className="mb-1 flex items-center gap-1.5 text-lg font-semibold">
+            {position && position > 0 ? (
+              <>
+                <span>You&apos;re #</span>
+                <span className="relative inline-block h-[1.3em] overflow-hidden align-middle" style={{ minWidth: "1.4ch" }}>
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    <motion.span
+                      key={position}
+                      initial={{ y: "-100%", opacity: 0 }}
+                      animate={{ y: "0%", opacity: 1 }}
+                      exit={{ y: "100%", opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 320, damping: 28 }}
+                      className="inline-block tabular-nums text-accent"
+                    >
+                      {position}
+                    </motion.span>
+                  </AnimatePresence>
+                </span>
+                <span>in line</span>
+              </>
+            ) : (
+              "You're in the queue"
+            )}
           </p>
           <p className="text-sm text-muted">
             {waitingEntries.length} {waitingEntries.length === 1 ? "person" : "people"} waiting at{" "}

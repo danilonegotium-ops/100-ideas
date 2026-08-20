@@ -1,11 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-accent="lime">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Speed Reading Trainer</title>
   <meta name="description" content="Paste any text and flash it back at you one word at a time (RSVP-style) so you can train your reading speed at a target WPM." />
   <link rel="stylesheet" href="theme.css" />
+  <link rel="stylesheet" href="tier2.css" />
 </head>
 <body>
   <header class="site">
@@ -29,7 +30,7 @@
           </div>
         </div>
 
-        <div class="reader" id="srt-reader">
+        <div class="reader glass" id="srt-reader" data-reveal>
           <div class="reader-word" id="srt-word">Ready</div>
         </div>
 
@@ -42,7 +43,7 @@
         </div>
 
         <div class="row">
-          <button id="srt-play">Play</button>
+          <button id="srt-play" class="btn-glow">Play</button>
           <button id="srt-restart" type="button">Restart</button>
         </div>
         <p class="muted" id="srt-empty-msg" hidden>Paste some text above to start training.</p>
@@ -53,6 +54,7 @@
     <span>Built solo. No tracking, no signup required.</span>
   </footer>
   <script src="data.js"></script>
+  <script src="tier2.js" defer></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -330,7 +330,7 @@ if (typeof document !== "undefined") {
         </label>
       </div>
 
-      <div class="card" style="margin-top:1rem; text-align:center;">
+      <div class="card" data-spotlight data-tilt style="margin-top:1rem; text-align:center;">
         <div id="staff-area"></div>
         <button id="play-btn" style="margin-top:0.5rem;">&#9654; Play</button>
       </div>
@@ -340,6 +340,11 @@ if (typeof document !== "undefined") {
 
       <p class="muted" id="score-line" style="margin-top:1rem;"></p>
     `;
+
+    // tier2.js's autoInit() already ran on DOMContentLoaded (it loads before
+    // this script), before the markup above existed — re-run it so the new
+    // [data-spotlight]/[data-tilt] elements actually get wired up.
+    if (typeof window !== "undefined" && window.Tier2) window.Tier2.autoInit();
 
     const modeSelect = card.querySelector("#mode-select");
     const earTypeWrap = card.querySelector("#ear-type-wrap");

@@ -1,8 +1,11 @@
 import { redirect } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { SwapActions } from "@/components/SwapActions";
 import { createClient, getUser } from "@/lib/supabase/server";
+import { cn } from "@/lib/utils";
 
 type Swap = {
   id: string;
@@ -113,32 +116,40 @@ export default async function SwapsPage() {
         )}
 
         {!error && rows.length === 0 && (
-          <Card>
-            <p className="text-sm text-muted">
-              No swaps yet.{" "}
-              <a href="/profiles" className="text-accent underline">
+          <EmptyState
+            title="No swaps yet"
+            description="Browse members to propose one."
+            action={
+              <a href="/profiles" className="text-sm text-accent underline">
                 Browse members
-              </a>{" "}
-              to propose one.
-            </p>
-          </Card>
+              </a>
+            }
+          />
         )}
 
         <div className="flex flex-col gap-3">
-          {rows.map((swap) => {
+          {rows.map((swap, i) => {
             const iAmRequester = swap.requester_user_id === user.id;
             const otherName = iAmRequester
               ? targetNameById.get(swap.target_profile_id) ?? "them"
               : requesterNameByUserId.get(swap.requester_user_id) ?? "them";
+            const isMatch = swap.status === "accepted";
 
             return (
-              <Card key={swap.id}>
+              <AnimatedCard key={swap.id} index={i} hoverLift={false}>
                 <div className="mb-1 flex items-center justify-between gap-2">
                   <h2 className="text-sm font-semibold text-fg">
                     {iAmRequester ? `You → ${otherName}` : `${otherName} → you`}
                   </h2>
-                  <span className="whitespace-nowrap rounded-brand border border-border px-2 py-0.5 text-xs capitalize text-muted">
-                    {swap.status}
+                  <span
+                    className={cn(
+                      "whitespace-nowrap rounded-brand border px-2 py-0.5 text-xs capitalize",
+                      isMatch
+                        ? "animate-glow-pulse border-accent text-accent-strong"
+                        : "border-border text-muted",
+                    )}
+                  >
+                    {isMatch ? "🤝 matched" : swap.status}
                   </span>
                 </div>
                 <p className="text-sm text-muted">
@@ -157,7 +168,7 @@ export default async function SwapsPage() {
                   role={iAmRequester ? "requester" : "target"}
                   status={swap.status}
                 />
-              </Card>
+              </AnimatedCard>
             );
           })}
         </div>

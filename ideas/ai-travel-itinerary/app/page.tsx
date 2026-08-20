@@ -2,8 +2,10 @@
 
 import { FormEvent, useState } from "react";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { MAX_CITY_LENGTH, MAX_DAYS, MIN_DAYS, type ItineraryResult } from "@/lib/itinerary";
 
 type Status = "idle" | "loading" | "done" | "error" | "not_configured";
@@ -58,7 +60,7 @@ export default function Home() {
           tourist guides skip.
         </p>
 
-        <Card>
+        <GlassPanel glow>
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div>
               <label htmlFor="city">City</label>
@@ -101,19 +103,19 @@ export default function Home() {
               {status === "loading" ? "Planning your trip…" : "Generate itinerary"}
             </Button>
           </form>
-        </Card>
+        </GlassPanel>
 
         {result && (
           <div className="mt-6 flex flex-col gap-4">
-            <Card>
+            <AnimatedCard index={0}>
               <h2 className="mb-2 text-lg font-semibold">
                 {result.days}-day trip to {result.city}
               </h2>
               <p className="text-sm text-muted">{result.summary}</p>
-            </Card>
+            </AnimatedCard>
 
-            {result.itinerary.map((day) => (
-              <Card key={day.day}>
+            {result.itinerary.map((day, i) => (
+              <AnimatedCard key={day.day} index={i + 1}>
                 <h3 className="mb-3 text-base font-semibold">
                   Day {day.day}
                   {day.theme ? ` — ${day.theme}` : ""}
@@ -130,9 +132,33 @@ export default function Home() {
                     <p className="text-sm text-muted">{day.hiddenGem.description}</p>
                   </div>
                 </div>
-              </Card>
+              </AnimatedCard>
             ))}
           </div>
+        )}
+
+        {status === "idle" && !result && (
+          <EmptyState
+            className="mt-6"
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.75}
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                />
+              </svg>
+            }
+            title="Your day-by-day plan will appear here"
+            description="Enter a city and trip length above to generate a full itinerary, hidden gems included."
+          />
         )}
       </main>
     </>

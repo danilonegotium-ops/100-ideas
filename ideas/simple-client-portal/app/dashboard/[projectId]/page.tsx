@@ -2,6 +2,10 @@ import { notFound, redirect } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import {
   getProjectById,
@@ -56,19 +60,26 @@ export default async function ProjectPage({
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <h1 className="mb-1 text-2xl font-semibold">{project.name}</h1>
-        {project.description && <p className="mb-6 text-muted">{project.description}</p>}
+        <GlassPanel glow className="mb-6">
+          <h1 className="mb-1 text-2xl font-semibold">{project.name}</h1>
+          {project.description && <p className="text-muted">{project.description}</p>}
+        </GlassPanel>
 
         {searchParams.error && (
           <p className="mb-4 text-sm text-danger">{searchParams.error}</p>
         )}
+
+        <div className="mb-8 grid gap-3 sm:grid-cols-2">
+          <StatTile label="Objave o napretku" value={updates.length} />
+          <StatTile label="Otpremljeni fajlovi" value={filesWithUrls.length} />
+        </div>
 
         {isFreelancer && (
           <section className="mb-8">
             <h2 className="mb-3 text-lg font-semibold">Klijenti</h2>
             <Card className="mb-3">
               {clients.length === 0 ? (
-                <p className="text-sm text-muted">Još niste pozvali klijenta.</p>
+                <EmptyState title="Još niste pozvali klijenta." />
               ) : (
                 <ul className="flex flex-col gap-1 text-sm">
                   {clients.map((client) => (
@@ -101,17 +112,15 @@ export default async function ProjectPage({
           <h2 className="mb-3 text-lg font-semibold">Napredak</h2>
           <div className="mb-3 flex flex-col gap-3">
             {updates.length === 0 ? (
-              <Card>
-                <p className="text-sm text-muted">Još nema objava.</p>
-              </Card>
+              <EmptyState title="Još nema objava." />
             ) : (
-              updates.map((update) => (
-                <Card key={update.id}>
+              updates.map((update, i) => (
+                <AnimatedCard key={update.id} index={i}>
                   <p className="text-sm">{update.body}</p>
                   <p className="mt-1 text-xs text-muted">
                     {new Date(update.created_at).toLocaleString("sr-RS")}
                   </p>
-                </Card>
+                </AnimatedCard>
               ))
             )}
           </div>
@@ -132,12 +141,14 @@ export default async function ProjectPage({
           <h2 className="mb-3 text-lg font-semibold">Fajlovi</h2>
           <div className="mb-3 flex flex-col gap-2">
             {filesWithUrls.length === 0 ? (
-              <Card>
-                <p className="text-sm text-muted">Još nema otpremljenih fajlova.</p>
-              </Card>
+              <EmptyState title="Još nema otpremljenih fajlova." />
             ) : (
-              filesWithUrls.map(({ file, url }) => (
-                <Card key={file.id} className="flex items-center justify-between gap-2">
+              filesWithUrls.map(({ file, url }, i) => (
+                <AnimatedCard
+                  key={file.id}
+                  index={i}
+                  className="flex items-center justify-between gap-2"
+                >
                   <div>
                     <p className="text-sm font-medium">{file.file_name}</p>
                     <p className="text-xs text-muted">{formatBytes(file.size_bytes)}</p>
@@ -149,7 +160,7 @@ export default async function ProjectPage({
                   ) : (
                     <span className="text-xs text-muted">nedostupno</span>
                   )}
-                </Card>
+                </AnimatedCard>
               ))
             )}
           </div>

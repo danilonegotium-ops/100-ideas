@@ -3,6 +3,7 @@ import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { WishlistList } from "@/components/WishlistList";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { createClient, getUser } from "@/lib/supabase/server";
 import type { Wishlist } from "@/lib/types";
 
@@ -20,14 +21,14 @@ export default async function Home() {
             let them claim items to avoid duplicate gifts — without ever
             spoiling the surprise for you.
           </p>
-          <Card>
+          <GlassPanel glow>
             <p className="mb-4 text-sm text-muted">
               Log in with a magic link to create your own wishlist.
             </p>
             <Link href="/login">
               <Button>Log in</Button>
             </Link>
-          </Card>
+          </GlassPanel>
         </main>
       </>
     );

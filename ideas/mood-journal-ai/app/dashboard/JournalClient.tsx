@@ -1,11 +1,15 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState, type CSSProperties } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
+import { GradientMesh } from "@/components/motion/GradientMesh";
 import { computeInsights, describeInsight } from "@/lib/mood/insights";
 import { formatEntryDate, todayLocalISO } from "@/lib/mood/types";
+import { moodTint } from "@/lib/mood/theme";
 import type { MoodEntry } from "@/lib/mood/types";
 
 const MAX_CONTENT_LENGTH = 4000;
@@ -133,6 +137,12 @@ export function JournalClient() {
 
   const insights = computeInsights(entries);
   const pastEntries = entries.filter((e) => e.entry_date !== today);
+  const todayEntry = entries.find((e) => e.entry_date === today);
+  // Dominant mood for the day: today's own tag if it's been saved, else
+  // fall back to the most recent past entry so the hero backdrop isn't
+  // stuck neutral-gray all day before the first save.
+  const dominantScore = todayEntry?.mood_score ?? pastEntries[0]?.mood_score ?? null;
+  const heroTint = moodTint(dominantScore);
 
   if (loading) return <p className="text-sm text-muted">Loading…</p>;
 
@@ -142,31 +152,42 @@ export function JournalClient() {
 
       <section>
         <h2 className="mb-3 text-lg font-semibold">Today</h2>
-        <Card>
-          <form onSubmit={handleSave} className="flex flex-col gap-3">
-            <div>
-              <label htmlFor="content">How was your day?</label>
-              <textarea
-                id="content"
-                rows={5}
-                value={content}
-                onChange={(event) => setContent(event.target.value)}
-                placeholder="Write about your day — what happened, how you felt…"
-                maxLength={MAX_CONTENT_LENGTH}
-                required
-              />
-              <p className="mt-1 text-xs text-muted">
-                {content.length}/{MAX_CONTENT_LENGTH}
-              </p>
-            </div>
-            <Button type="submit" disabled={saving} className="self-start">
-              {saving ? "Saving…" : "Save today's entry"}
-            </Button>
-            {statusMessage && (
-              <p className="text-sm text-muted">{statusMessage}</p>
-            )}
-          </form>
-        </Card>
+        <div
+          className="relative overflow-hidden rounded-xl2"
+          style={
+            {
+              "--accent-rgb": heroTint.accentRgb,
+              "--accent-2-rgb": heroTint.accent2Rgb,
+            } as CSSProperties
+          }
+        >
+          <GradientMesh animate />
+          <Card>
+            <form onSubmit={handleSave} className="flex flex-col gap-3">
+              <div>
+                <label htmlFor="content">How was your day?</label>
+                <textarea
+                  id="content"
+                  rows={5}
+                  value={content}
+                  onChange={(event) => setContent(event.target.value)}
+                  placeholder="Write about your day — what happened, how you felt…"
+                  maxLength={MAX_CONTENT_LENGTH}
+                  required
+                />
+                <p className="mt-1 text-xs text-muted">
+                  {content.length}/{MAX_CONTENT_LENGTH}
+                </p>
+              </div>
+              <Button type="submit" disabled={saving} className="self-start">
+                {saving ? "Saving…" : "Save today's entry"}
+              </Button>
+              {statusMessage && (
+                <p className="text-sm text-muted">{statusMessage}</p>
+              )}
+            </form>
+          </Card>
+        </div>
       </section>
 
       {insights.length > 0 && (
@@ -189,32 +210,42 @@ export function JournalClient() {
       <section>
         <h2 className="mb-3 text-lg font-semibold">History</h2>
         {pastEntries.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">
-              No past entries yet — come back tomorrow.
-            </p>
-          </Card>
+          <EmptyState
+            title="No past entries yet"
+            description="Come back tomorrow — your mood history builds up day by day."
+          />
         ) : (
           <div className="flex flex-col gap-3">
-            {pastEntries.map((entry) => (
-              <Card key={entry.id}>
-                <div className="mb-1 flex items-center justify-between">
-                  <p className="text-sm font-medium text-fg">
-                    {formatEntryDate(entry.entry_date)}
-                  </p>
-                  {entry.mood_label && (
-                    <span
-                      className={`text-xs font-semibold ${moodColorClass(entry.mood_score)}`}
-                    >
-                      {entry.mood_label}
-                      {typeof entry.mood_score === "number" &&
-                        ` (${entry.mood_score > 0 ? "+" : ""}${entry.mood_score})`}
-                    </span>
-                  )}
-                </div>
-                <p className="text-sm text-muted">{entry.content}</p>
-              </Card>
-            ))}
+            {pastEntries.map((entry, index) => {
+              const tint = moodTint(entry.mood_score);
+              return (
+                <AnimatedCard
+                  key={entry.id}
+                  index={index}
+                  hoverLift={false}
+                  style={{
+                    borderLeftWidth: 3,
+                    borderLeftColor: `rgb(${tint.accentRgb})`,
+                  }}
+                >
+                  <div className="mb-1 flex items-center justify-between">
+                    <p className="text-sm font-medium text-fg">
+                      {formatEntryDate(entry.entry_date)}
+                    </p>
+                    {entry.mood_label && (
+                      <span
+                        className={`text-xs font-semibold ${moodColorClass(entry.mood_score)}`}
+                      >
+                        {entry.mood_label}
+                        {typeof entry.mood_score === "number" &&
+                          ` (${entry.mood_score > 0 ? "+" : ""}${entry.mood_score})`}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-muted">{entry.content}</p>
+                </AnimatedCard>
+              );
+            })}
           </div>
         )}
       </section>

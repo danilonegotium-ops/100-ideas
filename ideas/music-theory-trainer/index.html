@@ -1,13 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-accent="violet">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Music Theory Trainer</title>
   <meta name="description" content="Ear training (real tones via Web Audio) and note-reading practice on a treble clef staff — with difficulty levels and a running score." />
   <link rel="stylesheet" href="theme.css" />
+  <link rel="stylesheet" href="tier2.css" />
 </head>
 <body>
+  <canvas class="mesh-bg-canvas" data-mesh-bg="#a78bfa80,#60a5fa52,#fb718538"></canvas>
   <header class="site">
     <a class="home" href="/">&larr; more tools</a>
   </header>
@@ -15,14 +17,17 @@
     <h1>Music Theory Trainer</h1>
     <p class="tagline">Ear training (real tones via Web Audio) and note-reading practice on a treble clef staff — with difficulty levels and a running score.</p>
 
-    <div class="card">
-      <!-- idea-specific UI goes here -->
+    <div class="gradient-border">
+      <div class="card">
+        <!-- idea-specific UI goes here -->
+      </div>
     </div>
   </main>
   <footer class="site">
     <span>Built solo. No tracking, no signup required.</span>
   </footer>
   <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script src="tier2.js" defer></script>
+  <script src="app.js" defer></script>
 </body>
 </html>

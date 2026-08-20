@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { StatTile } from "@/components/motion/StatTile";
 import { createClient } from "@/lib/supabase/client";
 import { LinksManager, type LinkRow } from "./LinksManager";
 import { PortfolioManager, type PortfolioItemRow } from "./PortfolioManager";
@@ -75,6 +76,11 @@ export function ProfileStudio({
         <Link href={`/u/${profile.username}`} className="text-sm text-accent">
           View public page &rarr;
         </Link>
+      </div>
+
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:max-w-xs">
+        <StatTile label="Links" value={links.length} />
+        <StatTile label="Portfolio images" value={portfolioItems.length} />
       </div>
 
       <div className="mb-6 flex gap-2 border-b border-border">

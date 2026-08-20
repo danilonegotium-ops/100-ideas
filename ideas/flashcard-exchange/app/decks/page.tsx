@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
+import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/server";
 
 type Deck = {
@@ -87,19 +90,27 @@ export default async function DecksPage({
         )}
 
         {!error && decks && decks.length === 0 && (
-          <Card>
-            <p className="text-sm text-muted">
-              {q
-                ? `No decks match "${q}".`
-                : "No decks yet — be the first to create one."}
-            </p>
-          </Card>
+          <EmptyState
+            title={q ? `No decks match "${q}".` : "No decks yet"}
+            description={
+              q
+                ? "Try a different title, subject, or exam tag."
+                : "Be the first to create one and share it with other students."
+            }
+            action={
+              !q ? (
+                <Link href="/decks/new">
+                  <Button variant="secondary">Create a deck</Button>
+                </Link>
+              ) : undefined
+            }
+          />
         )}
 
         <div className="flex flex-col gap-3">
-          {decks?.map((deck: Deck) => (
+          {decks?.map((deck: Deck, i: number) => (
             <Link key={deck.id} href={`/decks/${deck.id}`} className="no-underline">
-              <Card className="transition-colors hover:border-accent">
+              <AnimatedCard index={i} className="transition-colors hover:border-accent">
                 <div className="mb-1 flex items-center justify-between gap-2">
                   <h2 className="text-base font-semibold text-fg">
                     {deck.title}
@@ -117,7 +128,7 @@ export default async function DecksPage({
                 <p className="mt-2 text-xs text-muted">
                   {deck.owner_label ?? "Shared by a member"}
                 </p>
-              </Card>
+              </AnimatedCard>
             </Link>
           ))}
         </div>

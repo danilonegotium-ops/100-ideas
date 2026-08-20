@@ -4,6 +4,8 @@ import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { StatusBadge } from "@/components/StatusBadge";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import { addSystem, deleteHome } from "../actions";
 import { getSystemStatus, latestEventBySystem } from "@/lib/status";
@@ -81,15 +83,13 @@ export default async function HomeDetailPage({
 
         <div className="mb-6 flex flex-col gap-3">
           {systems.length === 0 && (
-            <Card>
-              <p className="text-sm text-muted">
-                No systems yet — add your boiler, AC, water heater, or any
-                appliance below to start tracking service history.
-              </p>
-            </Card>
+            <EmptyState
+              title="No systems yet"
+              description="Add your boiler, AC, water heater, or any appliance below to start tracking service history."
+            />
           )}
 
-          {systems.map((system) => {
+          {systems.map((system, i) => {
             const latest = latestBySystem.get(system.id);
             const status = getSystemStatus(latest?.next_service_due ?? null);
             return (
@@ -98,7 +98,7 @@ export default async function HomeDetailPage({
                 href={`/dashboard/${typedHome.id}/systems/${system.id}`}
                 className="no-underline"
               >
-                <Card className="transition-colors hover:border-accent">
+                <AnimatedCard index={i} className="transition-colors hover:border-accent">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
                       <h2 className="text-base font-semibold text-fg">{system.name}</h2>
@@ -115,7 +115,7 @@ export default async function HomeDetailPage({
                         }`
                       : "Never serviced yet"}
                   </p>
-                </Card>
+                </AnimatedCard>
               </Link>
             );
           })}

@@ -1,11 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-accent="coral">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hobby Finder Quiz</title>
   <meta name="description" content="A short quiz that suggests real hobbies based on your budget, social preference, and available time." />
   <link rel="stylesheet" href="theme.css" />
+  <link rel="stylesheet" href="tier2.css" />
 </head>
 <body>
   <header class="site">
@@ -15,17 +16,19 @@
     <h1>Hobby Finder Quiz</h1>
     <p class="tagline">Answer six quick questions and get three hobbies that actually fit your budget, personality, and free time.</p>
 
-    <div class="card" id="quiz-view">
-      <form class="stack" id="quiz-form">
-        <div id="quiz-questions" class="stack"></div>
-        <p class="muted" id="quiz-error" hidden>Please answer every question first.</p>
-        <button type="submit">See my top hobbies</button>
-      </form>
+    <div class="gradient-border">
+      <div class="card" id="quiz-view">
+        <form class="stack" id="quiz-form">
+          <div id="quiz-questions" class="stack"></div>
+          <p class="muted" id="quiz-error" hidden>Please answer every question first.</p>
+          <button type="submit" class="btn-glow">See my top hobbies</button>
+        </form>
+      </div>
     </div>
 
     <div class="card" id="results-view" hidden>
       <h2 style="margin-top: 0;">Your top matches</h2>
-      <div id="results-list" class="stack"></div>
+      <div id="results-list" class="bento"></div>
       <button type="button" id="quiz-retake">Retake quiz</button>
     </div>
   </main>
@@ -33,6 +36,7 @@
     <span>Built solo. No tracking, no signup required.</span>
   </footer>
   <script src="data.js"></script>
+  <script src="tier2.js" defer></script>
   <script src="app.js"></script>
 </body>
 </html>

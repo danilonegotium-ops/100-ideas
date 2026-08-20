@@ -1,8 +1,11 @@
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { StatTile } from "@/components/motion/StatTile";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { GradientMesh } from "@/components/motion/GradientMesh";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import { formatMoney } from "@/lib/money";
 import { NewBookingForm } from "./NewBookingForm";
@@ -75,53 +78,75 @@ export default async function PropertyPage({
   return (
     <>
       <Nav />
-      <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <Link href="/" className="mb-4 inline-block text-sm text-muted hover:text-fg">
-          &larr; all properties
-        </Link>
-        <h1 className="mb-1 text-2xl font-semibold">{property.name}</h1>
-        {property.address && <p className="mb-6 text-muted">{property.address}</p>}
-
-        <form method="get" className="mb-6 flex flex-wrap items-end gap-3">
-          <div className="w-40">
-            <label htmlFor="from">From (check-in)</label>
-            <input id="from" name="from" type="date" defaultValue={searchParams.from} />
-          </div>
-          <div className="w-40">
-            <label htmlFor="to">To (check-in)</label>
-            <input id="to" name="to" type="date" defaultValue={searchParams.to} />
-          </div>
-          <Button type="submit" variant="secondary">
-            Filter
-          </Button>
-          {(searchParams.from || searchParams.to) && (
-            <Link
-              href={`/properties/${property.id}`}
-              className="text-sm text-muted hover:text-fg"
-            >
-              Clear
+      <main className="mx-auto w-full max-w-site-wide flex-1 px-5 py-8">
+        <section className="relative mb-8 overflow-hidden rounded-xl2 border border-border bg-surface/40 px-6 py-8 sm:px-8">
+          <GradientMesh />
+          <div className="relative">
+            <Link href="/" className="mb-4 inline-block text-sm text-muted hover:text-fg">
+              &larr; all properties
             </Link>
-          )}
-        </form>
+            <h1 className="text-headline text-fg">{property.name}</h1>
+            {property.address && <p className="mt-1 text-muted">{property.address}</p>}
 
-        <Card className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <div>
-            <p className="text-xs uppercase text-muted">Gross</p>
-            <p className="text-lg font-semibold">{formatMoney(totals.gross)}</p>
+            <form method="get" className="mt-6 flex flex-wrap items-end gap-3">
+              <div className="w-40">
+                <label htmlFor="from">From (check-in)</label>
+                <input id="from" name="from" type="date" defaultValue={searchParams.from} />
+              </div>
+              <div className="w-40">
+                <label htmlFor="to">To (check-in)</label>
+                <input id="to" name="to" type="date" defaultValue={searchParams.to} />
+              </div>
+              <Button type="submit" variant="secondary">
+                Filter
+              </Button>
+              {(searchParams.from || searchParams.to) && (
+                <Link
+                  href={`/properties/${property.id}`}
+                  className="text-sm text-muted hover:text-fg"
+                >
+                  Clear
+                </Link>
+              )}
+            </form>
           </div>
-          <div>
-            <p className="text-xs uppercase text-muted">Platform fees</p>
-            <p className="text-lg font-semibold">{formatMoney(totals.fees)}</p>
-          </div>
-          <div>
-            <p className="text-xs uppercase text-muted">Cleaning + other</p>
-            <p className="text-lg font-semibold">{formatMoney(totals.cleaningAndOther)}</p>
-          </div>
-          <div>
-            <p className="text-xs uppercase text-muted">Net profit</p>
-            <p className="text-lg font-semibold text-accent">{formatMoney(totals.net)}</p>
-          </div>
-        </Card>
+        </section>
+
+        {/* Same totals reduce() as before, just rendered via StatTile — net
+            profit gets the widest tile since it's the number that matters
+            most, mirroring the home page's bento pattern at a smaller
+            scale. */}
+        <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <StatTile
+            className="flex flex-col justify-center sm:col-span-2"
+            label="Net profit"
+            value={totals.net}
+            prefix="€"
+            decimals={0}
+            trendTone="positive"
+          />
+          <StatTile
+            className="flex flex-col justify-center"
+            label="Gross"
+            value={totals.gross}
+            prefix="€"
+            decimals={0}
+          />
+          <StatTile
+            className="flex flex-col justify-center"
+            label="Platform fees"
+            value={totals.fees}
+            prefix="€"
+            decimals={0}
+          />
+          <StatTile
+            className="flex flex-col justify-center sm:col-span-2"
+            label="Cleaning + other costs"
+            value={totals.cleaningAndOther}
+            prefix="€"
+            decimals={0}
+          />
+        </div>
 
         <div className="mb-8">
           <NewBookingForm
@@ -131,16 +156,17 @@ export default async function PropertyPage({
           />
         </div>
 
-        <h2 className="mb-3 text-lg font-semibold">Bookings</h2>
+        <h2 className="mb-3 text-title text-fg">Bookings</h2>
         {!bookings || bookings.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">No bookings yet — add one above.</p>
-          </Card>
+          <EmptyState
+            title="No bookings yet"
+            description="Add a booking above to start tracking profit for this property."
+          />
         ) : (
           <ul className="flex flex-col gap-3">
-            {bookings.map((booking) => (
+            {bookings.map((booking, i) => (
               <li key={booking.id}>
-                <Card>
+                <AnimatedCard index={i}>
                   <div className="flex items-center justify-between gap-4">
                     <div>
                       <p className="font-medium">{booking.guest_name || "Guest"}</p>
@@ -163,7 +189,7 @@ export default async function PropertyPage({
                       {formatMoney(booking.net_profit)}
                     </p>
                   </div>
-                </Card>
+                </AnimatedCard>
               </li>
             ))}
           </ul>

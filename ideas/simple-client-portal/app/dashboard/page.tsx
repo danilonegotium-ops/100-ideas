@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import { getProjectsForUser } from "@/lib/data";
 import { createProject } from "@/lib/actions";
@@ -36,19 +38,17 @@ export default async function DashboardPage({
         <section className="mb-8">
           <h2 className="mb-3 text-lg font-semibold">Vaši projekti</h2>
           {owned.length === 0 ? (
-            <Card className="mb-3">
-              <p className="text-sm text-muted">Još uvek nemate nijedan projekat.</p>
-            </Card>
+            <EmptyState className="mb-3" title="Još uvek nemate nijedan projekat." />
           ) : (
             <div className="mb-3 grid gap-3">
-              {owned.map((project) => (
+              {owned.map((project, i) => (
                 <Link key={project.id} href={`/dashboard/${project.id}`}>
-                  <Card className="transition-colors hover:border-accent">
+                  <AnimatedCard index={i} className="transition-colors hover:border-accent">
                     <h3 className="font-semibold">{project.name}</h3>
                     {project.description && (
                       <p className="text-sm text-muted">{project.description}</p>
                     )}
-                  </Card>
+                  </AnimatedCard>
                 </Link>
               ))}
             </div>
@@ -73,14 +73,14 @@ export default async function DashboardPage({
           <section>
             <h2 className="mb-3 text-lg font-semibold">Podeljeno sa vama</h2>
             <div className="grid gap-3">
-              {shared.map((project) => (
+              {shared.map((project, i) => (
                 <Link key={project.id} href={`/dashboard/${project.id}`}>
-                  <Card className="transition-colors hover:border-accent">
+                  <AnimatedCard index={i} className="transition-colors hover:border-accent">
                     <h3 className="font-semibold">{project.name}</h3>
                     {project.description && (
                       <p className="text-sm text-muted">{project.description}</p>
                     )}
-                  </Card>
+                  </AnimatedCard>
                 </Link>
               ))}
             </div>

@@ -4,6 +4,8 @@ import { FormEvent, useMemo, useState } from "react";
 import Link from "next/link";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/client";
 import { CATEGORIES, type Site } from "@/lib/types";
 
@@ -124,7 +126,7 @@ export function Stumble({
       </div>
 
       {current ? (
-        <Card>
+        <AnimatedCard key={current.id} hoverLift={false}>
           <p className="mb-1 inline-block rounded-full border border-border px-2 py-0.5 text-xs text-muted">
             {current.category}
           </p>
@@ -160,15 +162,20 @@ export function Stumble({
               to report a bad link.
             </p>
           )}
-        </Card>
+        </AnimatedCard>
       ) : (
-        <Card>
-          <p className="text-sm text-muted">
-            {pool.length === 0
-              ? "No sites in this category yet."
-              : 'Hit "Surprise me" to land on something.'}
-          </p>
-        </Card>
+        <EmptyState
+          title={
+            pool.length === 0
+              ? "No sites in this category yet"
+              : "Ready when you are"
+          }
+          description={
+            pool.length === 0
+              ? "Try a different category, or submit one yourself."
+              : 'Hit "Surprise me" to land on something.'
+          }
+        />
       )}
 
       <div>

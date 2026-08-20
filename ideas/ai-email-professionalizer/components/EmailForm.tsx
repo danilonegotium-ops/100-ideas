@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { MAX_EMAIL_LENGTH, RewriteResult } from "@/lib/prompt";
 
 interface ApiResponse {
@@ -97,7 +99,7 @@ export function EmailForm() {
       )}
 
       {rewrite && (
-        <Card className="mt-6">
+        <AnimatedCard className="mt-6" hoverLift={false}>
           <div className="mb-3 flex items-center justify-between">
             <h2 className="font-semibold">Professional version</h2>
             <Button variant="secondary" onClick={onCopy} type="button">
@@ -110,17 +112,41 @@ export function EmailForm() {
           {rewrite.notes && (
             <p className="text-xs text-muted">{rewrite.notes}</p>
           )}
-        </Card>
+        </AnimatedCard>
       )}
 
       {raw && (
-        <Card className="mt-6">
+        <AnimatedCard className="mt-6" hoverLift={false}>
           <p className="mb-2 text-xs text-muted">
             The AI responded, but not in the expected format. Here&apos;s the raw
             response:
           </p>
           <pre className="whitespace-pre-wrap font-mono text-sm">{raw}</pre>
-        </Card>
+        </AnimatedCard>
+      )}
+
+      {!loading && !error && !rewrite && !raw && (
+        <EmptyState
+          className="mt-6"
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.75}
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+          }
+          title="Your professional rewrite will appear here"
+          description="Paste a draft above and submit it — the polished version shows up right in this spot."
+        />
       )}
     </>
   );

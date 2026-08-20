@@ -1,5 +1,6 @@
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { DreamForm } from "@/components/DreamForm";
 import { isConfigured } from "@/lib/gemini";
 
@@ -10,10 +11,12 @@ export default function Home() {
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <h1 className="mb-2 text-2xl font-semibold">AI Dream Interpreter</h1>
-        <p className="mb-4 text-muted">
-          Describe a dream and get a fun, imaginative interpretation.
-        </p>
+        <GlassPanel glow className="mb-6">
+          <h1 className="mb-2 text-headline text-fg">AI Dream Interpreter</h1>
+          <p className="text-muted">
+            Describe a dream and get a fun, imaginative interpretation.
+          </p>
+        </GlassPanel>
 
         <Card className="mb-6 border-accent">
           <p className="text-sm">

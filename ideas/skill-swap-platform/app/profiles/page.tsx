@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
+import { SpotlightCard } from "@/components/motion/SpotlightCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 
 type Profile = {
@@ -86,23 +88,24 @@ export default async function ProfilesPage({
         )}
 
         {!error && filtered.length === 0 && (
-          <Card>
-            <p className="text-sm text-muted">
-              {skill
+          <EmptyState
+            title={
+              skill
                 ? `Nobody currently lists "${skill}" as a skill they teach.`
-                : "No profiles yet — be the first to create one."}
-            </p>
-          </Card>
+                : "No profiles yet"
+            }
+            description={!skill ? "Be the first to create one." : undefined}
+          />
         )}
 
-        <div className="flex flex-col gap-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           {filtered.map((profile: Profile) => (
             <Link
               key={profile.id}
               href={`/profiles/${profile.id}`}
               className="no-underline"
             >
-              <Card className="transition-colors hover:border-accent">
+              <SpotlightCard className="h-full transition-colors hover:border-accent">
                 <div className="mb-1 flex items-center justify-between gap-2">
                   <h2 className="text-base font-semibold text-fg">
                     {profile.display_name}
@@ -120,7 +123,7 @@ export default async function ProfilesPage({
                   <span className="text-fg">Wants to learn:</span>{" "}
                   {profile.skills_learn.join(", ") || "—"}
                 </p>
-              </Card>
+              </SpotlightCard>
             </Link>
           ))}
         </div>

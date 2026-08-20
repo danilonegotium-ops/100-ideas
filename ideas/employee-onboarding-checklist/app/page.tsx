@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { getUser } from "@/lib/supabase/server";
 
 export default async function Home() {
@@ -18,7 +19,7 @@ export default async function Home() {
           own tasks.
         </p>
 
-        <Card className="mb-6">
+        <GlassPanel glow className="mb-6">
           <p className="mb-4 text-sm text-fg">
             Everyone logs in the same way, with a magic link email. HR sees an admin dashboard to
             build templates, assign hires, and track completion across everyone. A new hire who
@@ -38,7 +39,7 @@ export default async function Home() {
               <Button>Log in to get started</Button>
             </Link>
           )}
-        </Card>
+        </GlassPanel>
 
         <Card>
           <p className="text-sm text-muted">

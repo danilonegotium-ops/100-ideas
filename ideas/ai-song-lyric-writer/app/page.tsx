@@ -2,8 +2,10 @@
 
 import { FormEvent, useState } from "react";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { EmptyState } from "@/components/motion/EmptyState";
 import {
   GENRE_PRESETS,
   MAX_GENRE_LENGTH,
@@ -66,7 +68,7 @@ export default function Home() {
           with a real verse/chorus structure.
         </p>
 
-        <Card>
+        <GlassPanel glow>
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div>
               <label htmlFor="genre">Genre</label>
@@ -133,10 +135,10 @@ export default function Home() {
               {status === "loading" ? "Writing lyrics…" : "Write lyrics"}
             </Button>
           </form>
-        </Card>
+        </GlassPanel>
 
         {result && (
-          <Card className="mt-6">
+          <AnimatedCard className="mt-6" hoverLift={false}>
             <h2 className="mb-4 text-lg font-semibold">{result.title}</h2>
             <div className="flex flex-col gap-4">
               {result.sections.map((section, i) => (
@@ -153,7 +155,31 @@ export default function Home() {
               read before publishing — check it doesn&apos;t accidentally echo
               an existing song&apos;s lines before you use it publicly.
             </p>
-          </Card>
+          </AnimatedCard>
+        )}
+
+        {status === "idle" && !result && (
+          <EmptyState
+            className="mt-6"
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.75}
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 19V6l12-2v13M9 19a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            }
+            title="Your lyrics will appear here"
+            description="Pick a genre and describe a mood or theme above to get an original verse/chorus structure."
+          />
         )}
       </main>
     </>

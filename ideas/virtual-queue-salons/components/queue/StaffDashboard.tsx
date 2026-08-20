@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { createClient } from "@/lib/supabase/client";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
 
 interface EntryRow {
   id: string;
@@ -100,8 +101,13 @@ export function StaffDashboard({ shopId }: { shopId: string }) {
         <div>
           <h2 className="mb-2 text-sm font-semibold text-accent">Called — waiting at desk</h2>
           <div className="flex flex-col gap-2">
-            {called.map((entry) => (
-              <Card key={entry.id} className="flex items-center justify-between gap-3">
+            {called.map((entry, index) => (
+              <AnimatedCard
+                key={entry.id}
+                index={index}
+                hoverLift={false}
+                className="flex items-center justify-between gap-3 !border-accent/40"
+              >
                 <div>
                   <p className="font-medium">{entry.customer_name}</p>
                   <p className="text-xs text-muted">
@@ -127,7 +133,7 @@ export function StaffDashboard({ shopId }: { shopId: string }) {
                     Back to waiting
                   </button>
                 </div>
-              </Card>
+              </AnimatedCard>
             ))}
           </div>
         </div>
@@ -140,7 +146,7 @@ export function StaffDashboard({ shopId }: { shopId: string }) {
         ) : (
           <div className="flex flex-col gap-2">
             {waiting.map((entry, index) => (
-              <Card key={entry.id} className="flex items-center justify-between gap-3">
+              <AnimatedCard key={entry.id} index={index} hoverLift={false} className="flex items-center justify-between gap-3">
                 <div>
                   <p className="font-medium">
                     #{index + 1} {entry.customer_name}
@@ -159,7 +165,7 @@ export function StaffDashboard({ shopId }: { shopId: string }) {
                 >
                   Remove
                 </button>
-              </Card>
+              </AnimatedCard>
             ))}
           </div>
         )}

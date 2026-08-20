@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function PublicProfilePage({
@@ -34,7 +35,7 @@ export default async function PublicProfilePage({
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <div className="mb-8 flex flex-col items-center text-center">
+        <GlassPanel glow className="mb-8 flex flex-col items-center text-center">
           {profile.avatar_url && (
             // eslint-disable-next-line @next/next/no-img-element -- arbitrary per-artist URL, not a static allowlisted domain
             <img
@@ -43,9 +44,9 @@ export default async function PublicProfilePage({
               className="mb-4 h-24 w-24 rounded-full border border-border object-cover"
             />
           )}
-          <h1 className="text-2xl font-semibold">{profile.display_name}</h1>
+          <h1 className="text-headline text-fg">{profile.display_name}</h1>
           {profile.bio && <p className="mt-2 max-w-md text-sm text-muted">{profile.bio}</p>}
-        </div>
+        </GlassPanel>
 
         {links && links.length > 0 && (
           <div className="mb-8 flex flex-col gap-3">

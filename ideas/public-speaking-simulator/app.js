@@ -109,23 +109,23 @@ if (typeof document !== "undefined") {
         </div>
         <div>
           <label>Live transcript</label>
-          <div id="live-transcript" class="card mono" style="min-height:4rem; white-space:pre-wrap;"></div>
+          <div id="live-transcript" class="card mono" data-spotlight style="min-height:4rem; white-space:pre-wrap;"></div>
         </div>
         <p id="status" class="muted"></p>
       </div>
       <div id="results" style="display:none; margin-top:1.5rem;">
         <h2>Results</h2>
         <div class="row">
-          <div class="card" style="flex:1; min-width:140px;">
+          <div class="card" data-tilt style="flex:1; min-width:140px;">
             <div class="muted" style="font-size:0.8rem;">Words per minute</div>
             <div id="wpm-value" style="font-size:1.8rem; font-weight:700;"></div>
             <div id="pace-label" class="muted" style="font-size:0.8rem;"></div>
           </div>
-          <div class="card" style="flex:1; min-width:140px;">
+          <div class="card" data-tilt style="flex:1; min-width:140px;">
             <div class="muted" style="font-size:0.8rem;">Filler words</div>
             <div id="filler-value" style="font-size:1.8rem; font-weight:700;"></div>
           </div>
-          <div class="card" style="flex:1; min-width:140px;">
+          <div class="card" data-tilt style="flex:1; min-width:140px;">
             <div class="muted" style="font-size:0.8rem;">Duration</div>
             <div id="duration-value" style="font-size:1.8rem; font-weight:700;"></div>
           </div>
@@ -137,6 +137,11 @@ if (typeof document !== "undefined") {
         </div>
       </div>
     `;
+
+    // tier2.js's autoInit() already ran on DOMContentLoaded (it loads before
+    // this script), before the markup above existed — re-run it so the new
+    // [data-spotlight]/[data-tilt] elements actually get wired up.
+    if (typeof window !== "undefined" && window.Tier2) window.Tier2.autoInit();
 
     const browserNote = card.querySelector("#browser-note");
     const unsupportedBox = card.querySelector("#unsupported");

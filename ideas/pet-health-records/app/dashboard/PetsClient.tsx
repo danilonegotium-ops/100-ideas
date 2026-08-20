@@ -5,6 +5,9 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { dueStatus } from "@/lib/pets/types";
 import type { Pet, PetEntry } from "@/lib/pets/types";
 
@@ -116,16 +119,43 @@ export function PetsClient() {
 
   if (loading) return <p className="text-sm text-muted">Loading…</p>;
 
+  const overdueCount = Object.values(badges).reduce(
+    (sum, badge) => sum + badge.overdue,
+    0,
+  );
+  const upcomingCount = Object.values(badges).reduce(
+    (sum, badge) => sum + badge.upcoming,
+    0,
+  );
+
   return (
     <div className="flex flex-col gap-8">
       {error && <p className="text-sm text-danger">{error}</p>}
 
+      {pets.length > 0 && (
+        <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <StatTile label="Pets" value={pets.length} />
+          <StatTile
+            label="Overdue vaccinations"
+            value={overdueCount}
+            trend={overdueCount > 0 ? "Needs attention" : "All caught up"}
+            trendTone={overdueCount > 0 ? "negative" : "positive"}
+          />
+          <StatTile
+            label="Due within 30 days"
+            value={upcomingCount}
+            trendTone="neutral"
+          />
+        </section>
+      )}
+
       <div className="flex flex-col gap-3">
-        {pets.map((pet) => {
+        {pets.map((pet, index) => {
           const badge = badges[pet.id];
           return (
-            <Card
+            <AnimatedCard
               key={pet.id}
+              index={index}
               className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
             >
               <div>
@@ -156,15 +186,14 @@ export function PetsClient() {
                   Remove
                 </Button>
               </div>
-            </Card>
+            </AnimatedCard>
           );
         })}
         {pets.length === 0 && (
-          <Card>
-            <p className="text-sm text-muted">
-              No pets yet — add one below.
-            </p>
-          </Card>
+          <EmptyState
+            title="No pets yet"
+            description="Add one below to start tracking their health records."
+          />
         )}
       </div>
 

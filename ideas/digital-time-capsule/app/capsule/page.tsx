@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import { LetterForm } from "./LetterForm";
+import { CapsuleHero } from "./CapsuleHero";
 
 type LetterRow = {
   id: string;
@@ -40,20 +42,21 @@ export default async function CapsulePage() {
           letter to this address on its delivery date.
         </p>
 
+        <CapsuleHero letters={letters ?? []} />
+
         <LetterForm />
 
         <h2 className="mb-3 mt-10 text-lg font-semibold">Your letters</h2>
         {!letters || letters.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">
-              No letters yet — write your first one above.
-            </p>
-          </Card>
+          <EmptyState
+            title="No letters yet"
+            description="Write your first one above — it locks the moment you save it."
+          />
         ) : (
           <ul className="flex flex-col gap-3">
-            {letters.map((letter) => (
+            {letters.map((letter, index) => (
               <li key={letter.id}>
-                <Card className="flex items-center justify-between gap-4">
+                <AnimatedCard index={index} className="flex items-center justify-between gap-4">
                   <div>
                     <p className="font-medium">
                       {letter.title || "Untitled letter"}
@@ -77,7 +80,7 @@ export default async function CapsulePage() {
                   >
                     {letter.delivered ? "Delivered" : "Sealed"}
                   </span>
-                </Card>
+                </AnimatedCard>
               </li>
             ))}
           </ul>

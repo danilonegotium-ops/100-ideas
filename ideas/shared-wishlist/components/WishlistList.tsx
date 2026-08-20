@@ -4,6 +4,8 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/client";
 import type { Wishlist } from "@/lib/types";
 
@@ -76,15 +78,18 @@ export function WishlistList({
       </Card>
 
       {wishlists.length === 0 ? (
-        <Card>
-          <p className="text-sm text-muted">
-            No wishlists yet — create one above.
-          </p>
-        </Card>
+        <EmptyState
+          title="No wishlists yet"
+          description="Create one above to get a shareable link."
+        />
       ) : (
         <div className="flex flex-col gap-3">
-          {wishlists.map((w) => (
-            <Card key={w.id} className="flex items-center justify-between">
+          {wishlists.map((w, i) => (
+            <AnimatedCard
+              key={w.id}
+              index={i}
+              className="flex items-center justify-between"
+            >
               <div>
                 <p className="font-semibold">{w.title}</p>
                 <p className="text-xs text-muted">
@@ -94,7 +99,7 @@ export function WishlistList({
               <Link href={`/wishlist/${w.id}`}>
                 <Button variant="secondary">Manage</Button>
               </Link>
-            </Card>
+            </AnimatedCard>
           ))}
         </div>
       )}

@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import { getManagerBuildings } from "@/lib/data";
 import { createBuilding } from "@/lib/actions";
@@ -32,19 +34,19 @@ export default async function DashboardPage({
         )}
 
         {buildings.length === 0 ? (
-          <Card className="mb-6">
-            <p className="text-sm text-muted">
-              Još uvek nemate nijednu zgradu. Dodajte prvu ispod.
-            </p>
-          </Card>
+          <EmptyState
+            className="mb-6"
+            title="Još uvek nemate nijednu zgradu."
+            description="Dodajte prvu ispod."
+          />
         ) : (
           <div className="mb-6 grid gap-3">
-            {buildings.map((building) => (
+            {buildings.map((building, i) => (
               <Link key={building.id} href={`/dashboard/${building.id}`}>
-                <Card className="transition-colors hover:border-accent">
+                <AnimatedCard index={i} className="transition-colors hover:border-accent">
                   <h2 className="font-semibold">{building.name}</h2>
                   <p className="text-sm text-muted">{building.address}</p>
-                </Card>
+                </AnimatedCard>
               </Link>
             ))}
           </div>

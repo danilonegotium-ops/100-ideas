@@ -38,9 +38,12 @@ if (typeof module !== "undefined" && module.exports) {
   // 2. Render the grid.
   function render(list) {
     grid.innerHTML = "";
-    list.forEach((a) => {
+    list.forEach((a, index) => {
       const card = document.createElement("div");
       card.className = "anim-card";
+      // Tier 2: a subtle 3D tilt on the first few visible cards only
+      // (surgical per design system guidance, not on every card in the grid).
+      if (index < 3) card.setAttribute("data-tilt", "");
 
       const stage = document.createElement("div");
       stage.className = "anim-demo-stage";
@@ -65,6 +68,12 @@ if (typeof module !== "undefined" && module.exports) {
       grid.appendChild(card);
     });
     count.textContent = list.length + " / " + ANIMATIONS.length;
+    // The grid is rebuilt on every search too, so re-run Tier 2's tilt
+    // wiring for the freshly-created [data-tilt] cards each time
+    // (autoInit only scans once on initial load).
+    if (typeof window !== "undefined" && window.Tier2 && typeof window.Tier2.initTilt === "function") {
+      window.Tier2.initTilt(grid);
+    }
   }
 
   function copyToClipboard(text, btn) {

@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { StudyDeck } from "@/components/StudyDeck";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function DeckPage({
@@ -45,10 +46,10 @@ export default async function DeckPage({
           {deck.owner_label ?? "Shared by a member"} · {cards?.length ?? 0} cards
         </p>
 
-        <Card className="mb-6">
+        <GlassPanel glow className="mb-6">
           <h2 className="mb-3 text-sm font-semibold text-fg">Study mode</h2>
           <StudyDeck cards={cards ?? []} />
-        </Card>
+        </GlassPanel>
 
         {cards && cards.length > 0 && (
           <details>
@@ -56,11 +57,11 @@ export default async function DeckPage({
               View all cards
             </summary>
             <div className="mt-3 flex flex-col gap-2">
-              {cards.map((card) => (
-                <Card key={card.id}>
+              {cards.map((card, i) => (
+                <AnimatedCard key={card.id} index={i} hoverLift={false}>
                   <p className="text-sm text-fg">{card.front}</p>
                   <p className="mt-1 text-sm text-muted">{card.back}</p>
-                </Card>
+                </AnimatedCard>
               ))}
             </div>
           </details>

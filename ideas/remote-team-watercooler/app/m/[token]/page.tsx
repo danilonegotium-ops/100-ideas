@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { resolveMemberByToken } from "@/lib/watercooler/resolveMemberByToken";
 import { LinkEditor } from "./LinkEditor";
 
@@ -30,10 +30,10 @@ export default async function MemberPairingPage({
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <h1 className="mb-2 text-2xl font-semibold">Hi {member.name}</h1>
+        <h1 className="mb-2 text-headline text-fg">Hi {member.name}</h1>
         <p className="mb-6 text-muted">Your watercooler pairing this week</p>
 
-        <Card>
+        <GlassPanel glow>
           {!pairing ? (
             <p className="text-sm text-muted">
               No pairing yet — check back after your team admin runs this
@@ -51,7 +51,7 @@ export default async function MemberPairingPage({
               <LinkEditor token={params.token} initialLink={pairing.meeting_link} />
             </>
           )}
-        </Card>
+        </GlassPanel>
       </main>
     </>
   );

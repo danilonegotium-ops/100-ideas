@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { MAX_BUDGET_LENGTH, MAX_INTERESTS_LENGTH, GiftIdea } from "@/lib/prompt";
 
 interface ApiResponse {
@@ -99,10 +101,10 @@ export function GiftForm() {
       {ideas && (
         <div className="mt-6 space-y-3">
           {ideas.map((idea, i) => (
-            <Card key={i}>
+            <AnimatedCard key={i} index={i}>
               <h2 className="mb-1 font-semibold">{idea.name}</h2>
               <p className="text-sm text-muted">{idea.reason}</p>
-            </Card>
+            </AnimatedCard>
           ))}
         </div>
       )}
@@ -115,6 +117,15 @@ export function GiftForm() {
           </p>
           <pre className="whitespace-pre-wrap font-mono text-sm">{raw}</pre>
         </Card>
+      )}
+
+      {!loading && !error && !ideas && !raw && (
+        <div className="mt-6">
+          <EmptyState
+            title="No gift ideas yet"
+            description="Fill in your friend's interests and a budget above, then generate ideas to see them appear here."
+          />
+        </div>
       )}
     </>
   );

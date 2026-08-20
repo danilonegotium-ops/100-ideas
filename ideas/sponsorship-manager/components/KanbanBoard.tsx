@@ -24,7 +24,7 @@ export function KanbanBoard({ deals }: { deals: Deal[] }) {
             {stageDeals.length === 0 ? (
               <p className="text-xs text-muted">No deals</p>
             ) : (
-              stageDeals.map((deal) => <DealCard key={deal.id} deal={deal} />)
+              stageDeals.map((deal, i) => <DealCard key={deal.id} deal={deal} index={i} />)
             )}
           </div>
         );

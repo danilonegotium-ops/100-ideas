@@ -3,6 +3,10 @@ import { notFound, redirect } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import {
   bookingsBySlotId,
@@ -39,7 +43,7 @@ export default async function ShopDashboardPage({
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
+        <GlassPanel glow className="mb-6 flex flex-wrap items-start justify-between gap-3">
           <div>
             <h1 className="mb-1 text-2xl font-semibold">{shop.name}</h1>
             <p className="text-muted">{shop.address}</p>
@@ -47,24 +51,25 @@ export default async function ShopDashboardPage({
           <Link href={`/s/${shop.id}`} target="_blank">
             <Button variant="secondary">Otvori javnu stranicu salona &rarr;</Button>
           </Link>
-        </div>
+        </GlassPanel>
 
         {searchParams.error && (
           <p className="mb-4 text-sm text-danger">{searchParams.error}</p>
         )}
 
+        <div className="mb-8 grid gap-3 sm:grid-cols-2">
+          <StatTile label="Rezervisano termina" value={confirmedBookings.length} />
+          <StatTile label="Ukupno termina" value={slots.length} />
+        </div>
+
         <section className="mb-8">
-          <h2 className="mb-3 text-lg font-semibold">
-            Kalendar termina ({confirmedBookings.length} rezervisano)
-          </h2>
+          <h2 className="mb-3 text-lg font-semibold">Kalendar termina</h2>
           <div className="mb-3 flex flex-col gap-3">
             {byDay.size === 0 ? (
-              <Card>
-                <p className="text-sm text-muted">Još nema otvorenih termina.</p>
-              </Card>
+              <EmptyState title="Još nema otvorenih termina." />
             ) : (
-              Array.from(byDay.entries()).map(([day, daySlots]) => (
-                <Card key={day}>
+              Array.from(byDay.entries()).map(([day, daySlots], i) => (
+                <AnimatedCard key={day} index={i}>
                   <h3 className="mb-2 font-medium">{day}</h3>
                   <div className="flex flex-col gap-1 text-sm">
                     {daySlots.map((slot) => {
@@ -101,7 +106,7 @@ export default async function ShopDashboardPage({
                       );
                     })}
                   </div>
-                </Card>
+                </AnimatedCard>
               ))
             )}
           </div>

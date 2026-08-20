@@ -2,8 +2,10 @@
 
 import { FormEvent, useState } from "react";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { MAX_PROBLEM_LENGTH, type MathTutorResult } from "@/lib/mathtutor";
 
 type Status = "idle" | "loading" | "done" | "error" | "not_configured";
@@ -57,7 +59,7 @@ export default function Home() {
           step-by-step explanation of how to get there.
         </p>
 
-        <Card>
+        <GlassPanel glow>
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div>
               <label htmlFor="problem">Math problem</label>
@@ -86,10 +88,10 @@ export default function Home() {
               {status === "loading" ? "Solving…" : "Solve it"}
             </Button>
           </form>
-        </Card>
+        </GlassPanel>
 
         {result && (
-          <Card className="mt-6">
+          <AnimatedCard className="mt-6" hoverLift={false}>
             {!result.isMathProblem ? (
               <p className="text-sm text-fg">{result.note}</p>
             ) : (
@@ -125,7 +127,31 @@ export default function Home() {
               General-purpose explanations, not tied to any specific official
               curriculum — always double-check important calculations.
             </p>
-          </Card>
+          </AnimatedCard>
+        )}
+
+        {status === "idle" && !result && (
+          <EmptyState
+            className="mt-6"
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.75}
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 7h6m-6 4h6m-6 4h4M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"
+                />
+              </svg>
+            }
+            title="Your step-by-step solution will appear here"
+            description="Type a math problem above and submit it — the answer and explanation show up right in this spot."
+          />
         )}
       </main>
     </>

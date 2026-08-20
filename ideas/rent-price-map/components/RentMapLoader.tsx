@@ -14,12 +14,18 @@ import type { RentReport } from "@/lib/types";
 const RentMap = dynamic(() => import("./RentMap").then((mod) => mod.RentMap), {
   ssr: false,
   loading: () => (
-    <div className="flex h-[420px] w-full items-center justify-center rounded-brand border border-border text-sm text-muted">
+    <div className="flex h-[420px] w-full animate-pulse items-center justify-center rounded-brand border border-border text-sm text-muted">
       Loading map…
     </div>
   ),
 });
 
-export function RentMapLoader({ reports }: { reports: RentReport[] }) {
-  return <RentMap reports={reports} />;
+export function RentMapLoader({
+  reports,
+  onVisibleReportsChange,
+}: {
+  reports: RentReport[];
+  onVisibleReportsChange?: (visible: RentReport[]) => void;
+}) {
+  return <RentMap reports={reports} onVisibleReportsChange={onVisibleReportsChange} />;
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { getUser } from "@/lib/supabase/server";
 
 export default async function Home() {
@@ -17,7 +18,7 @@ export default async function Home() {
           click — no accounting software connection required.
         </p>
 
-        <Card className="mb-6">
+        <GlassPanel glow className="mb-6">
           <p className="mb-4 text-sm text-fg">
             Add invoices manually as you issue them. Anything past its due date is flagged
             automatically. When it&apos;s time to nudge a client, hit &ldquo;Send reminder&rdquo; —
@@ -27,7 +28,7 @@ export default async function Home() {
           <Link href={user ? "/invoices" : "/login"}>
             <Button>{user ? "Go to your invoices" : "Log in to get started"}</Button>
           </Link>
-        </Card>
+        </GlassPanel>
 
         <Card>
           <p className="text-sm text-muted">

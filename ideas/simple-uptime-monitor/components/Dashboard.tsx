@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import type { Monitor, CheckLogRow } from "@/lib/types";
@@ -149,22 +151,20 @@ export function Dashboard({
       </div>
 
       {monitors.length === 0 ? (
-        <Card>
-          <p className="text-sm text-muted">
-            No monitors yet — add a URL above. Vercel Cron checks every
-            monitor every 5 minutes once deployed (see{" "}
-            <code className="font-mono">vercel.json</code>); use{" "}
-            <strong>Check all now</strong> to test locally in the meantime.
-          </p>
-        </Card>
+        <EmptyState
+          title="No monitors yet"
+          description={
+            'Add a URL above. Vercel Cron checks every monitor every 5 minutes once deployed (see vercel.json); use "Check all now" to test locally in the meantime.'
+          }
+        />
       ) : (
         <div className="flex flex-col gap-4">
-          {monitors.map((m) => {
+          {monitors.map((m, i) => {
             const history = checks
               .filter((c) => c.monitor_id === m.id)
               .slice(0, 8);
             return (
-              <Card key={m.id}>
+              <AnimatedCard key={m.id} index={i}>
                 <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
                   <div>
                     <p className="font-semibold">{m.label || m.url}</p>
@@ -224,7 +224,7 @@ export function Dashboard({
                     </ul>
                   </div>
                 )}
-              </Card>
+              </AnimatedCard>
             );
           })}
         </div>

@@ -3,6 +3,10 @@ import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { PlaceholderIllustration } from "@/components/PlaceholderIllustration";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient, getUser } from "@/lib/supabase/server";
 import {
   buildAttendanceGrid,
@@ -56,17 +60,24 @@ export default async function GroupDashboardPage({
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <h1 className="mb-6 text-2xl font-semibold">{group.name}</h1>
+        <GlassPanel glow className="mb-6">
+          <h1 className="text-2xl font-semibold">{group.name}</h1>
+        </GlassPanel>
 
         {searchParams.error && (
           <p className="mb-4 text-sm text-danger">{searchParams.error}</p>
         )}
 
+        <div className="mb-8 grid gap-3 sm:grid-cols-2">
+          <StatTile label="Broj dece" value={children.length} />
+          <StatTile label="Objave za roditelje" value={photos.length} />
+        </div>
+
         <section className="mb-8">
           <h2 className="mb-3 text-lg font-semibold">Deca ({children.length})</h2>
           <Card className="mb-3 overflow-x-auto">
             {children.length === 0 ? (
-              <p className="text-sm text-muted">Još nema dodate dece.</p>
+              <EmptyState title="Još nema dodate dece." />
             ) : (
               <table className="w-full text-sm">
                 <thead>
@@ -161,18 +172,16 @@ export default async function GroupDashboardPage({
           <h2 className="mb-3 text-lg font-semibold">Dnevni jelovnik</h2>
           <div className="mb-3 flex flex-col gap-3">
             {menus.length === 0 ? (
-              <Card>
-                <p className="text-sm text-muted">Još nema unetog jelovnika.</p>
-              </Card>
+              <EmptyState title="Još nema unetog jelovnika." />
             ) : (
-              menus.map((menu) => (
-                <Card key={menu.id}>
+              menus.map((menu, i) => (
+                <AnimatedCard key={menu.id} index={i}>
                   <h3 className="mb-1 font-medium">{menu.menu_date}</h3>
                   <p className="text-sm text-muted">
                     Doručak: {menu.breakfast || "—"} · Ručak: {menu.lunch || "—"} · Užina:{" "}
                     {menu.snack || "—"}
                   </p>
-                </Card>
+                </AnimatedCard>
               ))
             )}
           </div>
@@ -207,15 +216,13 @@ export default async function GroupDashboardPage({
           <h2 className="mb-3 text-lg font-semibold">Objave za roditelje</h2>
           <div className="mb-3 grid gap-3 sm:grid-cols-2">
             {photos.length === 0 ? (
-              <Card>
-                <p className="text-sm text-muted">Još nema objava.</p>
-              </Card>
+              <EmptyState title="Još nema objava." />
             ) : (
-              photos.map((photo) => (
-                <Card key={photo.id}>
+              photos.map((photo, i) => (
+                <AnimatedCard key={photo.id} index={i}>
                   <PlaceholderIllustration placeholderKey={photo.placeholder_key} />
                   <p className="mt-2 text-sm">{photo.caption}</p>
-                </Card>
+                </AnimatedCard>
               ))
             )}
           </div>

@@ -1,5 +1,7 @@
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/server";
 
 type LeaderboardRow = {
@@ -41,16 +43,15 @@ export default async function LeaderboardPage() {
         )}
 
         {!error && rows.length === 0 && (
-          <Card>
-            <p className="text-sm text-muted">
-              No learners yet — be the first to complete a lesson.
-            </p>
-          </Card>
+          <EmptyState
+            title="No learners yet"
+            description="Be the first to complete a lesson."
+          />
         )}
 
         <div className="flex flex-col gap-2">
           {rows.map((row, i) => (
-            <Card key={row.user_id} className="flex items-center justify-between">
+            <AnimatedCard key={row.user_id} index={i} hoverLift={false} className="flex items-center justify-between">
               <span className="text-sm text-fg">
                 {i + 1}. {row.display_name}
               </span>
@@ -58,7 +59,7 @@ export default async function LeaderboardPage() {
                 {row.total_points} pts · {row.lessons_completed} lesson
                 {row.lessons_completed === 1 ? "" : "s"}
               </span>
-            </Card>
+            </AnimatedCard>
           ))}
         </div>
       </main>

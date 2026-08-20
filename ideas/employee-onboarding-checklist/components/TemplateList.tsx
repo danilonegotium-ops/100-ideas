@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
 import { deleteTemplate } from "@/app/dashboard/actions";
 import { formatDate, type Template } from "@/lib/types";
 
@@ -15,19 +15,19 @@ export function TemplateList({
 }) {
   return (
     <div className="flex flex-col gap-3">
-      {templates.map((template) => (
-        <TemplateRow key={template.id} template={template} taskCount={taskCountByTemplate[template.id] ?? 0} />
+      {templates.map((template, i) => (
+        <TemplateRow key={template.id} template={template} taskCount={taskCountByTemplate[template.id] ?? 0} index={i} />
       ))}
     </div>
   );
 }
 
-function TemplateRow({ template, taskCount }: { template: Template; taskCount: number }) {
+function TemplateRow({ template, taskCount, index }: { template: Template; taskCount: number; index: number }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
   return (
-    <Card>
+    <AnimatedCard index={index}>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="font-medium">{template.name}</p>
@@ -52,6 +52,6 @@ function TemplateRow({ template, taskCount }: { template: Template; taskCount: n
         </Button>
       </div>
       {error && <p className="mt-2 text-xs text-danger">{error}</p>}
-    </Card>
+    </AnimatedCard>
   );
 }

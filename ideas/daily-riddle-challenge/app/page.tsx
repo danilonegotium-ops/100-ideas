@@ -4,6 +4,9 @@ import { FormEvent, useEffect, useState } from "react";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { TimerRing } from "@/components/TimerRing";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { useUser } from "@/lib/supabase/useUser";
 
 type Phase = "loading" | "name" | "playing" | "done";
@@ -191,9 +194,7 @@ export default function Home() {
 
               {phase === "playing" && (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                  <p className="font-mono text-2xl text-accent">
-                    {formatElapsed(elapsedDisplay)}
-                  </p>
+                  <TimerRing elapsedMs={elapsedDisplay} active />
                   <div>
                     <label htmlFor="answer">Your answer</label>
                     <input
@@ -237,23 +238,22 @@ export default function Home() {
           Today&apos;s fastest solvers
         </h2>
         {leaderboard.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">
-              No one has solved it yet today — be the first.
-            </p>
-          </Card>
+          <EmptyState
+            title="No one has solved it yet today"
+            description="Be the first — your time will show up here."
+          />
         ) : (
           <ol className="flex flex-col gap-2">
             {leaderboard.map((entry, index) => (
               <li key={`${entry.display_name}-${entry.completed_at}`}>
-                <Card className="flex items-center justify-between">
+                <AnimatedCard index={index} className="flex items-center justify-between" hoverLift={false}>
                   <span>
                     {index + 1}. {entry.display_name}
                   </span>
                   <span className="font-mono text-sm text-muted">
                     {formatElapsed(entry.elapsed_ms)}
                   </span>
-                </Card>
+                </AnimatedCard>
               </li>
             ))}
           </ol>

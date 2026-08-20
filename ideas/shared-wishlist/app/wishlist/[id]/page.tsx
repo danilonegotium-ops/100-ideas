@@ -4,6 +4,7 @@ import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { ManageWishlist } from "@/components/ManageWishlist";
+import { StatTile } from "@/components/motion/StatTile";
 import { createClient, getUser } from "@/lib/supabase/server";
 import type { Item, OwnerItemView, ClaimStatusRow } from "@/lib/types";
 
@@ -72,6 +73,7 @@ export default async function ManageWishlistPage({
     ...item,
     is_claimed: statusMap.get(item.id) ?? false,
   }));
+  const claimedCount = ownerItems.filter((i) => i.is_claimed).length;
 
   return (
     <>
@@ -82,6 +84,12 @@ export default async function ManageWishlistPage({
           You&apos;ll see which items are claimed, but never who claimed
           them — that stays a surprise.
         </p>
+        {ownerItems.length > 0 && (
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <StatTile label="Items" value={ownerItems.length} />
+            <StatTile label="Claimed" value={claimedCount} />
+          </div>
+        )}
         <ManageWishlist wishlistId={wishlist.id} initialItems={ownerItems} />
       </main>
     </>

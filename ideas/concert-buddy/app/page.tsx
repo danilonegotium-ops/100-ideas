@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
+import { StatTile } from "@/components/motion/StatTile";
 import { createClient } from "@/lib/supabase/server";
 import { formatDateOnly } from "@/lib/formatDate";
 
@@ -41,6 +43,8 @@ export default async function Home({
   }
 
   const { data: listings } = await query.returns<ListingRow[]>();
+  const openCount = (listings ?? []).filter((l) => !l.is_filled).length;
+  const cityCount = new Set((listings ?? []).map((l) => l.city)).size;
 
   return (
     <>
@@ -91,19 +95,25 @@ export default async function Home({
           )}
         </form>
 
+        {listings && listings.length > 0 && (
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <StatTile label="Listings" value={listings.length} />
+            <StatTile label="Still looking" value={openCount} />
+            <StatTile label="Cities" value={cityCount} />
+          </div>
+        )}
+
         {!listings || listings.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">
-              No listings match yet. Try clearing the filters, or be the
-              first to post one.
-            </p>
-          </Card>
+          <EmptyState
+            title="No listings match yet"
+            description="Try clearing the filters, or be the first to post one."
+          />
         ) : (
           <ul className="flex flex-col gap-3">
-            {listings.map((listing) => (
+            {listings.map((listing, i) => (
               <li key={listing.id}>
                 <Link href={`/listings/${listing.id}`}>
-                  <Card className="transition-colors hover:border-accent">
+                  <AnimatedCard index={i} className="hover:border-accent">
                     <div className="flex items-center justify-between gap-4">
                       <div>
                         <p className="font-medium">{listing.event_name}</p>
@@ -118,7 +128,7 @@ export default async function Home({
                         <span className="shrink-0 text-sm text-muted">Filled</span>
                       )}
                     </div>
-                  </Card>
+                  </AnimatedCard>
                 </Link>
               </li>
             ))}

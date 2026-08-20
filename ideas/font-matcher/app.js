@@ -155,6 +155,12 @@ function initApp() {
     ranked.forEach(function (entry, i) {
       var card = document.createElement("div");
       card.className = "font-result";
+      // Surface the tilt/spotlight effects on the visual result cards: the
+      // top match gets the cursor-follow spotlight (it's the "answer"), and
+      // the top few get a subtle 3D tilt since these are the side-by-side
+      // typography samples that are the whole point of this tool.
+      if (i === 0) card.setAttribute("data-spotlight", "");
+      if (i < 3) card.setAttribute("data-tilt", "");
 
       var title = document.createElement("h3");
       title.textContent = (i + 1) + ". " + entry.font.family;
@@ -185,6 +191,14 @@ function initApp() {
 
     form.hidden = true;
     resultsView.hidden = false;
+
+    // Results are created after tier2.js's own DOMContentLoaded autoInit()
+    // pass, so wire up the spotlight/tilt effects on these specific cards
+    // manually. Degrades silently if tier2.js didn't load for any reason.
+    if (typeof Tier2 !== "undefined") {
+      Tier2.initSpotlight(resultsList);
+      Tier2.initTilt(resultsList);
+    }
   }
 
   form.addEventListener("submit", function (e) {

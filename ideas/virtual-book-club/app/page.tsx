@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { createClient, getUser } from "@/lib/supabase/server";
 
 export default async function Home() {
@@ -18,12 +21,12 @@ export default async function Home() {
             read next, and keep track of your current book and next
             meeting.
           </p>
-          <Card className="mb-6">
+          <GlassPanel className="mb-6">
             <p className="text-sm text-muted">
               Clubs are private — you need to create one or be invited by
               email to see anything inside it.
             </p>
-          </Card>
+          </GlassPanel>
           <Link href="/login?next=/">
             <Button variant="primary">Log in to get started</Button>
           </Link>
@@ -75,19 +78,33 @@ export default async function Home() {
           </Link>
         </div>
 
+        {((myClubs && myClubs.length > 0) ||
+          (invitedClubs && invitedClubs.length > 0)) && (
+          <section className="mb-6 grid grid-cols-2 gap-3">
+            <StatTile label="Your clubs" value={myClubs?.length ?? 0} />
+            <StatTile
+              label="Pending invitations"
+              value={invitedClubs?.length ?? 0}
+            />
+          </section>
+        )}
+
         {invitedClubs && invitedClubs.length > 0 && (
           <div className="mb-6">
             <h2 className="mb-2 text-sm font-semibold text-fg">
               Invitations
             </h2>
             <div className="flex flex-col gap-2">
-              {invitedClubs.map((club) => (
+              {invitedClubs.map((club, index) => (
                 <Link key={club.id} href={`/clubs/${club.id}`} className="no-underline">
-                  <Card className="transition-colors hover:border-accent">
+                  <AnimatedCard
+                    index={index}
+                    className="transition-colors hover:border-accent"
+                  >
                     <p className="text-sm text-fg">
                       You&apos;ve been invited to <strong>{club.name}</strong>
                     </p>
-                  </Card>
+                  </AnimatedCard>
                 </Link>
               ))}
             </div>
@@ -96,9 +113,12 @@ export default async function Home() {
 
         {myClubs && myClubs.length > 0 ? (
           <div className="flex flex-col gap-3">
-            {myClubs.map((club) => (
+            {myClubs.map((club, index) => (
               <Link key={club.id} href={`/clubs/${club.id}`} className="no-underline">
-                <Card className="transition-colors hover:border-accent">
+                <AnimatedCard
+                  index={(invitedClubs?.length ?? 0) + index}
+                  className="transition-colors hover:border-accent"
+                >
                   <h2 className="mb-1 text-base font-semibold text-fg">
                     {club.name}
                   </h2>
@@ -113,16 +133,15 @@ export default async function Home() {
                       Next meeting: {new Date(club.next_meeting_at).toLocaleString()}
                     </p>
                   )}
-                </Card>
+                </AnimatedCard>
               </Link>
             ))}
           </div>
         ) : (
-          <Card>
-            <p className="text-sm text-muted">
-              You&apos;re not in any clubs yet — create one to get started.
-            </p>
-          </Card>
+          <EmptyState
+            title="You're not in any clubs yet"
+            description="Create one to get started, or wait for an invite."
+          />
         )}
       </main>
     </>

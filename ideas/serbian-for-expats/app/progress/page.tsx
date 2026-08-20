@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Nav } from "@/components/Nav";
-import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
 import { createClient, getUser } from "@/lib/supabase/server";
 import { getProgressForUser, progressBySlug } from "@/lib/data";
 import { LESSONS } from "@/lib/lessons";
@@ -20,16 +21,23 @@ export default async function ProgressPage() {
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
         <h1 className="mb-2 text-2xl font-semibold">Vaš napredak</h1>
-        <p className="mb-6 text-muted">
-          {completedCount} od {LESSONS.length} lekcija završeno.
-        </p>
+
+        <StatTile
+          label="Završene lekcije"
+          value={completedCount}
+          suffix={` / ${LESSONS.length}`}
+          className="mb-6"
+        />
 
         <div className="grid gap-3">
           {LESSONS.map((lesson, index) => {
             const done = bySlug.get(lesson.slug);
             return (
               <Link key={lesson.slug} href={`/lessons/${lesson.slug}`}>
-                <Card className="flex items-center justify-between gap-3 transition-colors hover:border-accent">
+                <AnimatedCard
+                  index={index}
+                  className="flex items-center justify-between gap-3 transition-colors hover:border-accent"
+                >
                   <div>
                     <span className="text-sm text-muted">Lekcija {index + 1}</span>
                     <h2 className="font-medium">{lesson.title}</h2>
@@ -41,7 +49,7 @@ export default async function ProgressPage() {
                   ) : (
                     <span className="text-sm text-muted">nije rađeno</span>
                   )}
-                </Card>
+                </AnimatedCard>
               </Link>
             );
           })}

@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { createClient } from "@/lib/supabase/client";
 
 export interface LinkRow {
@@ -88,11 +90,14 @@ export function LinksManager({
       </Card>
 
       {links.length === 0 ? (
-        <p className="text-sm text-muted">No links yet.</p>
+        <EmptyState
+          title="No links yet"
+          description="Add your first link above — Instagram, a shop, a mailing list, whatever fits."
+        />
       ) : (
         <div className="flex flex-col gap-2">
-          {links.map((link) => (
-            <Card key={link.id} className="flex items-center justify-between gap-3">
+          {links.map((link, i) => (
+            <AnimatedCard key={link.id} index={i} className="flex items-center justify-between gap-3">
               <div>
                 <p className="font-medium">{link.label}</p>
                 <p className="break-all text-xs text-muted">{link.url}</p>
@@ -100,7 +105,7 @@ export function LinksManager({
               <button type="button" onClick={() => handleDelete(link.id)} className="text-sm text-danger">
                 Delete
               </button>
-            </Card>
+            </AnimatedCard>
           ))}
         </div>
       )}

@@ -1,11 +1,19 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
 import { toggleOnboardingTask } from "@/app/my-onboarding/actions";
 import { formatDate, type Onboarding, type OnboardingTask } from "@/lib/types";
 
-export function OnboardingChecklist({ onboarding, tasks }: { onboarding: Onboarding; tasks: OnboardingTask[] }) {
+export function OnboardingChecklist({
+  onboarding,
+  tasks,
+  index = 0,
+}: {
+  onboarding: Onboarding;
+  tasks: OnboardingTask[];
+  index?: number;
+}) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const completed = tasks.filter((task) => task.completed).length;
@@ -19,7 +27,7 @@ export function OnboardingChecklist({ onboarding, tasks }: { onboarding: Onboard
   }
 
   return (
-    <Card className="mb-6">
+    <AnimatedCard index={index} className="mb-6">
       <p className="mb-1 text-sm text-muted">
         Started {formatDate(onboarding.started_at)} &middot; {completed}/{tasks.length} complete
       </p>
@@ -40,6 +48,6 @@ export function OnboardingChecklist({ onboarding, tasks }: { onboarding: Onboard
         ))}
       </ul>
       {error && <p className="mt-2 text-xs text-danger">{error}</p>}
-    </Card>
+    </AnimatedCard>
   );
 }

@@ -3,6 +3,8 @@ import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { SnippetVault } from "@/components/SnippetVault";
+import { GlassPanel } from "@/components/motion/GlassPanel";
+import { StatTile } from "@/components/motion/StatTile";
 import { createClient, getUser } from "@/lib/supabase/server";
 import type { Snippet } from "@/lib/types";
 
@@ -19,7 +21,7 @@ export default async function Home() {
             A private place to save and organize the pieces of code you
             reuse most — with syntax highlighting, tags, and search.
           </p>
-          <Card>
+          <GlassPanel glow>
             <p className="mb-4 text-sm text-muted">
               Your snippets are private to your account. Log in with a
               magic link to get started.
@@ -27,7 +29,7 @@ export default async function Home() {
             <Link href="/login">
               <Button>Log in</Button>
             </Link>
-          </Card>
+          </GlassPanel>
         </main>
       </>
     );
@@ -44,6 +46,9 @@ export default async function Home() {
 
   const initialSnippets: Snippet[] = error ? [] : (data ?? []);
 
+  const languageCount = new Set(initialSnippets.map((s) => s.language)).size;
+  const tagCount = new Set(initialSnippets.flatMap((s) => s.tags)).size;
+
   return (
     <>
       <Nav />
@@ -59,6 +64,11 @@ export default async function Home() {
             </p>
           </Card>
         )}
+        <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <StatTile label="Snippets saved" value={initialSnippets.length} />
+          <StatTile label="Languages used" value={languageCount} />
+          <StatTile label="Tags in use" value={tagCount} />
+        </div>
         <SnippetVault userId={user.id} initialSnippets={initialSnippets} />
       </main>
     </>

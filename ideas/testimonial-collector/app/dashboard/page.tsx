@@ -7,6 +7,8 @@ import { CreateCollectionForm } from "@/components/CreateCollectionForm";
 import { CollectionList } from "@/components/CollectionList";
 import { TestimonialModerationList } from "@/components/TestimonialModerationList";
 import { SignOutButton } from "@/components/SignOutButton";
+import { StatTile } from "@/components/motion/StatTile";
+import { EmptyState } from "@/components/motion/EmptyState";
 
 export default async function DashboardPage() {
   const user = await getUser();
@@ -41,6 +43,8 @@ export default async function DashboardPage() {
   }
 
   const collectionNameById = new Map(collections.map((collection) => [collection.id, collection.business_name]));
+  const pendingCount = testimonials.filter((testimonial) => testimonial.status === "pending").length;
+  const approvedCount = testimonials.filter((testimonial) => testimonial.status === "approved").length;
 
   return (
     <>
@@ -60,6 +64,17 @@ export default async function DashboardPage() {
           </Card>
         )}
 
+        <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <StatTile label="Collections" value={collections.length} />
+          <StatTile
+            label="Pending review"
+            value={pendingCount}
+            trend={pendingCount > 0 ? "needs a look" : undefined}
+            trendTone={pendingCount > 0 ? "negative" : "neutral"}
+          />
+          <StatTile label="Approved" value={approvedCount} trendTone="positive" />
+        </div>
+
         <Card className="mb-6">
           <h2 className="mb-3 text-lg font-semibold">Create a collection</h2>
           <CreateCollectionForm />
@@ -67,9 +82,12 @@ export default async function DashboardPage() {
 
         <h2 className="mb-3 text-lg font-semibold">Your collections</h2>
         {collections.length === 0 ? (
-          <Card className="mb-8">
-            <p className="text-sm text-muted">No collections yet — create one above to get a shareable link.</p>
-          </Card>
+          <div className="mb-8">
+            <EmptyState
+              title="No collections yet"
+              description="Create one above to get a shareable link customers can submit testimonials to."
+            />
+          </div>
         ) : (
           <div className="mb-8">
             <CollectionList collections={collections} />
@@ -78,9 +96,10 @@ export default async function DashboardPage() {
 
         <h2 className="mb-3 text-lg font-semibold">Testimonials</h2>
         {testimonials.length === 0 ? (
-          <Card>
-            <p className="text-sm text-muted">No submissions yet. Share a collection link to start collecting.</p>
-          </Card>
+          <EmptyState
+            title="No submissions yet"
+            description="Share a collection link to start collecting testimonials."
+          />
         ) : (
           <TestimonialModerationList testimonials={testimonials} collectionNameById={Object.fromEntries(collectionNameById)} />
         )}

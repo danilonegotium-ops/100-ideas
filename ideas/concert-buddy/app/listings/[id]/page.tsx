@@ -2,6 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Card } from "@/components/Card";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { EmptyState } from "@/components/motion/EmptyState";
+import { GlassPanel } from "@/components/motion/GlassPanel";
 import { createClient, getUser } from "@/lib/supabase/server";
 import { formatDateOnly } from "@/lib/formatDate";
 import { InterestForm } from "./InterestForm";
@@ -94,28 +97,35 @@ export default async function ListingPage({
         {isOwner ? (
           <>
             <MarkFilledButton listingId={listing.id} isFilled={listing.is_filled} />
-            <h2 className="mb-3 mt-8 text-lg font-semibold">
-              {interests.length === 0
-                ? "No interest yet"
-                : `${interests.length} interested`}
-            </h2>
-            {interests.length > 0 && (
-              <ul className="flex flex-col gap-3">
-                {interests.map((interest) => (
+            {interests.length === 0 ? (
+              <div className="mt-8">
+                <EmptyState
+                  title="No interest yet"
+                  description="Once someone expresses interest, they'll show up here."
+                />
+              </div>
+            ) : (
+              <>
+                <h2 className="mb-3 mt-8 text-lg font-semibold">
+                  {interests.length} interested
+                </h2>
+                <ul className="flex flex-col gap-3">
+                {interests.map((interest, i) => (
                   <li key={interest.id}>
-                    <Card>
+                    <AnimatedCard index={i}>
                       <p className="font-medium">{interest.user_email}</p>
                       {interest.message && (
                         <p className="mt-1 text-sm text-muted">{interest.message}</p>
                       )}
-                    </Card>
+                    </AnimatedCard>
                   </li>
                 ))}
-              </ul>
+                </ul>
+              </>
             )}
           </>
         ) : !user ? (
-          <Card>
+          <GlassPanel glow>
             <p className="mb-3 text-sm text-muted">
               Log in to let them know you&apos;re interested.
             </p>
@@ -125,7 +135,7 @@ export default async function ListingPage({
             >
               Log in
             </Link>
-          </Card>
+          </GlassPanel>
         ) : alreadyInterested ? (
           <Card>
             <p className="text-sm text-fg">

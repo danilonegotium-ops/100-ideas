@@ -7,6 +7,8 @@ import { ClubSettingsForm } from "@/components/ClubSettingsForm";
 import { ProposalForm } from "@/components/ProposalForm";
 import { VoteButton } from "@/components/VoteButton";
 import { PromoteBookButton } from "@/components/PromoteBookButton";
+import { AnimatedCard } from "@/components/motion/AnimatedCard";
+import { StatTile } from "@/components/motion/StatTile";
 import { createClient, getUser } from "@/lib/supabase/server";
 
 export default async function ClubPage({
@@ -112,11 +114,20 @@ export default async function ClubPage({
     <>
       <Nav />
       <main className="mx-auto w-full max-w-site flex-1 px-5 py-8">
-        <h1 className="mb-2 text-2xl font-semibold">{club.name}</h1>
-        <p className="mb-6 text-sm text-muted">{members?.length ?? 0} members</p>
+        <h1 className="mb-6 text-2xl font-semibold">{club.name}</h1>
+
+        <section className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <StatTile label="Members" value={members?.length ?? 0} />
+          <StatTile label="Open proposals" value={proposals?.length ?? 0} />
+          <StatTile
+            label="Total votes cast"
+            value={votes?.length ?? 0}
+            className="col-span-2 sm:col-span-1"
+          />
+        </section>
 
         <div className="mb-6 grid gap-3 sm:grid-cols-2">
-          <Card>
+          <AnimatedCard index={0}>
             <p className="mb-1 text-xs uppercase tracking-wide text-muted">
               Currently reading
             </p>
@@ -125,8 +136,8 @@ export default async function ClubPage({
                 ? `${club.current_book_title}${club.current_book_author ? ` by ${club.current_book_author}` : ""}`
                 : "Nothing set yet"}
             </p>
-          </Card>
-          <Card>
+          </AnimatedCard>
+          <AnimatedCard index={1}>
             <p className="mb-1 text-xs uppercase tracking-wide text-muted">
               Next meeting
             </p>
@@ -145,10 +156,10 @@ export default async function ClubPage({
                 Join link
               </a>
             )}
-          </Card>
+          </AnimatedCard>
         </div>
 
-        <Card className="mb-6">
+        <AnimatedCard index={2} className="mb-6">
           <h2 className="mb-3 text-sm font-semibold text-fg">
             Update current book / meeting
           </h2>
@@ -161,9 +172,9 @@ export default async function ClubPage({
               meeting_link: club.meeting_link ?? "",
             }}
           />
-        </Card>
+        </AnimatedCard>
 
-        <Card className="mb-6">
+        <AnimatedCard index={3} className="mb-6">
           <h2 className="mb-3 text-sm font-semibold text-fg">
             Propose the next book
           </h2>
@@ -205,9 +216,9 @@ export default async function ClubPage({
               );
             })}
           </div>
-        </Card>
+        </AnimatedCard>
 
-        <Card className="mb-6">
+        <AnimatedCard index={4} className="mb-6">
           <h2 className="mb-3 text-sm font-semibold text-fg">Members</h2>
           <ul className="flex flex-col gap-1">
             {(members ?? []).map((member) => (
@@ -217,14 +228,14 @@ export default async function ClubPage({
               </li>
             ))}
           </ul>
-        </Card>
+        </AnimatedCard>
 
-        <Card>
+        <AnimatedCard index={5}>
           <h2 className="mb-3 text-sm font-semibold text-fg">
             Invite someone by email
           </h2>
           <InviteForm clubId={club.id} />
-        </Card>
+        </AnimatedCard>
       </main>
     </>
   );
